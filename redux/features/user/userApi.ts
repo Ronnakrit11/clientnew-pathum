@@ -1,3 +1,4 @@
+import { read } from "fs";
 import { apiSlice } from "../api/apiSlice";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -47,10 +48,10 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     updateUserRole: builder.mutation({
-      query: ({ email, role }) => ({
+      query: ({ email, role,id_admin }) => ({
         url: "update-user",
         method: "PUT",
-        body: { email, role },
+        body: { email, role, id_admin },
         credentials: "include" as const,
       }),
     }),
@@ -100,6 +101,13 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    readUserById: builder.query({
+      query: (id) => ({
+        url: `read-user-by-id/${id}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -114,5 +122,6 @@ export const {
   useAddUserMutation,
   useUpdateCourseToUserMutation,
   useSearchUserByNameQuery,
-  useUpdateUserByIdMutation
+  useUpdateUserByIdMutation,
+  useReadUserByIdQuery
 } = userApi;

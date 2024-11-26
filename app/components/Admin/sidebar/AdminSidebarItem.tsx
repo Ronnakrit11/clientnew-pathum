@@ -66,7 +66,13 @@ const AdminSidebarItem = ({
         selected={selected}
         setSelected={setSelected}
       />
-
+      <Item
+        title="จัดการแอดมิน"
+        to="/admin/manage-admin"
+        icon={<GroupsIcon />}
+        selected={selected}
+        setSelected={setSelected}
+      />
       <Typography
         variant="h5"
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
@@ -76,7 +82,7 @@ const AdminSidebarItem = ({
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
-        to="/admin/create-course"
+        to="/admin/en-it"
         icon={<HiMiniUsers size={20} />}
         selected={selected}
         setSelected={setSelected}
