@@ -38,7 +38,7 @@ export default function ModalCreateUser({ refetch }: any) {
   useEffect(() => {
     if (AddUserSuccess) {
       toast.success("Add User successfully");
-      refresh();
+      refetch();
       setOpenModal(false);
     }
     if (AddUserError) {
