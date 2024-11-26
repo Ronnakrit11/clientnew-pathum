@@ -85,6 +85,21 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchUserByName: builder.query({
+      query: (name) => ({
+        url: `search-user-by-name?name=${name}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    updateUserById: builder.mutation({
+      query: (data) => ({
+        url: `update-user-by-id/${data.id}`,
+        method: "PUT",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -98,5 +113,6 @@ export const {
   useAddCourseToUserMutation,
   useAddUserMutation,
   useUpdateCourseToUserMutation,
-
+  useSearchUserByNameQuery,
+  useUpdateUserByIdMutation
 } = userApi;
