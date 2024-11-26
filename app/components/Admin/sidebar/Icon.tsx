@@ -16,7 +16,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import DifferenceIcon from '@mui/icons-material/Difference';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-
+import EmailIcon from '@mui/icons-material/Email';
 export {
     HomeOutlinedIcon,
   ArrowForwardIosIcon,
@@ -36,4 +36,5 @@ export {
   ExitToAppIcon,
   InsertDriveFileIcon,
   DifferenceIcon,
+  EmailIcon
 }
