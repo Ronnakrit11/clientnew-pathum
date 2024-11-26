@@ -56,7 +56,7 @@ const NewAllUsers = () => {
                 user?.role !== "admin" && (
                   <Table.Row key={user._id}>
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {user.name}
+                      {user.name} 
                     </Table.Cell>
                     <Table.Cell>{user.studentId}</Table.Cell> 
                     <Table.Cell>{user.major}</Table.Cell>
