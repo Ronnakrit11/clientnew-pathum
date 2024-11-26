@@ -58,7 +58,7 @@ const NewAllUsers = () => {
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {user.name}
                     </Table.Cell>
-                    <Table.Cell>{user.studentId}</Table.Cell>
+                    <Table.Cell>{user.studentId}</Table.Cell> 
                     <Table.Cell>{user.major}</Table.Cell>
                     <Table.Cell>{user.program}</Table.Cell>
                     <Table.Cell>{user.status}</Table.Cell>
