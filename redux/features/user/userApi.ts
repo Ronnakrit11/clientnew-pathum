@@ -48,7 +48,7 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     updateUserRole: builder.mutation({
-      query: ({ email, role,id_admin }) => ({
+      query: ({ email, role, id_admin }) => ({
         url: "update-user",
         method: "PUT",
         body: { email, role, id_admin },
@@ -108,6 +108,42 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    allUserEngineerAndIT: builder.query({
+      query: () => ({
+        url: `get-user-all-engineer-and-it`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    allUserArgTech: builder.query({
+      query: () => ({
+        url: `get-user-all-arg-tech`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    allTechInnovation: builder.query({
+      query: () => ({
+        url: `get-user-all-tech-innovation`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    allInterdisciplinary: builder.query({
+      query: () => ({
+        url: `get-user-all-interdisciplinary`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    uploadThesis: builder.mutation({
+      query: (data) => ({
+        url: `upload-thesis`,
+        method: "POST",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -123,5 +159,10 @@ export const {
   useUpdateCourseToUserMutation,
   useSearchUserByNameQuery,
   useUpdateUserByIdMutation,
-  useReadUserByIdQuery
+  useReadUserByIdQuery,
+  useAllUserEngineerAndITQuery,
+  useAllUserArgTechQuery,
+  useAllTechInnovationQuery,
+  useAllInterdisciplinaryQuery,
+  useUploadThesisMutation,
 } = userApi;

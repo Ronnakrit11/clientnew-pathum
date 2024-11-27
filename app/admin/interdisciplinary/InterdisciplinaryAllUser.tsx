@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Table } from "flowbite-react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import {
+  useAllInterdisciplinaryQuery,
+  useAllUserArgTechQuery,
   useAllUserEngineerAndITQuery,
   useGetAllUsersQuery,
 } from "@/redux/features/user/userApi";
@@ -13,15 +15,11 @@ import ModalInfoUser from "@/app/components/Admin/Users/ModalInfoUser";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 
-const EngineerAllUser = () => {
-
-  const {
-    data: dataAllUserEngineerAndIT,
-    refetch: refetchAllUserEngineerAndIT,
-  } = useAllUserEngineerAndITQuery({}, { refetchOnMountOrArgChange: true });
-
-
-  console.log(dataAllUserEngineerAndIT?.users);
+const InterdisciplinaryAllUser = () => {
+  const { data, refetch } = useAllInterdisciplinaryQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
 
   return (
     <div className="container mx-auto mt-24">
@@ -40,7 +38,7 @@ const EngineerAllUser = () => {
           />
         </div>
         <div>
-          <ModalCreateUser refetch={refetchAllUserEngineerAndIT} />
+          <ModalCreateUser refetch={refetch} />
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -54,7 +52,7 @@ const EngineerAllUser = () => {
             <Table.HeadCell>ดำเนินการ</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {dataAllUserEngineerAndIT?.users.map(
+            {data?.users.map(
               (user) =>
                 user?.role !== "admin" && (
                   <Table.Row key={user._id}>
@@ -67,8 +65,8 @@ const EngineerAllUser = () => {
                     <Table.Cell>{user.status}</Table.Cell>
                     <Table.Cell className="flex gap-2">
                       <ModalInfoUser data={user} />
-                      <ModalEditUser data={user} refetch={refetchAllUserEngineerAndIT} />
-                      <ModalDelete data={user} refetch={refetchAllUserEngineerAndIT} />
+                      <ModalEditUser data={user} refetch={refetch} />
+                      <ModalDelete data={user} refetch={refetch} />
                     </Table.Cell>
                   </Table.Row>
                 )
@@ -80,4 +78,4 @@ const EngineerAllUser = () => {
   );
 };
 
-export default EngineerAllUser;
+export default InterdisciplinaryAllUser;

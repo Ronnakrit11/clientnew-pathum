@@ -118,10 +118,10 @@ const AllUserAdmin = () => {
                       <option value={"admin-engineer-it"}>
                         แอดมินวิศวกรรมซอฟต์แวร์...
                       </option>
-                      <option value={"admin-engineer-it"}>
+                      <option value={"admin-tect-env"}>
                         แอดมินเทคโนโลยีสิ่งแวดล้อม...
                       </option>
-                      <option value={"admin-engineer-it"}>
+                      <option value={"admin-tech-indrustry"}>
                         แอดมินเทคโนโลยีอุตสาหกรรม...
                       </option>
                       <option value={"admin-engineer-it"}>

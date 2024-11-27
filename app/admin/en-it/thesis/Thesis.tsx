@@ -12,8 +12,9 @@ import ModalCreateUser from "@/app/components/Admin/Users/ModalCreateUser";
 import ModalInfoUser from "@/app/components/Admin/Users/ModalInfoUser";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
+import UploadThesis from "./UploadThesis";
 
-const EngineerAllUser = () => {
+const Thesis = () => {
 
   const {
     data: dataAllUserEngineerAndIT,
@@ -50,7 +51,7 @@ const EngineerAllUser = () => {
             <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
-            <Table.HeadCell>สถานะ</Table.HeadCell>
+            <Table.HeadCell>เอกสารปริญญาตรี</Table.HeadCell>
             <Table.HeadCell>ดำเนินการ</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -64,11 +65,12 @@ const EngineerAllUser = () => {
                     <Table.Cell>{user.studentId}</Table.Cell>
                     <Table.Cell>{user.major}</Table.Cell>
                     <Table.Cell>{user.program}</Table.Cell>
-                    <Table.Cell>{user.status}</Table.Cell>
+                    <Table.Cell>{user?.thesis ? user.thesis : "ยังไม่มีเอกสาร"}</Table.Cell>
                     <Table.Cell className="flex gap-2">
-                      <ModalInfoUser data={user} />
+                      {/* <ModalInfoUser data={user} />
                       <ModalEditUser data={user} refetch={refetchAllUserEngineerAndIT} />
-                      <ModalDelete data={user} refetch={refetchAllUserEngineerAndIT} />
+                      <ModalDelete data={user} refetch={refetchAllUserEngineerAndIT} /> */}
+                      <UploadThesis id={user._id} />
                     </Table.Cell>
                   </Table.Row>
                 )
@@ -80,4 +82,4 @@ const EngineerAllUser = () => {
   );
 };
 
-export default EngineerAllUser;
+export default Thesis;

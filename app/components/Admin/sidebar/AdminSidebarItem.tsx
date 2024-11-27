@@ -89,14 +89,14 @@ const AdminSidebarItem = ({
       />
       <Item
         title="รายชื่อสถานประกอบการ"
-        to="/admin/courses"
+        to="/admin/en-it/establishments"
         icon={<HiBuildingOffice2 size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="ผลงานปริญญานิพนธ์"
-        to="/admin/create-ebook"
+        to="/admin/en-it/thesis"
         icon={<HiAcademicCap size={20} />}
         selected={selected}
         setSelected={setSelected}
@@ -110,7 +110,7 @@ const AdminSidebarItem = ({
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
-        to="/admin/create-course"
+        to="/admin/tech-env"
         icon={<HiMiniUsers size={20} />}
         selected={selected}
         setSelected={setSelected}
@@ -138,7 +138,7 @@ const AdminSidebarItem = ({
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
-        to="/admin/create-course"
+        to="/admin/tect-ids-manage"
         icon={<HiMiniUsers size={20} />}
         selected={selected}
         setSelected={setSelected}
@@ -166,7 +166,7 @@ const AdminSidebarItem = ({
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
-        to="/admin/create-course"
+        to="/admin/interdisciplinary"
         icon={<HiMiniUsers size={20} />}
         selected={selected}
         setSelected={setSelected}
