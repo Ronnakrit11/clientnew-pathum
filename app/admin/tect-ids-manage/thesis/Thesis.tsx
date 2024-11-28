@@ -13,7 +13,7 @@ const Thesis = () => {
   // } = useAllUserEngineerAndITQuery({}, { refetchOnMountOrArgChange: true });
 
   const { data: dataAllUserSuccess, refetch: refetchAllUserSuccess } =
-    useGetAllUserSuccessQuery("วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ");
+    useGetAllUserSuccessQuery("เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม");
 
   console.log(dataAllUserSuccess);
 

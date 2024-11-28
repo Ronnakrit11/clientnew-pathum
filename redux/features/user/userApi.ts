@@ -1,4 +1,3 @@
-import { read } from "fs";
 import { apiSlice } from "../api/apiSlice";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -144,6 +143,13 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllUserSuccess: builder.query({
+      query: (major) => ({
+        url: `get-all-user-success?major=${major}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -165,4 +171,5 @@ export const {
   useAllTechInnovationQuery,
   useAllInterdisciplinaryQuery,
   useUploadThesisMutation,
+  useGetAllUserSuccessQuery,
 } = userApi;

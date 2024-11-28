@@ -117,14 +117,14 @@ const AdminSidebarItem = ({
       />
       <Item
         title="รายชื่อสถานประกอบการ"
-        to="/admin/courses"
+        to="/admin/tech-env/establishments"
         icon={<HiBuildingOffice2 size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="ผลงานปริญญานิพนธ์"
-        to="/admin/create-ebook"
+        to="/admin/tech-env/thesis"
         icon={<HiAcademicCap size={20} />}
         selected={selected}
         setSelected={setSelected}
@@ -145,14 +145,14 @@ const AdminSidebarItem = ({
       />
       <Item
         title="รายชื่อสถานประกอบการ"
-        to="/admin/courses"
+        to="/admin/tect-ids-manage/establishments"
         icon={<HiBuildingOffice2 size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="ผลงานปริญญานิพนธ์"
-        to="/admin/create-ebook"
+        to="/admin/tect-ids-manage/thesis"
         icon={<HiAcademicCap size={20} />}
         selected={selected}
         setSelected={setSelected}
@@ -173,14 +173,14 @@ const AdminSidebarItem = ({
       />
       <Item
         title="รายชื่อสถานประกอบการ"
-        to="/admin/courses"
+        to="/admin/interdisciplinary/establishments"
         icon={<HiBuildingOffice2 size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="ผลงานปริญญานิพนธ์"
-        to="/admin/create-ebook"
+        to="/admin/interdisciplinary/thesis"
         icon={<HiAcademicCap size={20} />}
         selected={selected}
         setSelected={setSelected}
