@@ -150,6 +150,14 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    createAdminMajor: builder.mutation({
+      query: (data) => ({
+        url: `create-admin-major`,
+        method: "POST",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -172,4 +180,5 @@ export const {
   useAllInterdisciplinaryQuery,
   useUploadThesisMutation,
   useGetAllUserSuccessQuery,
+  useCreateAdminMajorMutation,
 } = userApi;
