@@ -144,8 +144,8 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllUserSuccess: builder.query({
-      query: (major) => ({
-        url: `get-all-user-success?major=${major}`,
+      query: ({ name, major }) => ({
+        url: `get-all-user-success?major=${major}&name=${name}`,
         method: "GET",
         credentials: "include" as const,
       }),

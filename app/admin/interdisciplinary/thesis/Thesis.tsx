@@ -12,9 +12,12 @@ const Thesis = () => {
   //   refetch: refetchAllUserEngineerAndIT,
   // } = useAllUserEngineerAndITQuery({}, { refetchOnMountOrArgChange: true });
 
+  const [name, setName] = useState("");
   const { data: dataAllUserSuccess, refetch: refetchAllUserSuccess } =
-    useGetAllUserSuccessQuery("สหวิทยาการ");
-
+    useGetAllUserSuccessQuery({
+      major: "สหวิทยาการ",
+      name: name,
+    });
   console.log(dataAllUserSuccess);
 
   return (
@@ -29,7 +32,7 @@ const Thesis = () => {
             type="text"
             className="w-[400px]"
             placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            // onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
