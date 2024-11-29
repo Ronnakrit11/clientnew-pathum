@@ -157,7 +157,7 @@ const Sidebar = () => {
               logoutHandler={logoutHandler}
             />
           )}
-          {user.role === "วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" && (
+          {user.role === "admin-engineer-it" && (
             <AdminEnItSidebarItem
               selected={selected}
               setSelected={setSelected}
@@ -165,7 +165,7 @@ const Sidebar = () => {
               logoutHandler={logoutHandler}
             />
           )}
-          {user.role === "เทคโนโลยีสิ่งแวดล้อมการเกษตร" && (
+          {user.role === "admin-tect-env" && (
             <AdminTechEnvSidebarItem
               selected={selected}
               setSelected={setSelected}
@@ -173,7 +173,7 @@ const Sidebar = () => {
               logoutHandler={logoutHandler}
             />
           )}
-          {user.role === "สหวิทยาการ" && (
+          {user.role === "admin-interdisciplinary" && (
             <AdminInterdisciplinarySidebarItem
               selected={selected}
               setSelected={setSelected}
@@ -181,7 +181,7 @@ const Sidebar = () => {
               logoutHandler={logoutHandler}
             />
           )}
-          {user.role === "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" && (
+          {user.role === "admin-tech-indrustry" && (
             <AdminTechIdsManageSidebarItem
               selected={selected}
               setSelected={setSelected}

@@ -136,7 +136,7 @@ export default function ModalCreateAdminMajor({
                 <option value={"admin-tech-indrustry"}>
                   แอดมินเทคโนโลยีอุตสาหกรรม...
                 </option>
-                <option value={"admin-engineer-it"}>แอดมินสหวิทยาการ</option>
+                <option value={"interdisciplinary"}>สหวิทยาการ</option>
               </Select>
             </div>
           </Modal.Body>

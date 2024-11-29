@@ -11,10 +11,10 @@ export default function AdminProtected({ children }: ProtectedProps) {
   if (user) {
     const isAdmin =
       user?.role === "admin" ||
-      user?.role === "วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" ||
-      user?.role === "เทคโนโลยีสิ่งแวดล้อมการเกษตร" ||
-      user?.role === "สหวิทยาการ" ||
-      user?.role === "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม";
+      user?.role === "admin-engineer-it" ||
+      user?.role === "admin-tect-env" ||
+      user?.role === "admin-interdisciplinary" ||
+      user?.role === "admin-tect-ids-manage"
     // console.log("user", isAdmin);
 
     return isAdmin ? children : redirect("/");

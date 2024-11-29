@@ -149,17 +149,24 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
 
   const restrictedMenus = {
     admin: ["Admin Dashbord"],
-    วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ: ["Admin Dashbord(Eng-It)"],
-    เทคโนโลยีสิ่งแวดล้อมการเกษตร: ["Admin Dashbord(tech-env)"],
-    สหวิทยาการ: ["Admin Dashbord(interdisciplinary)"],
-    เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม: [
-      "Admin Dashbord(tect-ids-manage)",
-    ],
+    "admin-engineer-it-": ["Admin Dashbord(Eng-It)"],
+    "admin-tect-env": ["Admin Dashbord(tech-env)"],
+    interdisciplinary: ["Admin Dashbord(interdisciplinary)"],
+    "admin-tech-indrustry": ["Admin Dashbord(tect-ids-manage)"],
   };
 
-  const filterSubMenu = subMenuUserItem.filter((item) =>
-    restrictedMenus[userData?.user?.role]?.includes(item.title)
-  );
+  const filterSubMenu = subMenuUserItem.filter((item) => {
+    if (
+      (userData?.user?.role === "admin" && item.link.includes("admin")) ||
+      (userData?.user?.role === "admin-engineer-it" && item.link.includes("admin/en-it")) ||
+      (userData?.user?.role === "admin-tect-env" && item.link.includes("admin/tech-env")) ||
+      (userData?.user?.role === "admin-interdisciplinary" && item.link.includes("admin/interdisciplinary")) ||
+      (userData?.user?.role === "admin-tect-ids-manage" && item.link.includes("admin/tect-ids-manage"))
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   return (
     <>
