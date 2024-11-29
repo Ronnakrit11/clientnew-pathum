@@ -4,37 +4,16 @@ import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
 import {
-  HomeOutlinedIcon,
   ArrowForwardIosIcon,
   ArrowBackIosIcon,
-  PeopleOutlinedIcon,
-  ReceiptOutlinedIcon,
-  BarChartOutlinedIcon,
-  MapOutlinedIcon,
-  GroupsIcon,
-  OndemandVideoIcon,
-  VideoCallIcon,
-  WebIcon,
-  QuizIcon,
-  WysiwygIcon,
-  ManageHistoryIcon,
-  SettingsIcon,
-  ExitToAppIcon,
-  DifferenceIcon,
-  InsertDriveFileIcon,
+
 } from "./Icon";
 import avatarDefault from "../../../../public/assests/avatar.png";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { AiFillFileAdd } from "react-icons/ai";
-import ArtTrackIcon from "@mui/icons-material/ArtTrack";
-import ArticleIcon from "@mui/icons-material/Article";
-import { RiVideoUploadLine } from "react-icons/ri";
-import { RiBookOpenLine } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
-import { GiProgression } from "react-icons/gi";
+
 interface itemProps {
   title: string;
   to: string;
@@ -43,19 +22,10 @@ interface itemProps {
   setSelected: any;
 }
 import AdminSidebarItem from "./AdminSidebarItem";
-
-const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
-  return (
-    <MenuItem
-      active={selected === title}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Typography className="!text-[16px] !font-Poppins">{title}</Typography>
-      <Link href={to} />
-    </MenuItem>
-  );
-};
+import AdminEnItSidebarItem from "./AdminEnITSidebarItem";
+import AdminTechEnvSidebarItem from "./AdminTechEnvSidebar";
+import AdminTechIdsManageSidebarItem from "./AdminTechIdsManageSidebarItem";
+import AdminInterdisciplinarySidebarItem from "./AdminInterdisciplinarySidebarItem";
 
 const Sidebar = () => {
   const { user } = useSelector((state: any) => state.auth);
@@ -74,6 +44,8 @@ const Sidebar = () => {
   const logoutHandler = () => {
     setlogout(true);
   };
+
+  console.log(user);
 
   return (
     <Box
@@ -177,13 +149,46 @@ const Sidebar = () => {
               </Box>
             </Box>
           )}
-
-          <AdminSidebarItem
-            selected={selected}
-            setSelected={setSelected}
-            isCollapsed={isCollapsed}
-            logoutHandler={logoutHandler}
-          />
+          {user.role === "admin" && (
+            <AdminSidebarItem
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+              logoutHandler={logoutHandler}
+            />
+          )}
+          {user.role === "วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" && (
+            <AdminEnItSidebarItem
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+              logoutHandler={logoutHandler}
+            />
+          )}
+          {user.role === "เทคโนโลยีสิ่งแวดล้อมการเกษตร" && (
+            <AdminTechEnvSidebarItem
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+              logoutHandler={logoutHandler}
+            />
+          )}
+          {user.role === "สหวิทยาการ" && (
+            <AdminInterdisciplinarySidebarItem
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+              logoutHandler={logoutHandler}
+            />
+          )}
+          {user.role === "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" && (
+            <AdminTechIdsManageSidebarItem
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+              logoutHandler={logoutHandler}
+            />
+          )}
         </Menu>
       </ProSidebar>
     </Box>

@@ -8,9 +8,15 @@ interface ProtectedProps {
 
 export default function AdminProtected({ children }: ProtectedProps) {
   const { user } = useSelector((state: any) => state.auth);
-
   if (user) {
-    const isAdmin = user?.role === "admin";
+    const isAdmin =
+      user?.role === "admin" ||
+      user?.role === "วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" ||
+      user?.role === "เทคโนโลยีสิ่งแวดล้อมการเกษตร" ||
+      user?.role === "สหวิทยาการ" ||
+      user?.role === "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม";
+    // console.log("user", isAdmin);
+
     return isAdmin ? children : redirect("/");
   }
 }
