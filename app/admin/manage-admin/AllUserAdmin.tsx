@@ -59,6 +59,8 @@ const AllUserAdmin = () => {
     });
   };
 
+  console.log(searchUserByName?.user)
+
   return (
     <div className="container mx-auto mt-24">
       <div className="flex justify-between items-center mb-4">
@@ -80,57 +82,57 @@ const AllUserAdmin = () => {
             สิทธิในการแต่งตั้งแอดมินสาขา จำนวน{" "}
             <Badge size={"lg"}>{userById?.user.appoint}</Badge> ครั้ง
           </p>
-          <ModalCreateAdminMajor refetch={refetchUserById} refetch_data={refetch} append={userById?.user.appoint} />
+          <ModalCreateAdminMajor
+            refetch={refetchUserById}
+            refetch_data={refetch}
+            append={userById?.user.appoint}
+          />
         </div>
       </div>
       <div className="overflow-x-auto">
         <Table hoverable>
           <Table.Head>
             <Table.HeadCell>ชื่อ</Table.HeadCell>
-            <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
-            <Table.HeadCell>สาขาวิชา</Table.HeadCell>
-            <Table.HeadCell>หลักสูตร</Table.HeadCell>
-            <Table.HeadCell>สถานะ</Table.HeadCell>
+            <Table.HeadCell>อีเมล</Table.HeadCell>
+ 
             <Table.HeadCell>ตำแหน่ง</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {searchUserByName?.user.map((user) => (
-              <Table.Row key={user._id}>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {user.name}
-                </Table.Cell>
-                <Table.Cell>{user.studentId}</Table.Cell>
-                <Table.Cell>{user.major}</Table.Cell>
-                <Table.Cell>{user.program}</Table.Cell>
-                <Table.Cell>{user.status}</Table.Cell>
-                <Table.Cell>
-                  <div className="max-w-md">
-                    <Select
-                      id="countries"
-                      required
-                      value={user.role}
-                      onChange={(e) => handleChangeRole(e, user.email)}
-                      disabled={true}
-                    >
-                      <option value={"user"}>นักศึกษา</option>
-                      <option value={"admin"}>แอดมิน (Super Admin)</option>
-                      <option value={"admin-engineer-it"}>
-                        แอดมินวิศวกรรมซอฟต์แวร์...
-                      </option>
-                      <option value={"admin-tect-env"}>
-                        แอดมินเทคโนโลยีสิ่งแวดล้อม...
-                      </option>
-                      <option value={"admin-tech-indrustry"}>
-                        แอดมินเทคโนโลยีอุตสาหกรรม...
-                      </option>
-                      <option value={"admin-engineer-it"}>
-                        แอดมินสหวิทยาการ
-                      </option>
-                    </Select>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+            {searchUserByName &&
+              searchUserByName?.user?.filter((user: any) => user.role === "admin" || user.role === "admin-engineer-it" || user.role === "admin-tect-env" || user.role === "admin-tech-indrustry").map((user: any) => (
+                <Table.Row key={user._id}>
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {user.name}
+                  </Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell>
+                    <div className="max-w-md">
+                      <Select
+                        id="countries"
+                        required
+                        value={user.role}
+                        onChange={(e) => handleChangeRole(e, user.email)}
+                        disabled={true}
+                      >
+                        <option value={"user"}>นักศึกษา</option>
+                        <option value={"admin"}>แอดมิน (Super Admin)</option>
+                        <option value={"admin-engineer-it"}>
+                          แอดมินวิศวกรรมซอฟต์แวร์...
+                        </option>
+                        <option value={"admin-tect-env"}>
+                          แอดมินเทคโนโลยีสิ่งแวดล้อม...
+                        </option>
+                        <option value={"admin-tech-indrustry"}>
+                          แอดมินเทคโนโลยีอุตสาหกรรม...
+                        </option>
+                        <option value={"admin-engineer-it"}>
+                          แอดมินสหวิทยาการ
+                        </option>
+                      </Select>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
       </div>

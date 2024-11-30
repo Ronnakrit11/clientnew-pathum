@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import { Table } from "flowbite-react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { FaFilePdf } from "react-icons/fa";
 
-import UploadThesis from "./UploadThesis";
 import { useGetAllUserSuccessQuery } from "@/redux/features/user/userApi";
+import Link from "next/link";
+import UploadThesis from "./UploadThesis";
 
 const Thesis = () => {
   // const {
@@ -13,12 +15,13 @@ const Thesis = () => {
   // } = useAllUserEngineerAndITQuery({}, { refetchOnMountOrArgChange: true });
 
   const [name, setName] = useState("");
+
   const { data: dataAllUserSuccess, refetch: refetchAllUserSuccess } =
     useGetAllUserSuccessQuery({
       major: "สหวิทยาการ",
       name: name,
     });
-  console.log(dataAllUserSuccess);
+  // console.log(dataAllUserSuccess.users);
 
   return (
     <div className="container mx-auto mt-24">
@@ -61,14 +64,22 @@ const Thesis = () => {
                     <Table.Cell>{user.studentId}</Table.Cell>
                     <Table.Cell>{user.major}</Table.Cell>
                     <Table.Cell>{user.program}</Table.Cell>
-                    <Table.Cell>
-                      {user?.thesis ? user.thesis : "ยังไม่มีเอกสาร"}
+                    <Table.Cell >
+                      {user?.thesis ? (
+                        <Link href={`${user?.thesis.url}`} target="_blank">
+                          <Button color="dark">
+                            <FaFilePdf />
+                          </Button>
+                        </Link>
+                      ) : (
+                        "ยังไม่อัพโหลด"
+                      )}
                     </Table.Cell>
                     <Table.Cell className="flex gap-2">
                       {/* <ModalInfoUser data={user} />
                       <ModalEditUser data={user} refetch={refetchAllUserEngineerAndIT} />
                       <ModalDelete data={user} refetch={refetchAllUserEngineerAndIT} /> */}
-                      <UploadThesis id={user._id} />
+                      <UploadThesis id={user._id} refetch={refetchAllUserSuccess} />
                     </Table.Cell>
                   </Table.Row>
                 )

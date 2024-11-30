@@ -1,57 +1,57 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FileInput, Label } from "flowbite-react";
+import { Button, FileInput } from "flowbite-react";
 import { useUploadThesisMutation } from "@/redux/features/user/userApi";
 import toast from "react-hot-toast";
 
-const UploadThesis = ({ id }) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [filePdf, setFilePdf] = useState(null) as any;
+const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
+  const [fileBase64, setFileBase64] = useState<string | null>(null);
   const [uploadThesis, { isLoading, isSuccess, error }] =
     useUploadThesisMutation();
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type === "application/pdf") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result?.toString(); // เก็บ Base64 content ทั้งหมด
+        if (base64String) {
+          setFileBase64(base64String);
+        }
+      };
+      reader.readAsDataURL(file); // อ่านไฟล์แบบ data URL
+    } else {
+      toast.error("กรุณาเลือกไฟล์ PDF");
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!fileBase64) {
+      toast.error("กรุณาอัพโหลดไฟล์ก่อนส่ง");
+      return;
+    }
+
+    try {
+      // ส่งข้อมูลในรูปแบบที่กำหนด
+      await uploadThesis({ id, file: fileBase64 }).unwrap();
+      toast.success("อัพโหลดปริญญานิพนธ์เรียบร้อยแล้ว");
+    } catch (err) {
+      toast.error("อัพโหลดปริญญานิพนธ์ไม่สำเร็จ");
+    }
+  };
+
   useEffect(() => {
     if (isSuccess) {
-      toast.success("อัพโหลดปริญญานิพนธ์เรียบร้อยแล้ว");
+      toast.success("การส่งไฟล์สำเร็จ");
+      refetch();
     }
     if (error) {
-      toast.error("อัพโหลดปริญญานิพนธ์ไม่สำเร็จ");
+      toast.error("การส่งไฟล์ไม่สำเร็จ");
     }
   }, [isSuccess, error]);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      const reader = new FileReader();
-
-      setFile(selectedFile);
-      reader.readAsDataURL(selectedFile);
-
-      await uploadThesis({ file: selectedFile, id });
-    }
-    console.log(selectedFile);
-  };
-
-  const handleFilePDFChange = (e: any) => {
-    const file = e.target.files?.[0];
-    console.log("🚀 ~ file: page.tsx:28 ~ handleFilePDFChange ~ file:", file);
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        if (reader.readyState === 2) {
-          // setEbookInfo({ ...ebookInfo, pdfFile: reader.result });
-          setFilePdf(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-
-      uploadThesis({ file: reader.result, id });
-    }
-  };
-
   return (
-    <div id="fileUpload" className="max-w-md">
+    <div id="fileUpload" className="max-w-md flex gap-2">
       <FileInput
         id="file"
         name="file"
@@ -59,6 +59,9 @@ const UploadThesis = ({ id }) => {
         onChange={handleFileChange}
         accept="application/pdf"
       />
+      <Button onClick={handleSubmit} disabled={isLoading} color="dark">
+        อัพโหลด
+      </Button>
     </div>
   );
 };

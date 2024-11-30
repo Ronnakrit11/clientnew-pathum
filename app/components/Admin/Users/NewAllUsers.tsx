@@ -51,7 +51,7 @@ const NewAllUsers = () => {
             <Table.HeadCell>ดำเนินการ</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {searchUserByName?.user.map(
+            {searchUserByName?.user.filter((user) => user.role === "user").map(
               (user) =>
                 user?.role !== "admin" && (
                   <Table.Row key={user._id}>
