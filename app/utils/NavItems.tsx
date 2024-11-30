@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { Dropdown } from "flowbite-react";
 
 export const navItemsData = [
   {
@@ -7,25 +8,27 @@ export const navItemsData = [
     url: "/",
   },
   {
-    name: "คอร์สเรียน",
-    url: "/courses",
+    name: "เกี่ยวกับเรา",
+    url: "/about",
+    subMenu:[
+      {
+        name:"วัตถุประสงค์ของสโมสรนักศึกษา"
+      },
+      {
+        name:"โครงสร้างที่ปรึกษาสโมสรนักศึกษา"
+      },
+      {
+        name:"โครงสร้างคณะกรรมการสโมสรนักศึกษา"
+      }
+    ]
   },
   {
-    name: "อีบุ๊ค",
-    url: "/ebook",
-  },
-  {
-    name: "บล๊อค",
+    name: "ข่าวประชาสัมพันธ์",
     url: "/blog",
   },
   {
-    name: "เกี่ยวกับ",
-    url: "/about",
-  },
-  
-  {
-    name: "คำถามที่เจอบ่อย",
-    url: "/faq",
+    name: "ภาพกิจกรรม",
+    url: "/event-image",
   },
 ];
 
@@ -42,10 +45,11 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
           navItemsData.map((i, index) => (
             <Link href={`${i.url}`} key={index} passHref>
               <span
-                className={`${activeItem === index
-                  ? "text-[#008AFC] font-bold"
-                  : "dark:text-white text-black"
-                  } text-[18px] px-6 font-Poppins font-[400]`}
+                className={`${
+                  activeItem === index
+                    ? "text-primary font-semibold"
+                    : "dark:text-white text-black"
+                } text-[18px] px-6 font-Poppins font-[400] hover:bg-[#FDFD95] py-2 rounded-md`}
               >
                 {i.name}
               </span>
@@ -58,17 +62,20 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
             <Link href={"/"} passHref>
               <span
                 className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
-              >ELearning</span>
+              >
+                ELearning
+              </span>
             </Link>
           </div>
           {navItemsData &&
             navItemsData.map((i, index) => (
               <Link href={`${i.url}`} passHref key={index}>
                 <span
-                  className={`${activeItem === index
-                    ? "text-[#008AFC] font-bold"
-                    : "dark:text-white text-black"
-                    } block py-5 text-[18px] px-6 font-Poppins font-[400]`}
+                  className={`${
+                    activeItem === index
+                      ? "text-[#008AFC] font-bold"
+                      : "dark:text-white text-black"
+                  } block py-5 text-[18px] px-6 font-Poppins font-[400]`}
                 >
                   {i.name}
                 </span>

@@ -108,29 +108,29 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     allUserEngineerAndIT: builder.query({
-      query: () => ({
-        url: `get-user-all-engineer-and-it`,
+      query: ({ name }) => ({
+        url: `get-user-all-engineer-and-it?name=${name}`,
         method: "GET",
         credentials: "include" as const,
       }),
     }),
     allUserArgTech: builder.query({
-      query: () => ({
-        url: `get-user-all-arg-tech`,
+      query: ({ name }) => ({
+        url: `get-user-all-arg-tech?name=${name}`,
         method: "GET",
         credentials: "include" as const,
       }),
     }),
     allTechInnovation: builder.query({
-      query: () => ({
-        url: `get-user-all-tech-innovation`,
+      query: ({ name }) => ({
+        url: `get-user-all-tech-innovation?name=${name}`,
         method: "GET",
         credentials: "include" as const,
       }),
     }),
     allInterdisciplinary: builder.query({
-      query: () => ({
-        url: `get-user-all-interdisciplinary`,
+      query: ({ name }) => ({
+        url: `get-user-all-interdisciplinary?name=${name}`,
         method: "GET",
         credentials: "include" as const,
       }),

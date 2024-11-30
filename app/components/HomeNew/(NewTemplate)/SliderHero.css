@@ -1,0 +1,26 @@
+/* กำหนดตำแหน่งและลักษณะของปุ่มลูกศร */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* ปรับพื้นหลังให้เห็นชัด */
+  color: white;
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.prev {
+  left: 10px; /* ปุ่มซ้าย */
+}
+
+.next {
+  right: 10px; /* ปุ่มขวา */
+}
+
+/* ปรับแต่งปุ่มเมื่อ hover */
+.arrow:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}

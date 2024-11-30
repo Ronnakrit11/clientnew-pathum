@@ -15,9 +15,9 @@ import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 
 const TechEnvAllUser = () => {
+  const [searchName, setSearchName] = useState("");
   const { data, refetch } = useAllUserArgTechQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
+    {name: searchName},
   );
 
   return (
@@ -32,7 +32,7 @@ const TechEnvAllUser = () => {
             type="text"
             className="w-[400px]"
             placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            // onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => setSearchName(e.target.value)}
             required
           />
         </div>

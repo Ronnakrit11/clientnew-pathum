@@ -16,10 +16,8 @@ import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 
 const InterdisciplinaryAllUser = () => {
-  const { data, refetch } = useAllInterdisciplinaryQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
+  const [searchName, setSearchName] = useState("");
+  const { data, refetch } = useAllInterdisciplinaryQuery({ name: searchName });
 
   return (
     <div className="container mx-auto mt-24">
@@ -33,7 +31,7 @@ const InterdisciplinaryAllUser = () => {
             type="text"
             className="w-[400px]"
             placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            // onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => setSearchName(e.target.value)}
             required
           />
         </div>

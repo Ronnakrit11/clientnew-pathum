@@ -14,12 +14,12 @@ import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 
 const EngineerAllUser = () => {
+  const [searchName, setSearchName] = useState("");
 
   const {
     data: dataAllUserEngineerAndIT,
     refetch: refetchAllUserEngineerAndIT,
-  } = useAllUserEngineerAndITQuery({}, { refetchOnMountOrArgChange: true });
-
+  } = useAllUserEngineerAndITQuery({ name: searchName });
 
   console.log(dataAllUserEngineerAndIT?.users);
 
@@ -35,7 +35,7 @@ const EngineerAllUser = () => {
             type="text"
             className="w-[400px]"
             placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            // onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => setSearchName(e.target.value)}
             required
           />
         </div>
@@ -67,8 +67,14 @@ const EngineerAllUser = () => {
                     <Table.Cell>{user.status}</Table.Cell>
                     <Table.Cell className="flex gap-2">
                       <ModalInfoUser data={user} />
-                      <ModalEditUser data={user} refetch={refetchAllUserEngineerAndIT} />
-                      <ModalDelete data={user} refetch={refetchAllUserEngineerAndIT} />
+                      <ModalEditUser
+                        data={user}
+                        refetch={refetchAllUserEngineerAndIT}
+                      />
+                      <ModalDelete
+                        data={user}
+                        refetch={refetchAllUserEngineerAndIT}
+                      />
                     </Table.Cell>
                   </Table.Row>
                 )

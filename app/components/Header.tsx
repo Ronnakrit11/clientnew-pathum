@@ -158,10 +158,14 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const filterSubMenu = subMenuUserItem.filter((item) => {
     if (
       (userData?.user?.role === "admin" && item.link.includes("admin")) ||
-      (userData?.user?.role === "admin-engineer-it" && item.link.includes("admin/en-it")) ||
-      (userData?.user?.role === "admin-tect-env" && item.link.includes("admin/tech-env")) ||
-      (userData?.user?.role === "admin-interdisciplinary" && item.link.includes("admin/interdisciplinary")) ||
-      (userData?.user?.role === "admin-tect-ids-manage" && item.link.includes("admin/tect-ids-manage"))
+      (userData?.user?.role === "admin-engineer-it" &&
+        item.link.includes("admin/en-it")) ||
+      (userData?.user?.role === "admin-tect-env" &&
+        item.link.includes("admin/tech-env")) ||
+      (userData?.user?.role === "admin-interdisciplinary" &&
+        item.link.includes("admin/interdisciplinary")) ||
+      (userData?.user?.role === "admin-tect-ids-manage" &&
+        item.link.includes("admin/tect-ids-manage"))
     ) {
       return true;
     }
@@ -189,13 +193,18 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   href={"/"}
                   className={`text-[18px] md:text-[25px] flex items-center font-Poppins font-[500] text-black dark:text-white`}
                 >
-                  <Image src={"/logo1.png"} width={80} height={80} alt="" />
+                  <Image src={"/logo.png"} width={50} height={50} alt="" className="mr-1" />
+                  <div className="flex flex-col">
+                    <p className="text-[18px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
+                    <p className="text-[16px]">สถาบันเทคโนโลีปทุมวัน</p>
+                  </div>
 
                   <span className="ml-[15px] text-[#2e2e2e]"></span>
                 </Link>
               </div>
+              <NavItems activeItem={activeItem} isMobile={false} />
+
               <div className="flex items-center">
-                <NavItems activeItem={activeItem} isMobile={false} />
                 {/* <ThemeSwitcher /> */}
                 {/* only for mobile */}
                 <div className="800px:hidden">

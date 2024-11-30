@@ -27,6 +27,10 @@ const config: Config = {
         "1500px": "1500px",
         "800px": "800px",
         "400px": "400px",
+      },
+      colors:{
+        "primary":"#ad232c",
+        "secondary":"#f6ee27",
       }
     },
   },
