@@ -9,6 +9,9 @@ import { ExitToAppIcon, GroupsIcon, HomeOutlinedIcon } from "./Icon";
 import { HiMiniUsers } from "react-icons/hi2";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { HiAcademicCap } from "react-icons/hi2";
+import { IoNewspaperOutline } from "react-icons/io5";
+import { IoList } from "react-icons/io5";
+import { IoReaderOutline } from "react-icons/io5";
 
 interface itemProps {
   title: string;
@@ -70,6 +73,48 @@ const AdminSidebarItem = ({
         title="จัดการแอดมิน"
         to="/admin/manage-admin"
         icon={<GroupsIcon />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+            <Typography
+        variant="h5"
+        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+        sx={{ m: "15px 0 5px 20px" }}
+      >
+        {!isCollapsed && "จัดการบทความ"}
+      </Typography>
+      <Item
+        title="สร้างบทความ"
+        to="/admin/create-blog"
+        icon={<IoNewspaperOutline />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
+        title="รายชื่อบทความ"
+        to="/admin/blogs"
+        icon={<IoNewspaperOutline />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+       <Typography
+        variant="h5"
+        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+        sx={{ m: '15px 0 5px 20px' }}
+      >
+        {!isCollapsed && 'จัดการหน้าเว็บไซต์'}
+      </Typography>
+      <Item
+        title="Hero"
+        to="/admin/hero"
+        icon={<IoReaderOutline />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
+        title="FAQ"
+        to="/admin/faq"
+        icon={<IoList />}
         selected={selected}
         setSelected={setSelected}
       />
