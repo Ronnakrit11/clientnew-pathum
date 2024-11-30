@@ -55,7 +55,7 @@ const Page = (props: Props) => {
         />
         <br />
         <p className="text-[36px] text-primary font-[600]">
-          ข่าวสารและความเคลื่อนไหว
+          ภาพกิจกรรม
         </p>
         {courses && courses.length === 0 && (
           <p

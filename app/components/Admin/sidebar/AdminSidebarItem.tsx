@@ -76,6 +76,13 @@ const AdminSidebarItem = ({
         selected={selected}
         setSelected={setSelected}
       />
+      <Item
+        title="Logs"
+        to="/admin/logs"
+        icon={<IoNewspaperOutline />}
+        selected={selected}
+        setSelected={setSelected}
+      />
       <Typography
         variant="h5"
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
@@ -105,7 +112,7 @@ const AdminSidebarItem = ({
         {!isCollapsed && "จัดการภาพกิจกรรม"}
       </Typography>
       <Item
-        title="สร้างภาพกิจกรรมธ์"
+        title="สร้างภาพกิจกรรม"
         to="/admin/create-event"
         icon={<IoNewspaperOutline />}
         selected={selected}
@@ -132,13 +139,13 @@ const AdminSidebarItem = ({
         selected={selected}
         setSelected={setSelected}
       />
-      <Item
+      {/* <Item
         title="FAQ"
         to="/admin/faq"
         icon={<IoList />}
         selected={selected}
         setSelected={setSelected}
-      />
+      /> */}
       <Typography
         variant="h5"
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
