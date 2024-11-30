@@ -76,7 +76,7 @@ const AdminSidebarItem = ({
         selected={selected}
         setSelected={setSelected}
       />
-            <Typography
+      <Typography
         variant="h5"
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
         sx={{ m: "15px 0 5px 20px" }}
@@ -84,25 +84,46 @@ const AdminSidebarItem = ({
         {!isCollapsed && "จัดการบทความ"}
       </Typography>
       <Item
-        title="สร้างบทความ"
-        to="/admin/create-blog"
+        title="สร้างข่าวประชาสัมพันธ์"
+        to="/admin/create-news"
         icon={<IoNewspaperOutline />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
-        title="รายชื่อบทความ"
+        title="รายชื่อข่าวประชาสัมพันธ์"
         to="/admin/blogs"
         icon={<IoNewspaperOutline />}
         selected={selected}
         setSelected={setSelected}
       />
-       <Typography
+      <Typography
         variant="h5"
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-        sx={{ m: '15px 0 5px 20px' }}
+        sx={{ m: "15px 0 5px 20px" }}
       >
-        {!isCollapsed && 'จัดการหน้าเว็บไซต์'}
+        {!isCollapsed && "จัดการภาพกิจกรรม"}
+      </Typography>
+      <Item
+        title="สร้างภาพกิจกรรมธ์"
+        to="/admin/create-event"
+        icon={<IoNewspaperOutline />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
+        title="รายชื่อภาพกิจกรรม"
+        to="/admin/event"
+        icon={<IoNewspaperOutline />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Typography
+        variant="h5"
+        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+        sx={{ m: "15px 0 5px 20px" }}
+      >
+        {!isCollapsed && "จัดการหน้าเว็บไซต์"}
       </Typography>
       <Item
         title="Hero"

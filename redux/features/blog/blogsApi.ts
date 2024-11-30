@@ -33,8 +33,8 @@ export const blogsApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllBlog: builder.query({
-      query: ({ limit, page }) => ({
-        url: `get-all-blog?limit=${limit}&page=${page}`,
+      query: ({ limit, page, type }) => ({
+        url: `get-all-blog?limit=${limit}&page=${page}&type=${type}`,
         method: "GET",
         credentials: "include" as const,
       }),

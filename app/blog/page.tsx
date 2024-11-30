@@ -23,7 +23,7 @@ const Page = (props: Props) => {
   const searchParams = useSearchParams();
   const search = searchParams?.get("title");
   const { data, isLoading } = useGetAllBlogQuery(
-    { limit: limit, page: currentPage },
+    { limit: limit, page: currentPage, type: "news" },
     {}
   );
   const [route, setRoute] = useState("Login");
@@ -43,7 +43,7 @@ const Page = (props: Props) => {
         setRoute={setRoute}
         open={open}
         setOpen={setOpen}
-        activeItem={3}
+        activeItem={2}
       />
       <div className="w-[95%] 800px:w-[85%] m-auto min-h-[70vh]">
         <Heading

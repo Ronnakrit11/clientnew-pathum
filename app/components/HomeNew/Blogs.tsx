@@ -11,7 +11,7 @@ const Blogs = (props: Props) => {
   const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
   const { data, isLoading } = useGetAllBlogQuery(
-    { limit: limit, page: page },
+    { limit: limit, page: page, type: "news" },
     {}
   );
   const [route, setRoute] = useState("Login");

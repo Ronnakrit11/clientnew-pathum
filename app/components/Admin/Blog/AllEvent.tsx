@@ -40,14 +40,14 @@ const Transition = React.forwardRef(function Transition(
 
 type Props = {};
 
-const AllBlog = (props: Props) => {
+const AllEvent = (props: Props) => {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [blogId, setBlogId] = useState("");
-  
+
   const { isLoading, data, refetch } = useGetAllBlogQuery(
-    { type: "news", page: 1, limit: 10 },
+    { type: "event", page: 1, limit: 10 },
     { refetchOnMountOrArgChange: true }
   );
 
@@ -375,4 +375,4 @@ const AllBlog = (props: Props) => {
   );
 };
 
-export default AllBlog;
+export default AllEvent;
