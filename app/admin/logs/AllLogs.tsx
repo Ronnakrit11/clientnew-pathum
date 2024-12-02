@@ -8,18 +8,19 @@ const AllLogs = () => {
   console.log(data?.logs);
   return (
     <div className="container mx-auto  mt-40">
-      <div className={"space-y-4 flex flex-col items-center justify-center"}>
+      <div className={"space-y-4 w-full flex-col"}>
         {data?.logs.map((item: any, index: number) => (
           <div key={index}>
             <Alert
               //   color="success"
               color={item.status === "success" ? "success" : "failure"}
-              className="w-[500px]"
+              className="w-full"
               title={item.title}
               //   description={item.description}
             >
               <span className="font-medium">{item.title}</span> <br />
               {item.description}
+              <p>IP : {item.ip}</p>
               <div className="flex justify-between mt-8">
                 {item.create_by && (
                   <Badge color="success" className="mr-2">

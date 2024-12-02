@@ -22,6 +22,7 @@ import Blogs from "./Blogs";
 import OurService from "./OurService";
 import Image from "next/image";
 import SlideHero from "./(NewTemplate)/SliderHero";
+import Event from "./Event";
 
 function Home({ webInfo }: any) {
   console.log("🚀 ~ file: Home.tsx:24 ~ Home ~ layout:", webInfo);
@@ -74,6 +75,7 @@ function Home({ webInfo }: any) {
       {/* <Courses /> */}
       {/* <Ebooks /> */}
       <Blogs />
+      <Event />
       {/* <PeopleReview /> */}
 
       {/* <WhyLearnCourse /> */}
