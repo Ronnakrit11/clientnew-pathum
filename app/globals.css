@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'flowbite';
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -40,7 +42,7 @@ input::-webkit-inner-spin-button {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #1771c6;
+  background: #ad232c;
 }
 
 /* Handle */
@@ -50,7 +52,7 @@ input::-webkit-inner-spin-button {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #32ae7e;
+  background: #f6ee27;
 }
 
 /* Firefox */

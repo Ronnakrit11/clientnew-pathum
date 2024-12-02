@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Table } from "flowbite-react";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput, Pagination,Select } from "flowbite-react";
 import {
   useAllInterdisciplinaryQuery,
   useAllUserArgTechQuery,
@@ -17,8 +17,16 @@ import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 
 const InterdisciplinaryAllUser = () => {
   const [searchName, setSearchName] = useState("");
-  const { data, refetch } = useAllInterdisciplinaryQuery({ name: searchName });
+  const [limit, setLimit] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const { data, refetch } = useAllInterdisciplinaryQuery({
+    name: searchName,
+    page: currentPage,
+    limit: limit,
+  },{refetchOnMountOrArgChange: true});
+
+  const onPageChange = (page: number) => setCurrentPage(page);
   return (
     <div className="container mx-auto mt-24">
       <div className="flex justify-between mb-4">
@@ -47,7 +55,21 @@ const InterdisciplinaryAllUser = () => {
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
             <Table.HeadCell>สถานะ</Table.HeadCell>
-            <Table.HeadCell>ดำเนินการ</Table.HeadCell>
+            <Table.HeadCell>
+              <div className="flex items-center gap-2">
+                ดำเนินการ
+                <Select
+                  aria-label="เลือกรายการต่อหน้า"
+                  value={limit}
+                  onChange={(e) => setLimit(Number(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </Select>
+              </div>
+            </Table.HeadCell>{" "}
           </Table.Head>
           <Table.Body className="divide-y">
             {data?.users.map(
@@ -71,6 +93,13 @@ const InterdisciplinaryAllUser = () => {
             )}
           </Table.Body>
         </Table>
+        <div className="flex overflow-x-auto sm:justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={100}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
     </div>
   );

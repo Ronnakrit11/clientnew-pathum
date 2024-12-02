@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { Table } from "flowbite-react";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput,Select } from "flowbite-react";
 import {
   useAllUserEngineerAndITQuery,
   useGetAllUsersQuery,
 } from "@/redux/features/user/userApi";
+import { Pagination } from "flowbite-react";
 
 import { useSearchUserByNameQuery } from "@/redux/features/user/userApi";
 import ModalCreateUser from "@/app/components/Admin/Users/ModalCreateUser";
@@ -14,14 +15,17 @@ import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 
 const EngineerAllUser = () => {
+  const [limit, setLimit] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchName, setSearchName] = useState("");
 
   const {
     data: dataAllUserEngineerAndIT,
     refetch: refetchAllUserEngineerAndIT,
-  } = useAllUserEngineerAndITQuery({ name: searchName });
+  } = useAllUserEngineerAndITQuery({ name: searchName, page: currentPage, limit },{refetchOnMountOrArgChange: true});
 
-  console.log(dataAllUserEngineerAndIT?.users);
+  // console.log(dataAllUserEngineerAndIT?.users);
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
     <div className="container mx-auto mt-24">
@@ -51,8 +55,21 @@ const EngineerAllUser = () => {
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
             <Table.HeadCell>สถานะ</Table.HeadCell>
-            <Table.HeadCell>ดำเนินการ</Table.HeadCell>
-          </Table.Head>
+            <Table.HeadCell>
+              <div className="flex justify-between items-center gap-2">
+                ดำเนินการ
+                <Select
+                  aria-label="เลือกรายการต่อหน้า"
+                  value={limit}
+                  onChange={(e) => setLimit(Number(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </Select>
+              </div>
+            </Table.HeadCell>          </Table.Head>
           <Table.Body className="divide-y">
             {dataAllUserEngineerAndIT?.users.map(
               (user) =>
@@ -81,6 +98,13 @@ const EngineerAllUser = () => {
             )}
           </Table.Body>
         </Table>
+        <div className="flex overflow-x-auto sm:justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={100}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
     </div>
   );

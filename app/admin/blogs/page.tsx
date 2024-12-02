@@ -1,15 +1,16 @@
-'use client'
-import DashboardHero from '@/app/components/Admin/DashboardHero'
-import AdminProtected from '@/app/hooks/adminProtected'
-import Heading from '@/app/utils/Heading'
-import React from 'react'
+"use client";
+import DashboardHero from "@/app/components/Admin/DashboardHero";
+import AdminProtected from "@/app/hooks/adminProtected";
+import Heading from "@/app/utils/Heading";
+import React from "react";
 import AdminSidebar from "../../components/Admin/sidebar/AdminSidebar";
 import AllCourses from "../../components/Admin/Course/AllCourses";
-import BlogInformation from '@/app/components/Admin/Blog/BlogInformation'
-import AllBlog from '@/app/components/Admin/Blog/AllBlog'
+import BlogInformation from "@/app/components/Admin/Blog/BlogInformation";
+import AllBlog from "@/app/components/Admin/Blog/AllBlog";
+import AllBlogNew from "@/app/components/Admin/Blog/AllBlogNew";
 // import AllEbook from '@/app/components/Admin/ebook/AllEbook'
 
-type Props = {}
+type Props = {};
 
 const page = (props: Props) => {
   return (
@@ -27,12 +28,12 @@ const page = (props: Props) => {
           <div className="w-[85%]">
             <DashboardHero />
             {/* <BlogInformation /> */}
-            <AllBlog />
+            <AllBlogNew />
           </div>
         </div>
       </AdminProtected>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

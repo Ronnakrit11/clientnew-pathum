@@ -18,7 +18,7 @@ const SlideHero = ({ banner }: { banner: any }) => {
   return (
     <div className="relative w-full">
       <Slider {...settings}>
-        {banner?.image.map((item: any, index: number) => (
+        {banner?.image?.map((item: any, index: number) => (
           <div key={index}>
             <Image
               src={item.url}

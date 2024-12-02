@@ -3,11 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
-import {
-  ArrowForwardIosIcon,
-  ArrowBackIosIcon,
-
-} from "./Icon";
+import { ArrowForwardIosIcon, ArrowBackIosIcon } from "./Icon";
 import avatarDefault from "../../../../public/assests/avatar.png";
 import { useSelector } from "react-redux";
 import Link from "next/link";
@@ -59,10 +55,10 @@ const Sidebar = () => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#ad232c !important",
         },
         "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+          color: "#ad232c !important",
         },
         "& .pro-inner-item": {
           padding: "5px 35px 5px 20px !important",
@@ -99,13 +95,18 @@ const Sidebar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
+                // ml="15px"
               >
-                <Link href="/" className="block">
+                {/* <Link href="/admin" className="block">
                   <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
                     ELearning
                   </h3>
-                </Link>
+                </Link> */}
+                <Image src={"/logo.png"} alt="logo" width={50} height={50} />
+                <div className="hover:text-primary">
+                  <p className="text-[12px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
+                  <p>สถาบันเทคโนโลยีปทุมวัน</p>
+                </div>
                 <IconButton
                   onClick={() => setIsCollapsed(!isCollapsed)}
                   className="inline-block"
@@ -117,34 +118,34 @@ const Sidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px">
+            <Box mb="25px" display={"flex"} justifyContent={"center"} alignItems={"center"} gap={1} bgcolor={"#F7F5F5"} paddingY={4}>
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
                   alt="profile-user"
-                  width={100}
-                  height={100}
+                  width={70}
+                  height={70}
                   src={user.avatar ? user.avatar.url : avatarDefault}
                   style={{
                     cursor: "pointer",
                     borderRadius: "50%",
-                    border: "3px solid #5b6fe6",
+                    border: "3px solid #ad232c",
                   }}
                 />
               </Box>
               <Box textAlign="center">
                 <Typography
                   variant="h4"
-                  className="!text-[20px] text-black dark:text-[#ffffffc1]"
+                  className="!text-[16px] text-black dark:text-[#ffffffc1]"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {user?.name}
+                  ชื่อ : {user?.name}
                 </Typography>
                 <Typography
                   variant="h6"
                   sx={{ m: "10px 0 0 0" }}
-                  className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize"
+                  className="!text-[16px] text-black dark:text-[#ffffffc1] capitalize"
                 >
-                  - {user?.role}
+                  ตำแหน่ง : {user?.role}
                 </Typography>
               </Box>
             </Box>

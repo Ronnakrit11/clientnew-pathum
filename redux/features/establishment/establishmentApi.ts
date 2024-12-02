@@ -26,8 +26,8 @@ const establishmentApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllEstablishments: builder.query({
-      query: ({name, major}) => ({
-        url: `/get-all-establishments?name=${name}&major=${major}`,
+      query: ({name, major,page,limit}) => ({
+        url: `/get-all-establishments?name=${name}&major=${major}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
       }),

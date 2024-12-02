@@ -86,8 +86,8 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     searchUserByName: builder.query({
-      query: (name) => ({
-        url: `search-user-by-name?name=${name}`,
+      query: ({ name, page, limit, role }) => ({
+        url: `search-user-by-name?name=${name}&page=${page}&limit=${limit}&role=${role}`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -108,29 +108,29 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     allUserEngineerAndIT: builder.query({
-      query: ({ name }) => ({
-        url: `get-user-all-engineer-and-it?name=${name}`,
+      query: ({ name, page, limit }) => ({
+        url: `get-user-all-engineer-and-it?name=${name}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
       }),
     }),
     allUserArgTech: builder.query({
-      query: ({ name }) => ({
-        url: `get-user-all-arg-tech?name=${name}`,
+      query: ({ name, page, limit }) => ({
+        url: `get-user-all-arg-tech?name=${name}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
       }),
     }),
     allTechInnovation: builder.query({
-      query: ({ name }) => ({
-        url: `get-user-all-tech-innovation?name=${name}`,
+      query: ({ name, page, limit }) => ({
+        url: `get-user-all-tech-innovation?name=${name}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
       }),
     }),
     allInterdisciplinary: builder.query({
-      query: ({ name }) => ({
-        url: `get-user-all-interdisciplinary?name=${name}`,
+      query: ({ name, page, limit }) => ({
+        url: `get-user-all-interdisciplinary?name=${name}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -144,8 +144,8 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllUserSuccess: builder.query({
-      query: ({ name, major }) => ({
-        url: `get-all-user-success?major=${major}&name=${name}`,
+      query: ({ name, major, page, limit }) => ({
+        url: `get-all-user-success?major=${major}&name=${name}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
       }),

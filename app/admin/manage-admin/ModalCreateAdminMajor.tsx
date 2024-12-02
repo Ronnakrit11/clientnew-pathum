@@ -61,7 +61,7 @@ export default function ModalCreateAdminMajor({
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)} disabled={append <= 0}>
+      <Button onClick={() => setOpenModal(true)} disabled={append <= 0} className="bg-primary">
         <HiOutlinePlusSmall className="mr-2" size={20} />
         สร้างบัญชีแอดมิน
       </Button>

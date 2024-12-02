@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Table } from "flowbite-react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import {
-    useAllTechInnovationQuery,
+  useAllTechInnovationQuery,
   useAllUserArgTechQuery,
   useAllUserEngineerAndITQuery,
   useGetAllUsersQuery,
@@ -14,12 +14,18 @@ import ModalCreateUser from "@/app/components/Admin/Users/ModalCreateUser";
 import ModalInfoUser from "@/app/components/Admin/Users/ModalInfoUser";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
+import { Pagination, Select } from "flowbite-react";
 
 const TechIndrusManage = () => {
   const [searchName, setSearchName] = useState("");
+  const [limit, setLimit] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const { data, refetch } = useAllTechInnovationQuery(
-    {name:searchName}
+    { name: searchName, page: currentPage, limit },
+    { refetchOnMountOrArgChange: true }
   );
+
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
     <div className="container mx-auto mt-24">
@@ -49,7 +55,21 @@ const TechIndrusManage = () => {
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
             <Table.HeadCell>สถานะ</Table.HeadCell>
-            <Table.HeadCell>ดำเนินการ</Table.HeadCell>
+            <Table.HeadCell>
+              <div className="flex justify-between items-center gap-2">
+                ดำเนินการ
+                <Select
+                  aria-label="เลือกรายการต่อหน้า"
+                  value={limit}
+                  onChange={(e) => setLimit(Number(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </Select>
+              </div>
+            </Table.HeadCell>{" "}
           </Table.Head>
           <Table.Body className="divide-y">
             {data?.users.map(
@@ -73,6 +93,13 @@ const TechIndrusManage = () => {
             )}
           </Table.Body>
         </Table>
+        <div className="flex overflow-x-auto sm:justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={100}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
     </div>
   );

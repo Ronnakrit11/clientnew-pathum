@@ -7,16 +7,22 @@ import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/est
 import ModalInforEstablishment from "./ModalInfoEsblishment";
 import ModalDeleteEsblishment from "./ModelDeleteEsblishment";
 import ModalEditEstablishment from "./ModalEditEstablishment";
-
+import { Pagination, Select } from "flowbite-react";
 const AllEstabishment = () => {
   const [searchName, setSearchName] = useState("");
+  const [limit, setLimit] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const payloadSearch = {
     name: searchName,
     major: "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม",
+    page: currentPage,
+    limit: limit,
   };
 
   const { data: dataAllEstablishments, refetch: refetchAllEstablishments } =
     useGetAllEstablishmentsQuery(payloadSearch);
+
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
     <div className="container mx-auto mt-24">
@@ -45,7 +51,21 @@ const AllEstabishment = () => {
             <Table.HeadCell>ประเภทสถานประกอบการ</Table.HeadCell>
             <Table.HeadCell>ที่ตั้ง</Table.HeadCell>
             <Table.HeadCell>ติดต่อ</Table.HeadCell>
-            <Table.HeadCell>ดำเนินการ</Table.HeadCell>
+            <Table.HeadCell>
+              <div className="flex justify-between items-center gap-2">
+                ดำเนินการ
+                <Select
+                  aria-label="เลือกรายการต่อหน้า"
+                  value={limit}
+                  onChange={(e) => setLimit(Number(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </Select>
+              </div>
+            </Table.HeadCell>{" "}
           </Table.Head>
           <Table.Body className="divide-y">
             {dataAllEstablishments?.establishments.map(
@@ -76,6 +96,13 @@ const AllEstabishment = () => {
             )}
           </Table.Body>
         </Table>
+        <div className="flex overflow-x-auto sm:justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={100}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
     </div>
   );

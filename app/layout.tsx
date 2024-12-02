@@ -1,6 +1,6 @@
 "use client";
 import "./globals.css";
-import { Poppins ,Anuphan } from "next/font/google";
+import { Poppins, Anuphan } from "next/font/google";
 import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "./utils/theme-provider";
 import { Toaster } from "react-hot-toast";
@@ -11,10 +11,26 @@ import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Loader from "./components/Loader/Loader";
 import socketIO from "socket.io-client";
 import SimpleBackdrop from "./components/Loading/SimpleBackdrop";
+import type { CustomFlowbiteTheme } from "flowbite-react";
+
+import { Flowbite } from "flowbite-react";
+
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
-
+const customTheme = {
+  button: {
+    color: {
+      primary: "bg-[#ad232c] text-white hover:bg-[#861b22]", // ปรับสีปุ่ม
+    },
+  },
+  textInput: {
+    base: "border-[#ad232c] focus:ring-[#ad232c]", // ปรับสี TextInput
+  },
+  select: {
+    base: "border-[#ad232c] focus:ring-[#ad232c]", // ปรับสี Select
+  },
+};
 
 const poppins = Anuphan({
   subsets: ["latin"],
@@ -33,11 +49,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  useEffect(()=>{
-    window.localStorage.setItem('theme', 'light')
-  },[])
-
+  useEffect(() => {
+    window.localStorage.setItem("theme", "light");
+  }, []);
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
@@ -48,8 +62,9 @@ export default function RootLayout({
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Custom>
-
-                <div>{children}</div>
+                <Flowbite theme={{ theme: customTheme }}>
+                  <div>{children}</div>
+                </Flowbite>
               </Custom>
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
@@ -62,13 +77,20 @@ export default function RootLayout({
 
 const Custom: FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isLoading } = useLoadUserQuery({});
-  const { data: session } = useSession()
-  
+  const { data: session } = useSession();
 
   useEffect(() => {
     socketId.on("connection", () => {});
   }, []);
 
-  return <div>{(isLoading && session) ? <Loader /> : <div className="font-Poppins">{children} </div>}</div>;
+  return (
+    <div>
+      {isLoading && session ? (
+        <Loader />
+      ) : (
+        <div className="font-Poppins">{children} </div>
+      )}
+    </div>
+  );
   // return <div>{children} </div>
 };

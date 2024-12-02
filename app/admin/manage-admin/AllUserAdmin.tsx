@@ -10,6 +10,7 @@ import { Badge } from "flowbite-react";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useReadUserByIdQuery } from "@/redux/features/user/userApi";
 import ModalCreateAdminMajor from "./ModalCreateAdminMajor";
+import { Pagination } from "flowbite-react";
 
 const AllUserAdmin = () => {
   const {
@@ -26,9 +27,14 @@ const AllUserAdmin = () => {
     },
   ] = useUpdateUserRoleMutation();
   const [searchName, setSearchName] = useState("");
-
-  const { data: searchUserByName, refetch } =
-    useSearchUserByNameQuery(searchName);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
+    name: searchName,
+    limit: limit,
+    page: currentPage,
+    role: "admin&role=admin-engineer-it&role=admin-tect-env&role=admin-tech-indrustry&role=interdisciplinary",
+  });
   console.log(searchUserByName);
 
   const {
@@ -59,7 +65,8 @@ const AllUserAdmin = () => {
     });
   };
 
-  console.log(searchUserByName?.user)
+  console.log(searchUserByName?.user);
+  const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
     <div className="container mx-auto mt-24">
@@ -91,15 +98,26 @@ const AllUserAdmin = () => {
       </div>
       <div className="overflow-x-auto">
         <Table hoverable>
-          <Table.Head>
+          <Table.Head className="text-md">
             <Table.HeadCell>ชื่อ</Table.HeadCell>
             <Table.HeadCell>อีเมล</Table.HeadCell>
- 
-            <Table.HeadCell>ตำแหน่ง</Table.HeadCell>
+
+            <Table.HeadCell className="flex justify-between items-center">
+              ตำแหน่ง
+              <Select
+                value={limit}
+                onChange={(e: any) => setLimit(e.target.value)}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </Select>
+            </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {searchUserByName &&
-              searchUserByName?.user?.filter((user: any) => user.role === "admin" || user.role === "admin-engineer-it" || user.role === "admin-tect-env" || user.role === "admin-tech-indrustry").map((user: any) => (
+              searchUserByName?.user.map((user: any) => (
                 <Table.Row key={user._id}>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {user.name}
@@ -135,6 +153,13 @@ const AllUserAdmin = () => {
               ))}
           </Table.Body>
         </Table>
+        <div className="flex overflow-x-auto my-8 sm:justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={100}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
       <Toaster />
     </div>

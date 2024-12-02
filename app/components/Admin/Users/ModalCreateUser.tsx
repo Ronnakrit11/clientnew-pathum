@@ -57,7 +57,10 @@ export default function ModalCreateUser({ refetch }: any) {
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>
+      <Button
+        onClick={() => setOpenModal(true)}
+        className="bg-primary hover:bg-secondary"
+      >
         <HiMiniUserPlus className="mr-2" size={20} />
         เพิ่มข้อมูลนักศึกษา
       </Button>

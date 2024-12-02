@@ -49,7 +49,7 @@ const AllBlogNew = (props: Props) => {
   const [blogId, setBlogId] = useState("");
 
   const { isLoading, data, refetch } = useGetAllBlogQuery(
-    { type: "event", page: 1, limit: 10 },
+    { type: "news", page: 1, limit: 10 },
     { refetchOnMountOrArgChange: true }
   );
 
@@ -123,6 +123,20 @@ const AllBlogNew = (props: Props) => {
                       />
                     </Button>
                   </Link>
+                  {/* <Button
+                    outline
+                    color="failure"
+                    className="hover:text-white"
+                    onClick={() => {
+                      setOpen(!open);
+                      setBlogId(item._id);
+                    }}
+                  >
+                    <AiOutlineDelete
+                      className="dark:text-white text-black"
+                      size={20}
+                    />
+                  </Button> */}
                   <ModalDeleteBlog data={item} refetch={refetch} />
                 </Table.Cell>
               </Table.Row>
