@@ -38,6 +38,7 @@
     "axios": "^1.4.0",
     "bufferutil": "^4.0.7",
     "dayjs": "^1.11.11",
+    "dayjs-plugin-utc": "^0.1.2",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "file-loader": "^6.2.0",
