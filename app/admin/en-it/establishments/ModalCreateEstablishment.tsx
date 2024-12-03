@@ -56,7 +56,7 @@ export default function ModalCreateEstablishment({ refetch }: any) {
         เพิ่มข้อมูลสถานประกอบการ
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal show={openModal} onClose={() => setOpenModal(false)} className="z-[9999999999999999]">
           <Modal.Header>เพิ่มข้อมูลนักศึกษา</Modal.Header>
           <Modal.Body>
             <div>

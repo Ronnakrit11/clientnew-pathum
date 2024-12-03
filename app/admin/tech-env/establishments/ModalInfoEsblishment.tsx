@@ -16,7 +16,11 @@ const ModalInforEstablishment = ({ data }: any) => {
       >
         <HiOutlineEye size={20} />
       </Button>
-      <Modal show={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal
+        show={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="z-[9999999999999999]"
+      >
         <Modal.Header>รายละเอียดนักศึกษา {data.name}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">

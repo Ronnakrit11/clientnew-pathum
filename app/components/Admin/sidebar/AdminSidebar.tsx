@@ -41,7 +41,7 @@ const Sidebar = () => {
     setlogout(true);
   };
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <Box

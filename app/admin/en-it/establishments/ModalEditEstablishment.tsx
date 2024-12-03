@@ -61,7 +61,7 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
         <HiOutlinePencilSquare size={20} />
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal show={openModal} onClose={() => setOpenModal(false)} className="z-[9999999999999999]">
           <Modal.Header>แก้ไขข้อมูลนักศึกษา {data.name}</Modal.Header>
           <Modal.Body>
             <div>

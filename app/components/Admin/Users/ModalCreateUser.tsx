@@ -8,7 +8,6 @@ import { Radio } from "flowbite-react";
 import { useAddUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
-import { refresh } from "aos";
 
 export default function ModalCreateUser({ refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -34,6 +33,7 @@ export default function ModalCreateUser({ refetch }: any) {
       isSuccess: AddUserSuccess,
     },
   ] = useAddUserMutation();
+
 
   useEffect(() => {
     if (AddUserSuccess) {
@@ -65,7 +65,11 @@ export default function ModalCreateUser({ refetch }: any) {
         เพิ่มข้อมูลนักศึกษา
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal
+          show={openModal}
+          onClose={() => setOpenModal(false)}
+          className="z-[9999999999999999]"
+        >
           <Modal.Header>เพิ่มข้อมูลนักศึกษา</Modal.Header>
           <Modal.Body>
             <div>
@@ -234,7 +238,7 @@ export default function ModalCreateUser({ refetch }: any) {
             )}
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button type="submit" onClick={handleSubmit}>
+            <Button type="submit" color="success" onClick={handleSubmit}>
               เพิ่ม
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>

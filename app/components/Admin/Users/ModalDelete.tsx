@@ -36,6 +36,7 @@ export default function ModalDelete({ data, refetch }: any) {
         size="md"
         onClose={() => setOpenModal(false)}
         popup
+        className="z-[9999999999999999]"
       >
         <Modal.Header />
         <Modal.Body>

@@ -66,7 +66,7 @@ export default function ModalCreateAdminMajor({
         สร้างบัญชีแอดมิน
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal show={openModal} onClose={() => setOpenModal(false)} className="z-[9999999999999999]">
           <Modal.Header>สร้างบัญชีแอดมิน</Modal.Header>
           <Modal.Body>
             <div>
