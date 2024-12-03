@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Table } from "flowbite-react";
-import { Button, Checkbox, Label, TextInput,Select } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput, Select } from "flowbite-react";
 import {
   useAllUserEngineerAndITQuery,
   useGetAllUsersQuery,
@@ -22,7 +22,10 @@ const EngineerAllUser = () => {
   const {
     data: dataAllUserEngineerAndIT,
     refetch: refetchAllUserEngineerAndIT,
-  } = useAllUserEngineerAndITQuery({ name: searchName, page: currentPage, limit },{refetchOnMountOrArgChange: true});
+  } = useAllUserEngineerAndITQuery(
+    { name: searchName, page: currentPage, limit },
+    { refetchOnMountOrArgChange: true }
+  );
 
   // console.log(dataAllUserEngineerAndIT?.users);
   const onPageChange = (page: number) => setCurrentPage(page);
@@ -69,7 +72,8 @@ const EngineerAllUser = () => {
                   <option value={50}>50</option>
                 </Select>
               </div>
-            </Table.HeadCell>          </Table.Head>
+            </Table.HeadCell>{" "}
+          </Table.Head>
           <Table.Body className="divide-y">
             {dataAllUserEngineerAndIT?.users.map(
               (user) =>
