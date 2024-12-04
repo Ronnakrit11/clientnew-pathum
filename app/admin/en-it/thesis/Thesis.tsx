@@ -47,8 +47,8 @@ const Thesis = () => {
       "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2",
       "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3",
     ];
-    const rows = data.map((user,index) => [
-      index+1,
+    const rows = data.map((user, index) => [
+      index + 1,
       user.name,
       user.major,
       user.program,
@@ -162,10 +162,12 @@ const Thesis = () => {
                       <Table.Cell>{user.major}</Table.Cell>
                       <Table.Cell>{user.program}</Table.Cell>
                       <Table.Cell>
-                        {user?.thesis?.advisor1}<br />
-                        {user?.thesis?.advisor2}<br />
+                        {user?.thesis?.advisor1}
+                        <br />
+                        {user?.thesis?.advisor2}
+                        <br />
                         {user?.thesis?.advisor3}
-                        </Table.Cell>
+                      </Table.Cell>
                       <Table.Cell>
                         {user?.thesis ? (
                           <Link href={user.thesis.url} target="_blank">
