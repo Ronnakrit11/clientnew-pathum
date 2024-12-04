@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import {
   Table,
@@ -8,7 +7,7 @@ import {
   TextInput,
   Select,
 } from "flowbite-react";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaFileExcel } from "react-icons/fa";
 import UploadThesis from "./UploadThesis";
 import { useGetAllUserSuccessQuery } from "@/redux/features/user/userApi";
 import Link from "next/link";
@@ -34,10 +33,57 @@ const Thesis = () => {
   );
 
   const onPageChange = (page: number) => setCurrentPage(page);
-  // console.log(dataAllUserSuccess?.users);
+
+  // ฟังก์ชันแปลงข้อมูลเป็น CSV
+  const convertToCSV = (data) => {
+    const headers = [
+      "ชื่อนักศึกษา",
+      "สาขาวิชา",
+      "ชื่อปริญญานิพนธ์",
+      "ปีการศึกษา",
+      "อาจารย์ที่ปรึกษาปริญญานิพนธ์",
+    ];
+    const rows = data.map((user) => [
+      user.name,
+      user.major,
+      user.program,
+      user.thesis.url,
+      user.academicYear,
+      user.advisor1,
+      user.advisor2,
+      user.advisor3,
+    ]);
+    const csvContent = [headers, ...rows]
+      .map((row) => row.join(","))
+      .join("\n");
+    return csvContent;
+  };
+
+  const downloadCSV = () => {
+    if (dataAllUserSuccess?.users?.length > 0) {
+      const csvContent = convertToCSV(dataAllUserSuccess.users);
+
+      // เพิ่ม BOM เพื่อรองรับภาษาไทย
+      const bom = "\uFEFF";
+      const blob = new Blob([bom + csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "thesis_users.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
+    }
+  };
+
   return (
     <div className="container mx-auto mt-24">
-      <div className="flex justify-between mb-6">
+      <div className="flex justify-between items-center mb-6">
         <div>
           <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
           <TextInput
@@ -49,6 +95,16 @@ const Thesis = () => {
             required
           />
         </div>
+        <div>
+          <Button
+            color="success"
+            className="flex items-center gap-2"
+            onClick={downloadCSV}
+          >
+            <FaFileExcel size={20} className="mr-2" />
+            Export Excel (CSV)
+          </Button>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
@@ -58,6 +114,7 @@ const Thesis = () => {
             <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
+            <Table.HeadCell>อาจารย์ที่ปรึกษา</Table.HeadCell>
             <Table.HeadCell>เอกสารปริญญาตรี</Table.HeadCell>
             <Table.HeadCell>
               <div className="flex justify-between items-center gap-2">
@@ -99,6 +156,7 @@ const Thesis = () => {
                       <Table.Cell>{user.studentId}</Table.Cell>
                       <Table.Cell>{user.major}</Table.Cell>
                       <Table.Cell>{user.program}</Table.Cell>
+                      <Table.Cell>{user?.thesis?.advisor1}</Table.Cell>
                       <Table.Cell>
                         {user?.thesis ? (
                           <Link href={user.thesis.url} target="_blank">

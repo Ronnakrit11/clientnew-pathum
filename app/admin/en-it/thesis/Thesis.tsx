@@ -37,19 +37,26 @@ const Thesis = () => {
   // ฟังก์ชันแปลงข้อมูลเป็น CSV
   const convertToCSV = (data) => {
     const headers = [
+      "ลำดับ",
       "ชื่อนักศึกษา",
       "สาขาวิชา",
+      "แขนงวิชา",
       "ชื่อปริญญานิพนธ์",
       "ปีการศึกษา",
-      "อาจารย์ที่ปรึกษาปริญญานิพนธ์",
+      "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 1",
+      "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2",
+      "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3",
     ];
-    const rows = data.map((user) => [
+    const rows = data.map((user,index) => [
+      index+1,
       user.name,
       user.major,
       user.program,
       user.thesis.url,
       user.academicYear,
-      user.advisor,
+      user?.thesis?.advisor1,
+      user?.thesis?.advisor2,
+      user?.thesis?.advisor3,
     ]);
     const csvContent = [headers, ...rows]
       .map((row) => row.join(","))
@@ -112,6 +119,7 @@ const Thesis = () => {
             <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
+            <Table.HeadCell>อาจารย์ที่ปรึกษา</Table.HeadCell>
             <Table.HeadCell>เอกสารปริญญาตรี</Table.HeadCell>
             <Table.HeadCell>
               <div className="flex justify-between items-center gap-2">
@@ -153,6 +161,11 @@ const Thesis = () => {
                       <Table.Cell>{user.studentId}</Table.Cell>
                       <Table.Cell>{user.major}</Table.Cell>
                       <Table.Cell>{user.program}</Table.Cell>
+                      <Table.Cell>
+                        {user?.thesis?.advisor1}<br />
+                        {user?.thesis?.advisor2}<br />
+                        {user?.thesis?.advisor3}
+                        </Table.Cell>
                       <Table.Cell>
                         {user?.thesis ? (
                           <Link href={user.thesis.url} target="_blank">

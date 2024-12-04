@@ -10,7 +10,9 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
   const [uploadThesis, { isLoading, isSuccess, error }] =
     useUploadThesisMutation();
   const [openModal, setOpenModal] = useState(false);
-  const [advisor, setAdvisor] = useState("");
+  const [advisor1, setAdvisor1] = useState("");
+  const [advisor2, setAdvisor2] = useState("");
+  const [advisor3, setAdvisor3] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -36,7 +38,7 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
 
     try {
       // ส่งข้อมูลในรูปแบบที่กำหนด
-      await uploadThesis({ id, file: fileBase64, advisor }).unwrap();
+      await uploadThesis({ id, file: fileBase64, advisor1, advisor2, advisor3 }).unwrap();
       // toast.success("อัพโหลดปริญญานิพนธ์เรียบร้อยแล้ว");
     } catch (err) {
       toast.error("อัพโหลดปริญญานิพนธ์ไม่สำเร็จ");
@@ -64,13 +66,33 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
         <Modal.Body>
           <div className="space-y-6">
             <div>
-              <Label htmlFor="advisor" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์" />
+              <Label htmlFor="advisor" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 1" />
               <TextInput
                 id="advisor"
                 type="text"
                 required
                 // onChange={(e) => handleChange(e)}
-                onChange={(e) => setAdvisor(e.target.value)}
+                onChange={(e) => setAdvisor1(e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="advisor2" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2" />
+              <TextInput
+                id="advisor2"
+                type="text"
+                required
+                // onChange={(e) => handleChange(e)}
+                onChange={(e) => setAdvisor2(e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="advisor3" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3" />
+              <TextInput
+                id="advisor3"
+                type="text"
+                required
+                // onChange={(e) => handleChange(e)}
+                onChange={(e) => setAdvisor3(e.target.value)}
               />
             </div>
             <div id="fileUpload" className="flex flex-col gap-2">

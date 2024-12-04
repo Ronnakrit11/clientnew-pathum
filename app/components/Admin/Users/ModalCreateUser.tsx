@@ -192,11 +192,11 @@ export default function ModalCreateUser({ refetch }: any) {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="email" value="Email" />
+                <Label htmlFor="text" value="Email" />
               </div>
               <TextInput
                 id="email"
-                type="email"
+                type="text"
                 required
                 onChange={(e) => handleChange(e)}
               />
