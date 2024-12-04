@@ -150,7 +150,7 @@ export default function ModalCreateUser({ refetch }: any) {
               </div>
               <TextInput
                 id="academicYear"
-                type="number"
+                type="text"
                 onChange={(e) => handleChange(e)}
                 required
               />
@@ -164,7 +164,7 @@ export default function ModalCreateUser({ refetch }: any) {
               </div>
               <TextInput
                 id="phoneNumber"
-                type="number"
+                type="text"
                 required
                 onChange={(e) => handleChange(e)}
               />

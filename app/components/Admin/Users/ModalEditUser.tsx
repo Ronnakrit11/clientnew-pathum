@@ -147,7 +147,7 @@ export default function ModalEditUser({ data, refetch }: any) {
               </div>
               <TextInput
                 id="academicYear"
-                type="number"
+                type="text"
                 value={payload.academicYear}
                 onChange={(e) => handleChange(e)}
                 required
@@ -162,7 +162,7 @@ export default function ModalEditUser({ data, refetch }: any) {
               </div>
               <TextInput
                 id="phoneNumber"
-                type="number"
+                type="text"
                 value={payload.phoneNumber}
                 required
                 onChange={(e) => handleChange(e)}
