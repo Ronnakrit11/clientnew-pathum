@@ -9,6 +9,7 @@ import {
 import { Pagination } from "flowbite-react";
 
 import { useSearchUserByNameQuery } from "@/redux/features/user/userApi";
+import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 import ModalCreateUser from "@/app/components/Admin/Users/ModalCreateUser";
 import ModalInfoUser from "@/app/components/Admin/Users/ModalInfoUser";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
@@ -27,7 +28,11 @@ const EngineerAllUser = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  // console.log(dataAllUserEngineerAndIT?.users);
+  const { data,refetch } = useListUserByMajorQuery(
+    { major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" },
+    { refetchOnMountOrArgChange: true }
+  );
+
   const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
@@ -47,7 +52,7 @@ const EngineerAllUser = () => {
           />
         </div>
         <div>
-          <ModalCreateUser refetch={refetchAllUserEngineerAndIT} />
+          <ModalCreateUser refetch={refetch} />
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -75,7 +80,7 @@ const EngineerAllUser = () => {
             </Table.HeadCell>{" "}
           </Table.Head>
           <Table.Body className="divide-y">
-            {dataAllUserEngineerAndIT?.users.map(
+            {data?.data.map(
               (user) =>
                 user?.role !== "admin" && (
                   <Table.Row key={user._id}>
@@ -90,11 +95,11 @@ const EngineerAllUser = () => {
                       <ModalInfoUser data={user} />
                       <ModalEditUser
                         data={user}
-                        refetch={refetchAllUserEngineerAndIT}
+                        refetch={refetch}
                       />
                       <ModalDelete
                         data={user}
-                        refetch={refetchAllUserEngineerAndIT}
+                        refetch={refetch}
                       />
                     </Table.Cell>
                   </Table.Row>

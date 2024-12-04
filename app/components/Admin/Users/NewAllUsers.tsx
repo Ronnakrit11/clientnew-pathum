@@ -12,11 +12,6 @@ import ModalEditUser from "./ModalEditUser";
 import { Pagination } from "flowbite-react";
 
 const NewAllUsers = () => {
-  // const {
-  //   isLoading: isLoadingUsers,
-  //   data,
-  //   refetch,
-  // } = useGetAllUsersQuery({}, { refetchOnMountOrArgChange: true });
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 

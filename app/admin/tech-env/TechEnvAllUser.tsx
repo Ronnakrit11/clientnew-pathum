@@ -14,18 +14,23 @@ import ModalInfoUser from "@/app/components/Admin/Users/ModalInfoUser";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 import { Pagination, Select } from "flowbite-react";
+import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 
 const TechEnvAllUser = () => {
   const [searchName, setSearchName] = useState("");
 
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, refetch } = useAllUserArgTechQuery(
-    { name: searchName, page: currentPage, limit },
-    { refetchOnMountOrArgChange: true }
-  );
+  // const { data, refetch } = useAllUserArgTechQuery(
+  //   { name: searchName, page: currentPage, limit },
+  //   { refetchOnMountOrArgChange: true }
+  // );
   const onPageChange = (page: number) => setCurrentPage(page);
 
+  const { data, refetch } = useListUserByMajorQuery(
+    { major: "สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร" },
+    { refetchOnMountOrArgChange: true }
+  );
   return (
     <div className="container mx-auto mt-24">
       <div className="flex justify-between mb-4">
@@ -71,7 +76,7 @@ const TechEnvAllUser = () => {
             </Table.HeadCell>{" "}
           </Table.Head>
           <Table.Body className="divide-y">
-            {data?.users.map(
+            {data?.data.map(
               (user) =>
                 user?.role !== "admin" && (
                   <Table.Row key={user._id}>

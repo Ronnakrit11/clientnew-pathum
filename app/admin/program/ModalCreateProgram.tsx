@@ -12,46 +12,27 @@ import { HiOutlinePlusSmall } from "react-icons/hi2";
 import { useCreateEstablishmentMutation } from "@/redux/features/establishment/establishmentApi";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useCreateAdminMajorMutation } from "@/redux/features/user/userApi";
-import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { useCreateMajorMutation } from "@/redux/features/major/majorApi";
+import { useCreateProgramMutation } from "@/redux/features/program/programApi";
 
-export default function ModalCreateAdminMajor({
-  refetch,
-  // append,
-  refetch_data,
-}: any) {
+export default function ModalCreateProgram({ refetch, refetch_data }: any) {
   const {
     data: userData,
     isLoading: isLoadingUserData,
     refetch: refetchUserData,
   } = useLoadUserQuery(undefined, {});
-  console.log(userData?.user?._id);
+
+  // console.log(userData?.user?._id)
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
     name: "",
-    email: "",
-    password: "",
-    role: "",
     id_admin: userData?.user?._id,
   });
-  const { data: majorData } = useGetAllMajorQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
-
-
-  useEffect(() => {
-    if (majorData?.data?.length > 0) {
-      setPayload((prev) => ({
-        ...prev,
-        role: `แอดมิน-${majorData.data[0].name}`,
-      }));
-    }
-  }, [majorData]);
 
   // console.log(payload);
 
-  const [createAdminMajor, { isLoading, error, isSuccess }] =
-    useCreateAdminMajorMutation();
-
+  const [createProgram, { isLoading, error, isSuccess }] =
+    useCreateProgramMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -71,7 +52,7 @@ export default function ModalCreateAdminMajor({
   };
 
   const handleSubmit = async () => {
-    await createAdminMajor(payload);
+    await createProgram(payload);
   };
 
   return (
@@ -86,11 +67,11 @@ export default function ModalCreateAdminMajor({
           onClose={() => setOpenModal(false)}
           className="z-[9999999999999999]"
         >
-          <Modal.Header>สร้างบัญชีแอดมิน</Modal.Header>
+          <Modal.Header>สร้างแขนงวิชา</Modal.Header>
           <Modal.Body>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="name" value="ชื่อบัญชีแอดมิน" />
+                <Label htmlFor="name" value="ชื่อแขนงวิชา" />
               </div>
               <TextInput
                 id="name"
@@ -98,56 +79,6 @@ export default function ModalCreateAdminMajor({
                 required
                 onChange={(e) => handleChange(e)}
               />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="email" value="อีเมล์บัญชีแอดมิน" />
-              </div>
-              <TextInput
-                id="email"
-                type="email"
-                onChange={(e) => handleChange(e)}
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="password" value="รหัสผ่าน" />
-              </div>
-              <TextInput
-                id="password"
-                type="password"
-                onChange={(e) => handleChange(e)}
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="password_confirm" value="รหัสผ่านอีกครั้ง" />
-              </div>
-              <TextInput
-                id="password_confirm"
-                type="password"
-                onChange={(e) => handleChange(e)}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="role" value="ตำแหน่ง" />
-              <Select
-                id="role"
-                required
-                onChange={(e) =>
-                  setPayload({ ...payload, role: e.target.value })
-                }
-                value={payload.role}
-              >
-                {majorData?.data?.map((major) => (
-                  <option key={major._id} value={`แอดมิน-${major.name}`}>
-                    แอดมิน-{major.name}
-                  </option>
-                ))}
-              </Select>
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">

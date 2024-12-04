@@ -77,6 +77,20 @@ const AdminSidebarItem = ({
         setSelected={setSelected}
       />
       <Item
+        title="จัดการสาขาวิชา"
+        to="/admin/major"
+        icon={<GroupsIcon />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
+        title="จัดการแขนงวิชา"
+        to="/admin/program"
+        icon={<GroupsIcon />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
         title="Logs"
         to="/admin/logs"
         icon={<IoNewspaperOutline />}
@@ -151,7 +165,7 @@ const AdminSidebarItem = ({
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
         sx={{ m: "15px 0 5px 20px" }}
       >
-        {!isCollapsed && "วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
+        {!isCollapsed && "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
@@ -179,7 +193,7 @@ const AdminSidebarItem = ({
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
         sx={{ m: "15px 0 5px 20px" }}
       >
-        {!isCollapsed && "เทคโนโลยีสิ่งแวดล้อมการเกษตร"}
+        {!isCollapsed && "สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร"}
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
@@ -207,7 +221,7 @@ const AdminSidebarItem = ({
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
         sx={{ m: "15px 0 5px 20px" }}
       >
-        {!isCollapsed && "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"}
+        {!isCollapsed && "สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"}
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"
@@ -235,7 +249,7 @@ const AdminSidebarItem = ({
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
         sx={{ m: "15px 0 5px 20px" }}
       >
-        {!isCollapsed && "สหวิทยาการ"}
+        {!isCollapsed && "สาขาวิชาสหวิทยาการ"}
       </Typography>
       <Item
         title="รายชื่อนักศึกษา"

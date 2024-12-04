@@ -24,7 +24,7 @@ const Thesis = () => {
     refetch,
   } = useGetAllUserSuccessQuery(
     {
-      major: "วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ",
+      major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ",
       name,
       page: currentPage,
       limit,

@@ -23,7 +23,7 @@ export default function ModalCreateEstablishment({ refetch }: any) {
     phone_empoyee_of_establishment: "",
     idLine_of_establishment: "",
     details: "",
-    major: "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม",
+    major: "สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม",
   });
 
   const [createEstablishment, { isLoading, error, isSuccess }] =

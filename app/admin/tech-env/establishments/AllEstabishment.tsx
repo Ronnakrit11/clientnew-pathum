@@ -15,7 +15,7 @@ const AllEstabishment = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const payloadSearch = {
     name: searchName,
-    major: "เทคโนโลยีสิ่งแวดล้อมการเกษตร",
+    major: "สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร",
     page: currentPage,
     limit: limit,
   };

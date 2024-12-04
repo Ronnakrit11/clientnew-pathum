@@ -8,6 +8,8 @@ import { Radio } from "flowbite-react";
 import { useAddUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
 
 export default function ModalCreateUser({ refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -34,6 +36,8 @@ export default function ModalCreateUser({ refetch }: any) {
     },
   ] = useAddUserMutation();
 
+  const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
+  const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
 
   useEffect(() => {
     if (AddUserSuccess) {
@@ -54,6 +58,8 @@ export default function ModalCreateUser({ refetch }: any) {
   const handleSubmit = async () => {
     await addUser(payload);
   };
+
+  // console.log(dataProgram);
 
   return (
     <>
@@ -101,23 +107,28 @@ export default function ModalCreateUser({ refetch }: any) {
               <div className="mb-2 block">
                 <Label htmlFor="program" value="ชื่อหลักสูตร (Program Name)" />
               </div>
-              <TextInput
+              {/* <TextInput
                 id="program"
                 type="text"
                 onChange={(e) => handleChange(e)}
                 required
-              />
+              /> */}
+              <Select
+                id="program"
+                required
+                onChange={(e) =>
+                  setPayload({ ...payload, program: e.target.value })
+                }
+              >
+                <option value={""}>เลือกหลักสูตร</option>
+                {dataProgram?.programs?.map((item, index) => (
+                  <option value={item.id} key={index}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div>
-              {/* <div className="mb-2 block">
-                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major)" />
-              </div>
-              <TextInput
-                id="major"
-                type="text"
-                onChange={(e) => handleChange(e)}
-                required
-              /> */}
               <div className="mb-2 block">
                 <Label htmlFor="major" value="ชื่อสาขาวิชา (Major" />
               </div>
@@ -129,16 +140,11 @@ export default function ModalCreateUser({ refetch }: any) {
                 }
               >
                 <option value={""}>เลือกสาขาวิชา</option>
-                <option value={"วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}>
-                  วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ
-                </option>
-                <option value={"เทคโนโลยีสิ่งแวดล้อมการเกษตร"}>
-                  เทคโนโลยีสิ่งแวดล้อมการเกษตร
-                </option>
-                <option value={"เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"}>
-                  เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม
-                </option>
-                <option value={"สหวิทยาการ"}>สหวิทยาการ</option>
+                {dataMajor?.data.map((item, index) => (
+                  <option value={item.id} key={index}>
+                    {item.name}
+                  </option>
+                ))}
               </Select>
             </div>
             <div>

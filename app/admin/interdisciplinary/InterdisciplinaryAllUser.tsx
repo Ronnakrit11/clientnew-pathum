@@ -1,13 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import { Table } from "flowbite-react";
-import { Button, Checkbox, Label, TextInput, Pagination,Select } from "flowbite-react";
+import {
+  Button,
+  Checkbox,
+  Label,
+  TextInput,
+  Pagination,
+  Select,
+} from "flowbite-react";
 import {
   useAllInterdisciplinaryQuery,
   useAllUserArgTechQuery,
   useAllUserEngineerAndITQuery,
   useGetAllUsersQuery,
 } from "@/redux/features/user/userApi";
+import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 
 import { useSearchUserByNameQuery } from "@/redux/features/user/userApi";
 import ModalCreateUser from "@/app/components/Admin/Users/ModalCreateUser";
@@ -20,12 +28,16 @@ const InterdisciplinaryAllUser = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, refetch } = useAllInterdisciplinaryQuery({
-    name: searchName,
-    page: currentPage,
-    limit: limit,
-  },{refetchOnMountOrArgChange: true});
+  // const { data, refetch } = useAllInterdisciplinaryQuery({
+  //   name: searchName,
+  //   page: currentPage,
+  //   limit: limit,
+  // },{refetchOnMountOrArgChange: true});
 
+  const { data, refetch } = useListUserByMajorQuery(
+    { major: "สาขาวิชาสหวิทยาการ" },
+    { refetchOnMountOrArgChange: true }
+  );
   const onPageChange = (page: number) => setCurrentPage(page);
   return (
     <div className="container mx-auto mt-24">
@@ -72,7 +84,7 @@ const InterdisciplinaryAllUser = () => {
             </Table.HeadCell>{" "}
           </Table.Head>
           <Table.Body className="divide-y">
-            {data?.users.map(
+            {data?.data.map(
               (user) =>
                 user?.role !== "admin" && (
                   <Table.Row key={user._id}>

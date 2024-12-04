@@ -8,14 +8,14 @@ import { useUpdateUserRoleMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import { Badge } from "flowbite-react";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
-import { useReadUserByIdQuery } from "@/redux/features/user/userApi";
-import ModalCreateAdminMajor from "./ModalCreateAdminMajor";
-import { Pagination } from "flowbite-react";
-import ModalEditAdmin from "./ModalEditAdmin";
-import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { useReadUserByIdQuery } from "@/redux/features/user/userApi";
+import { Pagination } from "flowbite-react";
+import ModalEditMajor from "./ModalEditMajor";
+import ModalCreateMajor from "./ModalCreateMajor";
+import ModalDeleteMajor from "./ModalDeleteMajor";
 
-const AllUserAdmin = () => {
+const AllMajors = () => {
   const {
     data: userData,
     isLoading,
@@ -33,17 +33,9 @@ const AllUserAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const { data: majorData } = useGetAllMajorQuery(undefined, {
+  const { data, refetch } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
-    name: searchName,
-    limit: limit,
-    page: currentPage,
-    role: "admin&role=แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ&role=แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม&role=แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร&role=แอดมิน-สาขาวิชาสหวิทยาการ",
-  });
-
-  // console.log(majorData?.data);
 
   const {
     data: userById,
@@ -53,7 +45,7 @@ const AllUserAdmin = () => {
     skip: !userData,
   });
 
-  console.log(userById?.user.appoint);
+  console.log(data);
 
   useEffect(() => {
     if (UpdateRoleSuccess) {
@@ -97,19 +89,17 @@ const AllUserAdmin = () => {
             สิทธิในการแต่งตั้งแอดมินสาขา จำนวน{" "}
             <Badge size={"lg"}>{userById?.user.appoint}</Badge> ครั้ง
           </p>
-          <ModalCreateAdminMajor
+          <ModalCreateMajor
             refetch={refetchUserById}
             refetch_data={refetch}
-            // append={userById?.user.appoint}
+            append={userById?.user.appoint}
           />
         </div>
       </div>
       <div className="overflow-x-auto">
         <Table hoverable>
           <Table.Head className="text-md">
-            <Table.HeadCell>ชื่อ</Table.HeadCell>
-            <Table.HeadCell>อีเมล</Table.HeadCell>
-            <Table.HeadCell>ตำแหน่ง</Table.HeadCell>
+            <Table.HeadCell>ชื่อสาขาวิชา</Table.HeadCell>
             <Table.HeadCell className="flex justify-between items-center">
               ดำเนินการ
               <Select
@@ -124,17 +114,16 @@ const AllUserAdmin = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {searchUserByName &&
-              searchUserByName?.user.map((user: any) => (
-                <Table.Row key={user._id}>
+            {data &&
+              data?.data?.map((item: any) => (
+                <Table.Row key={item._id}>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {user.name}
+                    {item.name}
                   </Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.role}</Table.Cell>
+                  {/* <Table.Cell>{item.email}</Table.Cell> */}
                   <Table.Cell className="flex gap-2">
-                    <ModalEditAdmin data={user} />
-                    <ModalDelete data={user} refetch={refetch} />
+                    <ModalEditMajor data={item} refetch={refetch} />
+                    <ModalDeleteMajor data={item} refetch={refetch} />
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -153,4 +142,4 @@ const AllUserAdmin = () => {
   );
 };
 
-export default AllUserAdmin;
+export default AllMajors;

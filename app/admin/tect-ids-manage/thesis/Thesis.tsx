@@ -24,7 +24,7 @@ const Thesis = () => {
     refetch,
   } = useGetAllUserSuccessQuery(
     {
-      major: "เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม",
+      major: "สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม",
       name,
       page: currentPage,
       limit,

@@ -158,13 +158,15 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const filterSubMenu = subMenuUserItem.filter((item) => {
     if (
       (userData?.user?.role === "admin" && item.link.includes("admin")) ||
-      (userData?.user?.role === "admin-engineer-it" &&
+      (userData?.user?.role ===
+        "แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" &&
         item.link.includes("admin/en-it")) ||
-      (userData?.user?.role === "admin-tect-env" &&
+      (userData?.user?.role === "แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร" &&
         item.link.includes("admin/tech-env")) ||
-      (userData?.user?.role === "admin-interdisciplinary" &&
+      (userData?.user?.role === "แอดมิน-สาขาวิชาสหวิทยาการ" &&
         item.link.includes("admin/interdisciplinary")) ||
-      (userData?.user?.role === "admin-tect-ids-manage" &&
+      (userData?.user?.role ===
+        "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" &&
         item.link.includes("admin/tect-ids-manage"))
     ) {
       return true;
@@ -193,7 +195,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   href={"/"}
                   className={`text-[18px] md:text-[25px] flex items-center font-Poppins font-[500] text-black dark:text-white`}
                 >
-                  <Image src={"/logo.png"} width={50} height={50} alt="" className="mr-1" />
+                  <Image
+                    src={"/logo.png"}
+                    width={50}
+                    height={50}
+                    alt=""
+                    className="mr-1"
+                  />
                   <div className="flex flex-col">
                     <p className="text-[18px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
                     <p className="text-[16px]">สถาบันเทคโนโลีปทุมวัน</p>

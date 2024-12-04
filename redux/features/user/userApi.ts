@@ -158,6 +158,13 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    listUserByMajor: builder.query({
+      query: ({ major }) => ({
+        url: `list-user-by-major?major=${major}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -181,4 +188,5 @@ export const {
   useUploadThesisMutation,
   useGetAllUserSuccessQuery,
   useCreateAdminMajorMutation,
+  useListUserByMajorQuery,
 } = userApi;

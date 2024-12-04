@@ -24,7 +24,7 @@ const Thesis = () => {
     refetch,
   } = useGetAllUserSuccessQuery(
     {
-      major: "เทคโนโลยีสิ่งแวดล้อมการเกษตร",
+      major: "สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร",
       name,
       page: currentPage,
       limit,
