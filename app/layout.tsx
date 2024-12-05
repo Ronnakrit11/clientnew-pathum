@@ -1,5 +1,7 @@
 "use client";
 import "./globals.css";
+import "rsuite/dist/rsuite-no-reset.min.css";
+import { CustomProvider } from "rsuite";
 import { Poppins, Anuphan } from "next/font/google";
 import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "./utils/theme-provider";
@@ -62,9 +64,11 @@ export default function RootLayout({
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Custom>
-                <Flowbite theme={{ theme: customTheme }}>
-                  <div>{children}</div>
-                </Flowbite>
+                <CustomProvider>
+                  <Flowbite theme={{ theme: customTheme }}>
+                    <div>{children}</div>
+                  </Flowbite>
+                </CustomProvider>
               </Custom>
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
