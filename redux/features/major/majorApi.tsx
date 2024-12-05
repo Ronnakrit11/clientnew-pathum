@@ -7,7 +7,7 @@ export const majorApi = apiSlice.injectEndpoints({
         url: "get-all-major",
         method: "GET",
         credentials: "include" as const,
-      }),
+      }), 
     }),
     createMajor: builder.mutation({
       query: ({ name }) => ({
