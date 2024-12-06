@@ -13,8 +13,8 @@ dayjs.extend(timezone);
 const AllLogs = () => {
   const today = dayjs().startOf("day").toISOString(); // วันนี้ เวลา 00:00
   const tomorrow = dayjs().add(1, "day").startOf("day").toISOString(); // พรุ่งนี้ เวลา 00:00
-  console.log(today)
-  console.log(tomorrow)
+  // console.log(today)
+  // console.log(tomorrow)
   const [id, setId] = useState("");
   const [startDate, setStartDate] = useState<string | null>(today);
   const [endDate, setEndDate] = useState<string | null>(tomorrow);

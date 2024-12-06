@@ -1,58 +1,80 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "flowbite-react";
 import { Button, Checkbox, Label, TextInput, Select } from "flowbite-react";
-import {
-  useAllUserEngineerAndITQuery,
-  useGetAllUsersQuery,
-} from "@/redux/features/user/userApi";
 import { Pagination } from "flowbite-react";
-
-import { useSearchUserByNameQuery } from "@/redux/features/user/userApi";
 import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
-import ModalCreateUser from "@/app/components/Admin/Users/ModalCreateUser";
 import ModalInfoUser from "@/app/components/Admin/Users/ModalInfoUser";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
+import DrawerFilter from "./DrawerFilter";
+import ModalCreateUserMajor from "./ModalCreateUserMajor";
+import ModalEditUserMajor from "./ModalEditUserMajor";
 
 const EngineerAllUser = () => {
-  const [limit, setLimit] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchName, setSearchName] = useState("");
+  const [payload, setPayload] = useState({
+    page: 1,
+    limit: 10,
+    name: "",
+    major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ",
+    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    dateEnd: new Date(),
+    status: "",
+    studentId: "i",
+    createdAt: -1,
+  });
 
-  const {
-    data: dataAllUserEngineerAndIT,
-    refetch: refetchAllUserEngineerAndIT,
-  } = useAllUserEngineerAndITQuery(
-    { name: searchName, page: currentPage, limit },
-    { refetchOnMountOrArgChange: true }
-  );
+  // console.log(payload);
 
-  const { data,refetch } = useListUserByMajorQuery(
-    { major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" },
-    { refetchOnMountOrArgChange: true }
-  );
+  // const {
+  //   data: dataAllUserEngineerAndIT,
+  //   refetch: refetchAllUserEngineerAndIT,
+  // } = useAllUserEngineerAndITQuery(
+  //   { name: searchName, page: currentPage, limit },
+  //   { refetchOnMountOrArgChange: true }
+  // );
 
-  const onPageChange = (page: number) => setCurrentPage(page);
+  const { data, refetch } = useListUserByMajorQuery(payload, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  useEffect(() => {
+    if (data) {
+      refetch();
+    }
+  }, [data]);
+
+  const onPageChange = (page: number) => setPayload({ ...payload, page });
 
   return (
     <div className="container mx-auto mt-24">
       <div className="flex justify-between mb-4">
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
+        <div className="flex gap-2">
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="name"
+                value="ค้นหาชื่อนักศึกษา หรือรหัสนักศึกษา"
+              />
+            </div>
+            <TextInput
+              id="name"
+              type="text"
+              className="w-[400px]"
+              placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
+              onChange={(e) => setPayload({ ...payload, name: e.target.value })}
+              required
+            />
           </div>
-          <TextInput
-            id="name"
-            type="text"
-            className="w-[400px]"
-            placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            onChange={(e) => setSearchName(e.target.value)}
-            required
-          />
+          <div className="flex items-end">
+            <DrawerFilter setPayload={setPayload} payload={payload} />
+          </div>
         </div>
         <div>
-          <ModalCreateUser refetch={refetch} />
+          <ModalCreateUserMajor
+            refetch={refetch}
+            major={"สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
+          />
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -68,8 +90,10 @@ const EngineerAllUser = () => {
                 ดำเนินการ
                 <Select
                   aria-label="เลือกรายการต่อหน้า"
-                  value={limit}
-                  onChange={(e) => setLimit(Number(e.target.value))}
+                  value={payload.limit}
+                  onChange={(e) =>
+                    setPayload({ ...payload, limit: Number(e.target.value) })
+                  }
                 >
                   <option value={5}>5</option>
                   <option value={10}>10</option>
@@ -93,14 +117,8 @@ const EngineerAllUser = () => {
                     <Table.Cell>{user.status}</Table.Cell>
                     <Table.Cell className="flex gap-2">
                       <ModalInfoUser data={user} />
-                      <ModalEditUser
-                        data={user}
-                        refetch={refetch}
-                      />
-                      <ModalDelete
-                        data={user}
-                        refetch={refetch}
-                      />
+                      <ModalEditUserMajor data={user} refetch={refetch} />
+                      <ModalDelete data={user} refetch={refetch} />
                     </Table.Cell>
                   </Table.Row>
                 )
@@ -109,7 +127,7 @@ const EngineerAllUser = () => {
         </Table>
         <div className="flex overflow-x-auto sm:justify-center">
           <Pagination
-            currentPage={currentPage}
+            currentPage={payload.page}
             totalPages={100}
             onPageChange={onPageChange}
           />

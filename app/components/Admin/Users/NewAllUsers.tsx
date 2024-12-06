@@ -10,41 +10,61 @@ import ModalDelete from "./ModalDelete";
 import { Badge } from "flowbite-react";
 import ModalEditUser from "./ModalEditUser";
 import { Pagination } from "flowbite-react";
+import DrawerFilter from "@/app/admin/en-it/DrawerFilter";
+import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 
 const NewAllUsers = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
 
-  const [searchName, setSearchName] = useState("");
-  const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
-    name: searchName,
-    page: currentPage,
-    limit: limit,
-    role: "user",
+  const [payload, setPayload] = useState({
+    page: 1,
+    limit: 10,
+    name: "",
+    major:
+      "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ&major=สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม&major=สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร&major=สาขาวิชาสหวิทยาการ",
+    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    dateEnd: new Date(),
+    status: "",
+    studentId: "i",
+    createdAt: -1,
   });
 
-  const onPageChange = (page: number) => setCurrentPage(page);
+  const { data, refetch } = useListUserByMajorQuery(payload, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  // const [searchName, setSearchName] = useState("");
+  // const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
+  //   name: searchName,
+  //   page: currentPage,
+  //   limit: limit,
+  //   role: "user",
+  // });
+
+  const onPageChange = (page: number) => setPayload({ ...payload, page: page });
 
   return (
     <div className="container mx-auto mt-24">
-      <div className="flex justify-between mb-4">
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
+       <div className="flex gap-2">
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="name"
+                value="ค้นหาชื่อนักศึกษา หรือรหัสนักศึกษา"
+              />
+            </div>
+            <TextInput
+              id="name"
+              type="text"
+              className="w-[400px]"
+              placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
+              onChange={(e) => setPayload({ ...payload, name: e.target.value })}
+              required
+            />
           </div>
-          <TextInput
-            id="name"
-            type="text"
-            className="w-[400px]"
-            placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            onChange={(e) => setSearchName(e.target.value)}
-            required
-          />
+          <div className="flex items-end">
+            <DrawerFilter setPayload={setPayload} payload={payload} />
+          </div>
         </div>
-        <div>
-          <ModalCreateUser refetch={refetch} />
-        </div>
-      </div>
       <div className="overflow-x-auto">
         <Table hoverable>
           <Table.Head className="text-md">
@@ -56,8 +76,8 @@ const NewAllUsers = () => {
             <Table.HeadCell className="flex justify-between items-center">
               ดำเนินการ{" "}
               <Select
-                value={limit}
-                onChange={(e: any) => setLimit(e.target.value)}
+                value={payload.limit}
+                onChange={(e: any) => setPayload({ ...payload, limit: e.target.value })}
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
@@ -67,7 +87,7 @@ const NewAllUsers = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {searchUserByName?.user
+            {data?.data
               .filter((user) => user.role === "user")
               .map((user) => (
                 <Table.Row key={user._id}>
@@ -89,7 +109,7 @@ const NewAllUsers = () => {
         </Table>
         <div className="flex overflow-x-auto my-8 sm:justify-center">
           <Pagination
-            currentPage={currentPage}
+            currentPage={payload.page}
             totalPages={100}
             onPageChange={onPageChange}
           />

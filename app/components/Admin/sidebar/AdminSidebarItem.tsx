@@ -84,7 +84,7 @@ const AdminSidebarItem = ({
         setSelected={setSelected}
       />
       <Item
-        title="จัดการแขนงวิชา"
+        title="จัดการหลักสูตร"
         to="/admin/program"
         icon={<GroupsIcon />}
         selected={selected}

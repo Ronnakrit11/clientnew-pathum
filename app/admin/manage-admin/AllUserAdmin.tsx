@@ -93,10 +93,6 @@ const AllUserAdmin = () => {
           />
         </div>
         <div className="flex flex-col justify-end">
-          <p className="flex gap-2 justify-center items-center">
-            สิทธิในการแต่งตั้งแอดมินสาขา จำนวน{" "}
-            <Badge size={"lg"}>{userById?.user.appoint}</Badge> ครั้ง
-          </p>
           <ModalCreateAdminMajor
             refetch={refetchUserById}
             refetch_data={refetch}

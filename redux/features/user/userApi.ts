@@ -159,8 +159,19 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     listUserByMajor: builder.query({
-      query: ({ major }) => ({
-        url: `list-user-by-major?major=${major}`,
+      query: ({
+        major,
+        page,
+        limit,
+        dateEnd,
+        dateStart,
+        status,
+        name,
+        studentId,
+        createdAt
+      }) => ({
+        url: `list-user-by-major?major=${major}&page=${page}&limit=${limit}&dateEnd=${dateEnd}&dateStart=${dateStart}&status=${status}&name=${name}&studentId=${studentId}&createdAt=${createdAt}`,
+
         method: "GET",
         credentials: "include" as const,
       }),
