@@ -13,7 +13,7 @@ const Editor = ({ setPropsContent, defaultContent }) => {
     useEffect(()=>{
         setContent(defaultContent)
     },[defaultContent])
-
+ 
     useEffect(() => {
         setPropsContent(content)
 
