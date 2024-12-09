@@ -129,7 +129,7 @@ const AllUserAdmin = () => {
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>{user.role}</Table.Cell>
                   <Table.Cell className="flex gap-2">
-                    <ModalEditAdmin data={user} />
+                    <ModalEditAdmin data={user} refetch={refetch} />
                     <ModalDelete data={user} refetch={refetch} />
                   </Table.Cell>
                 </Table.Row>

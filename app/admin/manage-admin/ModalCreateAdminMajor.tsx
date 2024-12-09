@@ -13,6 +13,7 @@ import { useCreateEstablishmentMutation } from "@/redux/features/establishment/e
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useCreateAdminMajorMutation } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { Badge } from "flowbite-react";
 
 export default function ModalCreateAdminMajor({
   refetch,
@@ -23,8 +24,9 @@ export default function ModalCreateAdminMajor({
     data: userData,
     isLoading: isLoadingUserData,
     refetch: refetchUserData,
-  } = useLoadUserQuery(undefined, {});
-  console.log(userData?.user?._id);
+  } = useLoadUserQuery(undefined, { refetchOnMountOrArgChange: true });
+
+  // console.log(userData?.user?.appoint.engineerIT);
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
     name: "",
@@ -36,7 +38,6 @@ export default function ModalCreateAdminMajor({
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-
 
   useEffect(() => {
     if (majorData?.data?.length > 0) {
@@ -52,12 +53,12 @@ export default function ModalCreateAdminMajor({
   const [createAdminMajor, { isLoading, error, isSuccess }] =
     useCreateAdminMajorMutation();
 
-
   useEffect(() => {
     if (isSuccess) {
       toast.success("สร้างบัญชีแอดมินเรียบร้อยแล้ว");
       refetch();
-      refetch_data();
+      // refetch_data();
+      refetchUserData();
       setOpenModal(false);
     }
     if (error) {
@@ -86,7 +87,62 @@ export default function ModalCreateAdminMajor({
           onClose={() => setOpenModal(false)}
           className="z-[9999999999999999]"
         >
-          <Modal.Header>สร้างบัญชีแอดมิน</Modal.Header>
+          <Modal.Header>
+            สร้างบัญชีแอดมิน
+            <div className="text-[14px] ">
+              <h2>สิทธิในการสร้างบัญชีแอดมินของคุณ</h2>
+              <p className="flex items-center gap-2">
+                สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ{" "}
+                <Badge
+                  color={
+                    userData?.user?.appoint.engineerIT > 0
+                      ? "success"
+                      : "failure"
+                  }
+                >
+                  {userData?.user?.appoint.engineerIT}
+                </Badge>
+                ครั้ง
+              </p>
+              <p className="flex items-center gap-2">
+                สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร{" "}
+                <Badge
+                  color={
+                    userData?.user?.appoint.argTech > 0 ? "success" : "failure"
+                  }
+                >
+                  {userData?.user?.appoint.argTech}
+                </Badge>{" "}
+                ครั้ง
+              </p>
+              <p className="flex items-center gap-2">
+                สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม{" "}
+                <Badge
+                  color={
+                    userData?.user?.appoint.techInnovation > 0
+                      ? "success"
+                      : "failure"
+                  }
+                >
+                  {userData?.user?.appoint.techInnovation}
+                </Badge>
+                ครั้ง
+              </p>
+              <p className="flex items-center gap-2">
+                สาขาวิชาสหวิทยาการ
+                <Badge
+                  color={
+                    userData?.user?.appoint.interdisciplinary > 0
+                      ? "success"
+                      : "failure"
+                  }
+                >
+                  {userData?.user?.appoint.interdisciplinary}
+                </Badge>{" "}
+                ครั้ง
+              </p>
+            </div>
+          </Modal.Header>
           <Modal.Body>
             <div>
               <div className="mb-2 block">
@@ -142,6 +198,9 @@ export default function ModalCreateAdminMajor({
                 }
                 value={payload.role}
               >
+                {userData?.user?.role === "admin" && (
+                  <option value={"admin"}>admin</option>
+                )}
                 {majorData?.data?.map((major) => (
                   <option key={major._id} value={`แอดมิน-${major.name}`}>
                     แอดมิน-{major.name}

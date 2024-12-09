@@ -11,12 +11,13 @@ import { FcGoogle } from "react-icons/fc";
 import { styles } from "../../../app/styles/style";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
-import {signIn} from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
-  refetch:any;
+  refetch: any;
 };
 
 const schema = Yup.object().shape({
@@ -26,9 +27,11 @@ const schema = Yup.object().shape({
   password: Yup.string().required("Please enter your password!").min(6),
 });
 
-const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
+const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const [show, setShow] = useState(false);
-  const [login, { isSuccess, error }] = useLoginMutation();
+  const [login, { isSuccess, error, data }] = useLoginMutation();
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
@@ -40,6 +43,25 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Login Successfully!");
+      console.log(data?.user?.role);
+      if (data?.user?.role === "admin") {
+        router.push("/admin");
+      } else if (
+        data?.user?.role === "แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"
+      ) {
+        router.push("/admin/en-it");
+      } else if (
+        data?.user?.role ===
+        "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"
+      ) {
+        router.push("/admin/tect-ids-manage");
+      } else if (
+        data?.user?.role === "แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร"
+      ) {
+        router.push("/admin/tech-env");
+      } else if (data?.user?.role === "แอดมิน-สาขาวิชาสหวิทยาการ") {
+        router.push("/admin/interdisciplinary");
+      }
       setOpen(false);
       refetch();
     }
@@ -114,10 +136,16 @@ const Login: FC<Props> = ({ setRoute, setOpen,refetch }) => {
           Or join with
         </h5>
         <div className="flex items-center justify-center my-3">
-          <FcGoogle size={30} className="cursor-pointer mr-2"
-          onClick={() => signIn("google")}
+          <FcGoogle
+            size={30}
+            className="cursor-pointer mr-2"
+            onClick={() => signIn("google")}
           />
-          <AiFillGithub size={30} className="cursor-pointer ml-2" onClick={() => signIn("github")} />
+          <AiFillGithub
+            size={30}
+            className="cursor-pointer ml-2"
+            onClick={() => signIn("github")}
+          />
         </div>
         <h5 className="text-center pt-4 font-Poppins text-[14px]">
           Not have any account?{" "}

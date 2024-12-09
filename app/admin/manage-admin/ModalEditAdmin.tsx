@@ -2,12 +2,8 @@
 
 import { Button, Modal, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiMiniUserPlus } from "react-icons/hi2";
 import { Label, TextInput } from "flowbite-react";
-import { Radio } from "flowbite-react";
-import { useAddUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
-import { Select } from "flowbite-react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
 
