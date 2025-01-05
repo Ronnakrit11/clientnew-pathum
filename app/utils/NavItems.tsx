@@ -17,12 +17,12 @@ export const navItemsData = [
         url: "/about/purpose-and-importance",
       },
       {
-        name: "โครงสร้างคณะกรรมการสโมสรนักศึกษา",
-        url: "/about/smo-committee-structure",
+        name: "โครงสร้างที่ปรึกษาสโมสรนักศึกษา",
+        url: "/about/teacher-committee-structure",
       },
       {
-        name: "ความสำคัญและวัตถุประสงค์ของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา",
-        url: "/about/importance-and-objective",
+        name: "โครงสร้างคณะกรรมการสโมสรนักศึกษา",
+        url: "/about/smo-committee-structure",
       },
     ],
   },
