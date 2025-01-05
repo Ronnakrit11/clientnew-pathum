@@ -37,7 +37,7 @@ const Page = (props: Props) => {
   const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
-    <div className="w-full bg-[#EEE]">
+    <div className="w-full bg-[#F3F4F6]">
       <Header
         route={route}
         setRoute={setRoute}
@@ -45,7 +45,7 @@ const Page = (props: Props) => {
         setOpen={setOpen}
         activeItem={2}
       />
-      <div className="w-[95%] 800px:w-[85%] m-auto min-h-[70vh]">
+      <div className="w-[95%] 800px:w-[85%] m-auto min-h-[70vh] ">
         <Heading
           title={"All courses - Elearning"}
           description={"Elearning is a programming community."}
@@ -66,7 +66,7 @@ const Page = (props: Props) => {
         )}
         {/* <br /> */}
         {/* <br /> */}
-        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-5 1500px:gap-[35px] pb-12 border-0 py-10">
+        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-4 1500px:gap-[35px] pb-12 border-0 py-10 ">
           {courses &&
             courses.map((item: any, index: number) => (
               <BlogCard item={item} key={index} />

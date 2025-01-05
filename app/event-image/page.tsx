@@ -66,7 +66,7 @@ const Page = (props: Props) => {
         )}
         {/* <br /> */}
         {/* <br /> */}
-        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-5 1500px:gap-[35px] pb-12 border-0 py-10">
+        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-4 1500px:gap-[35px] pb-12 border-0 py-10">
           {courses &&
             courses.map((item: any, index: number) => (
               <BlogCard item={item} key={index} />

@@ -14,16 +14,16 @@ export const navItemsData = [
     subMenu: [
       {
         name: "วัตถุประสงค์ของสโมสรนักศึกษา",
-        url: "/event-image",
-      },
-      {
-        name: "โครงสร้างที่ปรึกษาสโมสรนักศึกษา",
-        url: "/event-image",
+        url: "/about/purpose-and-importance",
       },
       {
         name: "โครงสร้างคณะกรรมการสโมสรนักศึกษา",
-        url: "/event-image",
+        url: "/about/smo-committee-structure",
       },
+      {
+        name: "ความสำคัญและวัตถุประสงค์ของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา",
+        url: "/about/importance-and-objective",
+      }
     ],
   },
   {
@@ -87,7 +87,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                           <ListGroup.Item
                             onClick={() => router.push(subItem.url)}
                             key={`sub-${subIndex}`}
-                            color="failure"
+                            style={{ color: "#ad232c" }}
                           >
                             {subItem.name}
                           </ListGroup.Item>

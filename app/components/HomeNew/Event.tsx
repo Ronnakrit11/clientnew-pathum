@@ -45,7 +45,7 @@ const Event = (props: Props) => {
             ))}
         </div>
         <div className="flex justify-center mt-10 ">
-          <Link href={"/event"}>
+          <Link href={"/event-image"}>
             <button className="bg-primary py-2 px-4 text-white rounded-md hover:shadow-lg">
               ดูเพิ่มเติม
             </button>
