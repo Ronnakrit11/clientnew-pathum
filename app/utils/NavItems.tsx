@@ -23,7 +23,7 @@ export const navItemsData = [
       {
         name: "ความสำคัญและวัตถุประสงค์ของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา",
         url: "/about/importance-and-objective",
-      }
+      },
     ],
   },
   {
@@ -138,7 +138,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                     <span
                       className={`${
                         pathname === item.url
-                          ? "text-[#5352db] font-bold"
+                          ? "text-primary font-bold"
                           : "dark:text-white text-black"
                       } text-[18px] px-6 font-Poppins font-[400] cursor-pointer flex items-center justify-left gap-1 py-5 w-[95%]`}
                       onMouseOver={() => setActive(item.name)}
@@ -182,7 +182,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                   <span
                     className={`${
                       pathname === item.url
-                        ? "text-[#534ede] font-bold"
+                        ? "text-primary font-bold"
                         : "dark:text-white text-black"
                     } block py-5 text-[18px] px-6 font-Poppins font-[400] ${
                       item.name === hightlightMenu
