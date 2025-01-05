@@ -65,7 +65,6 @@ export default function ModalCreateProgram({ refetch, refetch_data }: any) {
         <Modal
           show={openModal}
           onClose={() => setOpenModal(false)}
-          className="z-[9999999999999999]"
         >
           <Modal.Header>สร้างแขนงวิชา</Modal.Header>
           <Modal.Body>

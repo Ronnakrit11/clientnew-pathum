@@ -11,11 +11,12 @@ import { Select } from "flowbite-react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+import { z } from "zod";
 
 export default function ModalEditUserMajor({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
-  // console.log(dataProgram?.programs)
+
   const [payload, setPayload] = useState({
     id: data?._id,
     name: data?.name,
@@ -47,7 +48,7 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
+    // console.log(payload);
   };
 
   const handleSubmit = async () => {
@@ -117,15 +118,6 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
               </Select>
             </div>
             <div>
-              {/* <div className="mb-2 block">
-                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major)" />
-              </div>
-              <TextInput
-                id="major"
-                type="text"
-                onChange={(e) => handleChange(e)}
-                required
-              /> */}
               <div className="mb-2 block">
                 <Label htmlFor="major" value="ชื่อสาขาวิชา (Major" />
               </div>

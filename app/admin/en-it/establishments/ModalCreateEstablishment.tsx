@@ -2,14 +2,11 @@
 
 import { Button, Modal, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiMiniUserPlus } from "react-icons/hi2";
-import { Label, TextInput } from "flowbite-react";
-import { Radio } from "flowbite-react";
-import { useAddUserMutation } from "@/redux/features/user/userApi";
-import toast, { Toaster } from "react-hot-toast";
-import { Select } from "flowbite-react";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
+import { Label, TextInput } from "flowbite-react";
+import toast, { Toaster } from "react-hot-toast";
 import { useCreateEstablishmentMutation } from "@/redux/features/establishment/establishmentApi";
+import { z } from "zod";
 
 export default function ModalCreateEstablishment({ refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -31,22 +28,59 @@ export default function ModalCreateEstablishment({ refetch }: any) {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Add User successfully");
+      toast.success("สร้างสถานประกอบการเรียบร้อยแล้ว");
       refetch();
       setOpenModal(false);
+      setPayload({
+        name: "",
+        category: "",
+        agency: "",
+        address: "",
+        phone_number: "",
+        name_of_establishment: "",
+        phone_empoyee_of_establishment: "",
+        idLine_of_establishment: "",
+        details: "",
+        major: "สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร",
+      });
     }
     if (error) {
-      toast.error("Add User Error");
+      toast.error("สร้างสถานประกอบการผิดพลาด");
     }
   }, [error, isSuccess]);
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
   };
 
-  const handleSubmit = async () => {
-    await createEstablishment(payload);
+  // Zod validation schema
+  const establishmentSchema = z.object({
+    name: z.string().min(1, "ชื่อสถานประกอบการ is required"),
+    category: z.string().min(1, "ประเภทสถานประกอบการ is required"),
+    address: z.string().min(1, "ที่ตั้ง is required"),
+    agency: z.string().min(1, "หน่วยงานที่นักศึกษาออกสหกิจ is required"),
+    phone_number: z.string().min(1, "เบอร์สถานประกอบการ is required").regex(/^\d+$/, "เบอร์สถานประกอบการ must be a valid number"),
+    name_of_establishment: z.string().min(1, "ชื่อพนักงานติดต่อ is required"),
+    phone_empoyee_of_establishment: z.string().min(1, "หมายเลขพนักงานติดต่อ is required").regex(/^\d+$/, "หมายเลขพนักงานติดต่อ must be a valid number"),
+    idLine_of_establishment: z.string().min(1, "Line ID พนักงานติดต่อ is required"),
+    details: z.string().min(1, "รายละเอียดเกี่ยวกับตำแหน่งงานนักศึกษาที่ออกสหกิจ is required"),
+  });
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      // Validate form data with Zod
+      establishmentSchema.parse(payload);
+
+      // If validation is successful, submit the data
+      await createEstablishment(payload);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Handle validation errors
+        error.errors.forEach((err) => toast.error(err.message));
+      }
+    }
   };
 
   return (
@@ -59,7 +93,6 @@ export default function ModalCreateEstablishment({ refetch }: any) {
         <Modal
           show={openModal}
           onClose={() => setOpenModal(false)}
-          className="z-[9999999999999999]"
         >
           <Modal.Header>เพิ่มข้อมูลนักศึกษา</Modal.Header>
           <Modal.Body>

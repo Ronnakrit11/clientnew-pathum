@@ -86,7 +86,9 @@ export default function ModalCreateAdminMajor({
       setOpenModal(false);
     }
     if (error) {
-      toast.error("สร้างบัญชีแอดมินผิดพลาด");
+      toast.error(
+        "สร้างบัญชีแอดมินผิดพลาด กรุณาตรวจสอบสิทธิ์ในการสร้างบัญชีแอดมิน"
+      );
     }
   }, [error, isSuccess]);
 
@@ -95,30 +97,15 @@ export default function ModalCreateAdminMajor({
     // console.log(payload);
   };
 
-  // const handleSubmit = async () => {
-  //   await createAdminMajor(payload);
-  // };
-
   const handleSubmit = async () => {
-    const isValid = validateFields(payload);
-    console.log(isValid);
-    if (isValid) {
+    try {
+      payloadSchema.parse(payload);
       await createAdminMajor(payload);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        error.errors.forEach((err) => toast.error(err.message));
+      }
     }
-  };
-
-  const validateFields = (data: Payload) => {
-    const result = payloadSchema.safeParse(data);
-    if (!result.success) {
-      const fieldErrors = result.error.errors.reduce((acc: any, error: any) => {
-        acc[error.path[0]] = error.message;
-        return acc;
-      }, {});
-      setErrors(fieldErrors);
-      return false;
-    }
-    setErrors({});
-    return true;
   };
 
   return (
@@ -128,11 +115,7 @@ export default function ModalCreateAdminMajor({
         สร้างบัญชีแอดมิน
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal
-          show={openModal}
-          onClose={() => setOpenModal(false)}
-          className="z-[9999999999999999]"
-        >
+        <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>
             สร้างบัญชีแอดมิน
             <div className="text-[14px] ">
@@ -260,7 +243,7 @@ export default function ModalCreateAdminMajor({
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button type="submit" onClick={() => handleSubmit}>
+            <Button type="submit" onClick={handleSubmit}>
               เพิ่ม
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
@@ -269,7 +252,7 @@ export default function ModalCreateAdminMajor({
           </Modal.Footer>
         </Modal>
       </form>
-      <div className="z-[9999999999999999]">
+      <div>
         <Toaster />
       </div>
     </>

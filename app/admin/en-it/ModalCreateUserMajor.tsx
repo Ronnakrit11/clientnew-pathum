@@ -10,12 +10,28 @@ import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+import { z } from "zod";
 
 export default function ModalCreateUserMajor({ refetch, major }: any) {
   const [openModal, setOpenModal] = useState(false);
 
   const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
+
+  const schema = z.object({
+    name: z.string().min(1, "ชื่อสกุลจำเป็นต้องกรอก"),
+    email: z.string().email("อีเมลไม่ถูกต้อง"),
+    password: z.string().min(6, "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"),
+    program: z.string().min(1, "กรุณาเลือกหลักสูตร"),
+    academicYear: z.string().min(4, "ปีการศึกษาต้องมีอย่างน้อย 4 หลัก"),
+    phoneNumber: z.string().regex(/^\d{10}$/, "หมายเลขโทรศัพท์ต้องมี 10 หลัก"),
+    lineId: z.string().min(1, "กรุณากรอก Line ID"),
+    address: z.string().min(1, "กรุณากรอกที่อยู่"),
+    status: z.enum(["กำลังศึกษา", "สำเร็จการศึกษา", "พ้นสภาพ"]),
+    studentId: z.string().min(1, "กรุณากรอกเลขประจำตัวนักศึกษา"),
+    major: z.string().min(1, "กรุณาเลือกสาขาวิชา"),
+    reason: z.string().optional(),
+  });
 
   const [payload, setPayload] = useState({
     name: "",
@@ -31,7 +47,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
     studentId: "",
     major: major,
   });
-  
+
   const [
     addUser,
     {
@@ -41,31 +57,51 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
     },
   ] = useAddUserMutation();
 
-
   useEffect(() => {
     if (AddUserSuccess) {
       toast.success("Add User successfully");
       refetch();
       setOpenModal(false);
+      setPayload({
+        name: "",
+        email: "",
+        password: "",
+        program: "",
+        academicYear: "",
+        reason: "",
+        phoneNumber: "",
+        lineId: "",
+        address: "",
+        status: "",
+        studentId: "",
+        major: "",
+      });
     }
     if (AddUserError) {
-      toast.error("Add User Error");
+      toast.error("สร้างสถานประกอบการผิดพลาด");
     }
   }, [AddUserError, AddUserSuccess]);
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
   };
 
   const handleSubmit = async () => {
-    await addUser(payload);
+    try {
+      schema.parse(payload);
+      await addUser(payload);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        error.errors.forEach((err) => toast.error(err.message));
+      }
+    }
   };
-
-  // console.log(dataProgram);
 
   return (
     <>
+      <div>
+        <Toaster />
+      </div>
       <Button
         onClick={() => setOpenModal(true)}
         className="bg-primary hover:bg-secondary"
@@ -74,11 +110,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
         เพิ่มข้อมูลนักศึกษา
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal
-          show={openModal}
-          onClose={() => setOpenModal(false)}
-          className="z-[9999999999999999]"
-        >
+        <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>เพิ่มข้อมูลนักศึกษา</Modal.Header>
           <Modal.Body>
             <div>
@@ -252,7 +284,6 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
           </Modal.Footer>
         </Modal>
       </form>
-      <Toaster />
     </>
   );
 }

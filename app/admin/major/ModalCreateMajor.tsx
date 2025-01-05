@@ -38,13 +38,13 @@ export default function ModalCreateMajor({
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("สร้างบัญชีแอดมินเรียบร้อยแล้ว");
+      toast.success("สร้างสาขาวิชาเรียบร้อยแล้ว");
       refetch();
       refetch_data();
       setOpenModal(false);
     }
     if (error) {
-      toast.error("สร้างบัญชีแอดมินผิดพลาด");
+      toast.error("สร้างสาขาวิชาผิดพลาด");
     }
   }, [error, isSuccess]);
 
@@ -67,7 +67,6 @@ export default function ModalCreateMajor({
         <Modal
           show={openModal}
           onClose={() => setOpenModal(false)}
-          className="z-[9999999999999999]"
         >
           <Modal.Header>สร้างขาสาวิชา</Modal.Header>
           <Modal.Body>
