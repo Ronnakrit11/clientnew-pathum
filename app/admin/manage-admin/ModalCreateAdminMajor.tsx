@@ -14,6 +14,30 @@ import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useCreateAdminMajorMutation } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { Badge } from "flowbite-react";
+import { z } from "zod";
+
+const payloadSchema = z
+  .object({
+    name: z.string().min(3),
+    email: z.string().email(),
+    password: z.string().min(8),
+    password_confirm: z.string().min(8),
+    role: z.string().min(3),
+    // id_admin: z.string().min(3),
+  })
+  .refine((data) => data.password === data.password_confirm, {
+    message: "Passwords don't match",
+    path: ["password_confirm"],
+  });
+
+interface Payload {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+  role: string;
+  id_admin: string;
+}
 
 export default function ModalCreateAdminMajor({
   refetch,
@@ -25,16 +49,18 @@ export default function ModalCreateAdminMajor({
     isLoading: isLoadingUserData,
     refetch: refetchUserData,
   } = useLoadUserQuery(undefined, { refetchOnMountOrArgChange: true });
-
-  // console.log(userData?.user?.appoint.engineerIT);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  // console.log(errors);
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
     name: "",
     email: "",
     password: "",
+    password_confirm: "",
     role: "",
     id_admin: userData?.user?._id,
   });
+
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -47,8 +73,6 @@ export default function ModalCreateAdminMajor({
       }));
     }
   }, [majorData]);
-
-  // console.log(payload);
 
   const [createAdminMajor, { isLoading, error, isSuccess }] =
     useCreateAdminMajorMutation();
@@ -68,11 +92,33 @@ export default function ModalCreateAdminMajor({
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
+    // console.log(payload);
   };
 
+  // const handleSubmit = async () => {
+  //   await createAdminMajor(payload);
+  // };
+
   const handleSubmit = async () => {
-    await createAdminMajor(payload);
+    const isValid = validateFields(payload);
+    console.log(isValid);
+    if (isValid) {
+      await createAdminMajor(payload);
+    }
+  };
+
+  const validateFields = (data: Payload) => {
+    const result = payloadSchema.safeParse(data);
+    if (!result.success) {
+      const fieldErrors = result.error.errors.reduce((acc: any, error: any) => {
+        acc[error.path[0]] = error.message;
+        return acc;
+      }, {});
+      setErrors(fieldErrors);
+      return false;
+    }
+    setErrors({});
+    return true;
   };
 
   return (
@@ -150,6 +196,8 @@ export default function ModalCreateAdminMajor({
               </div>
               <TextInput
                 id="name"
+                color={errors.name ? "failure" : "default"}
+                helperText={errors.name}
                 type="text"
                 required
                 onChange={(e) => handleChange(e)}
@@ -162,6 +210,8 @@ export default function ModalCreateAdminMajor({
               <TextInput
                 id="email"
                 type="email"
+                color={errors.email ? "failure" : "default"}
+                helperText={errors.email}
                 onChange={(e) => handleChange(e)}
                 required
               />
@@ -210,7 +260,7 @@ export default function ModalCreateAdminMajor({
             </div>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button type="submit" onClick={handleSubmit}>
+            <Button type="submit" onClick={() => handleSubmit}>
               เพิ่ม
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
@@ -219,7 +269,9 @@ export default function ModalCreateAdminMajor({
           </Modal.Footer>
         </Modal>
       </form>
-      <Toaster />
+      <div className="z-[9999999999999999]">
+        <Toaster />
+      </div>
     </>
   );
 }

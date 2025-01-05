@@ -45,7 +45,7 @@ const AllMajors = () => {
     skip: !userData,
   });
 
-  console.log(data);
+  // console.log(data?.data);
 
   useEffect(() => {
     if (UpdateRoleSuccess) {
@@ -85,10 +85,6 @@ const AllMajors = () => {
           />
         </div>
         <div className="flex flex-col justify-end">
-          <p className="flex gap-2 justify-center items-center">
-            สิทธิในการแต่งตั้งแอดมินสาขา จำนวน{" "}
-            <Badge size={"lg"}>{userById?.user.appoint}</Badge> ครั้ง
-          </p>
           <ModalCreateMajor
             refetch={refetchUserById}
             refetch_data={refetch}
@@ -114,19 +110,18 @@ const AllMajors = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {data &&
-              data?.data?.map((item: any) => (
-                <Table.Row key={item._id}>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {item.name}
-                  </Table.Cell>
-                  {/* <Table.Cell>{item.email}</Table.Cell> */}
-                  <Table.Cell className="flex gap-2">
-                    <ModalEditMajor data={item} refetch={refetch} />
-                    <ModalDeleteMajor data={item} refetch={refetch} />
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+            {data?.data?.map((item: any,index: number) => (
+              <Table.Row key={index}>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {item.name}
+                </Table.Cell>
+                {/* <Table.Cell>{item.email}</Table.Cell> */}
+                <Table.Cell className="flex gap-2">
+                  <ModalEditMajor data={item} refetch={refetch} />
+                  <ModalDeleteMajor data={item} refetch={refetch} />
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
         <div className="flex overflow-x-auto my-8 sm:justify-center">

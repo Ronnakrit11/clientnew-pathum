@@ -21,8 +21,8 @@ const NewAllUsers = () => {
     name: "",
     major:
       "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ&major=สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม&major=สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร&major=สาขาวิชาสหวิทยาการ",
-    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-    dateEnd: new Date(),
+    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
+    dateEnd: new Date().toISOString(),
     status: "",
     studentId: "i",
     createdAt: -1,
@@ -31,14 +31,6 @@ const NewAllUsers = () => {
   const { data, refetch } = useListUserByMajorQuery(payload, {
     refetchOnMountOrArgChange: true,
   });
-
-  // const [searchName, setSearchName] = useState("");
-  // const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
-  //   name: searchName,
-  //   page: currentPage,
-  //   limit: limit,
-  //   role: "user",
-  // });
 
   const onPageChange = (page: number) => setPayload({ ...payload, page: page });
 

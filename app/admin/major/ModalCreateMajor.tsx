@@ -31,7 +31,7 @@ export default function ModalCreateMajor({
     id_admin: userData?.user?._id,
   });
 
-  console.log(payload);
+  // console.log(payload);
 
   const [createMajor, { isLoading, error, isSuccess }] =
     useCreateMajorMutation();
@@ -50,7 +50,7 @@ export default function ModalCreateMajor({
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
+    // console.log(payload);
   };
 
   const handleSubmit = async () => {

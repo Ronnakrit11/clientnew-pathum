@@ -112,7 +112,7 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
                 }
               >
                 {dataProgram?.programs.map((item, index) => (
-                  <option value={item.name}>{item.name}</option>
+                  <option value={item.name} key={index}>{item.name}</option>
                 ))}
               </Select>
             </div>

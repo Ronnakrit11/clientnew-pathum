@@ -46,7 +46,7 @@ const AllPrograms = () => {
     skip: !userData,
   });
 
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (UpdateRoleSuccess) {
@@ -86,10 +86,6 @@ const AllPrograms = () => {
           />
         </div>
         <div className="flex flex-col justify-end">
-          <p className="flex gap-2 justify-center items-center">
-            สิทธิในการแต่งตั้งแอดมินสาขา จำนวน{" "}
-            <Badge size={"lg"}>{userById?.user.appoint}</Badge> ครั้ง
-          </p>
           <ModalCreateProgram
             refetch={refetchUserById}
             refetch_data={refetch}

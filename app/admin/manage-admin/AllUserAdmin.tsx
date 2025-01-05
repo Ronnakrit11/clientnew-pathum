@@ -33,9 +33,9 @@ const AllUserAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const { data: majorData } = useGetAllMajorQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  // const { data: majorData } = useGetAllMajorQuery(undefined, {
+  //   refetchOnMountOrArgChange: true,
+  // });
   const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
     name: searchName,
     limit: limit,
@@ -53,7 +53,7 @@ const AllUserAdmin = () => {
     skip: !userData,
   });
 
-  console.log(userById?.user.appoint);
+  // console.log(userById?.user.appoint);
 
   useEffect(() => {
     if (UpdateRoleSuccess) {
