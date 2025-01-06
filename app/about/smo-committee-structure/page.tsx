@@ -33,7 +33,23 @@ const Page = (props: Props) => {
             โครงสร้างคณะกรรมการสโมสรนักศึกษา
           </h1>
 
-          <PDFViewer link="/about/smo-committee-structure.pdf" />
+          {/* <PDFViewer link="/about/smo-committee-structure.pdf" /> */}
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src={"/about/smo-committee-structure/Page1.png"}
+              alt="กรรมการสโมสรนักศึกษา"
+              width={500}
+              height={500}
+              className="object-cover"
+            />
+            <Image
+              src={"/about/smo-committee-structure/Page2.png"}
+              alt="กรรมการสโมสรนักศึกษา"
+              width={500}
+              height={500}
+              className="object-cover"
+            />
+          </div>
           {/* <div className="mt-4">
             <a
               href="/about/smo-committee-structure.pdf"
