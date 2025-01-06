@@ -92,6 +92,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                             onClick={() => router.push(subItem.url)}
                             key={`sub-${subIndex}`}
                             style={{ color: "#ad232c" }}
+                            
                           >
                             {subItem.name}
                           </ListGroup.Item>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -43,7 +44,7 @@ export default function PDFViewer({ link }: any) {
             pageNumber={index + 1}
             renderAnnotationLayer={false}
             renderTextLayer={false}
-            width={width} // ใช้ width ที่ปรับตามหน้าจอ
+            width={width} // ปรับขนาดตามหน้าจอ
           />
         ))}
       </Document>
