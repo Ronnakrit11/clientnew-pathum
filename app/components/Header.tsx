@@ -203,7 +203,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     className="mr-1"
                   />
                   <div className="flex flex-col">
-                    <p className="text-[18px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
+                    <p className="text-[18px]">สโมสรนักศึกษาคณะวิทยาศาสตร์และเทคโนโลยี</p>
                     <p className="text-[16px]">สถาบันเทคโนโลยีปทุมวัน</p>
                   </div>
 
