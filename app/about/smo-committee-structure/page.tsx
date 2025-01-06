@@ -29,12 +29,12 @@ const Page = (props: Props) => {
       />
       <main className="flex-grow container mx-auto px-4 py-8 text-black">
         <div className="bg-white shadow-lg rounded-lg p-6">
-          <h1 className="text-2xl font-bold mb-10 text-center">
+          <h1 className="text-2xl font-bold my-10 text-center">
             โครงสร้างคณะกรรมการสโมสรนักศึกษา
           </h1>
 
           {/* <PDFViewer link="/about/smo-committee-structure.pdf" /> */}
-          <div className="flex flex-col items-center justify-center">
+          {/* <div className="flex flex-col items-center justify-center">
             <Image
               src={"/about/smo-committee-structure/Page1.png"}
               alt="กรรมการสโมสรนักศึกษา"
@@ -49,7 +49,7 @@ const Page = (props: Props) => {
               height={500}
               className="object-cover"
             />
-          </div>
+          </div> */}
           {/* <div className="mt-4">
             <a
               href="/about/smo-committee-structure.pdf"
@@ -59,7 +59,7 @@ const Page = (props: Props) => {
               ดาวน์โหลดไฟล์ PDF
             </a>
           </div> */}
-          <div className="container xl:w-[1000px] mx-auto py-20">
+          <div className="container xl:w-[1000px] mx-auto pb-20">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-8">
               <div className="text-center space-y-4">
                 <Image
