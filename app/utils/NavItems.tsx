@@ -24,6 +24,10 @@ export const navItemsData = [
         name: "โครงสร้างคณะกรรมการสโมสรนักศึกษา",
         url: "/about/smo-committee-structure",
       },
+      {
+        name: "ระบบฐานข้อมูลนักศึกษา",
+        url: "/about/database-system",
+      },
     ],
   },
   {

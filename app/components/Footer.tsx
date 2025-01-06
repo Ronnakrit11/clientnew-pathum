@@ -11,19 +11,10 @@ const Footer = (props: Props) => {
       <div className="border border-[#ffffff0e] dark:border-[#ffffff1e]" />
       <br />
       <div className="w-[95%] 800px:w-full 800px:max-w-[85%] mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-3">
-          <div className="flex items-center">
-            <div>
-              <Image src={"/logo.png"} height={70} width={70} alt="" />
-            </div>
-            <div className="flex flex-col">
-              <p className="text-[18px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
-              <p className="text-[16px]">สถาบันเทคโนโลีปทุมวัน</p>
-            </div>
-          </div>
+        <div className="flex justify-between">
           <div className="flex flex-col space-y-4">
             <div>
-              <h2 className="text-[26px] font-[800] text-primary">
+              <h2 className="text-[24px] font-[800] text-primary">
                 คณะวิทยาศาสตร์และเทคโนโลยี สถาบันเทคโนโลยีปทุมวัน
               </h2>
               <p>

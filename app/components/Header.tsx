@@ -204,7 +204,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   />
                   <div className="flex flex-col">
                     <p className="text-[18px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
-                    <p className="text-[16px]">สถาบันเทคโนโลีปทุมวัน</p>
+                    <p className="text-[16px]">สถาบันเทคโนโลยีปทุมวัน</p>
                   </div>
 
                   <span className="ml-[15px] text-[#2e2e2e]"></span>
