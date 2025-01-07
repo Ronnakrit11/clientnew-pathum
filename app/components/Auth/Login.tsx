@@ -77,7 +77,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
 
   return (
     <div className="w-full">
-      <h1 className={`${styles.title}`}>Login with ELearning</h1>
+      <h1 className={`${styles.title}`}>Login to Student information System</h1>
       <form onSubmit={handleSubmit}>
         <label className={`${styles.label}`} htmlFor="email">
           Enter your Email
@@ -129,10 +129,14 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           )}
         </div>
         <div className="w-full mt-5">
-          <input type="submit" value="Login" className={`${styles.button}`} />
+          <input
+            type="submit"
+            value="Login"
+            className={`${styles.button} bg-primary text-white`}
+          />
         </div>
         <br />
-        <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
+        {/* <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
           Or join with
         </h5>
         <div className="flex items-center justify-center my-3">
@@ -146,16 +150,16 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
             className="cursor-pointer ml-2"
             onClick={() => signIn("github")}
           />
-        </div>
-        <h5 className="text-center pt-4 font-Poppins text-[14px]">
+        </div> */}
+        {/* <h5 className="text-center pt-4 font-Poppins text-[14px]">
           Not have any account?{" "}
           <span
-            className="text-[#2190ff] pl-1 cursor-pointer"
+            className="text-primary pl-1 cursor-pointer"
             onClick={() => setRoute("Sign-Up")}
           >
             Sign up
           </span>
-        </h5>
+        </h5> */}
       </form>
       <br />
     </div>
