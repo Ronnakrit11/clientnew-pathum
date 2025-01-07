@@ -27,16 +27,6 @@ const TechEnvAllUser = () => {
     createdAt: -1,
   });
 
-  // console.log(payload);
-
-  // const {
-  //   data: dataAllUserEngineerAndIT,
-  //   refetch: refetchAllUserEngineerAndIT,
-  // } = useAllUserEngineerAndITQuery(
-  //   { name: searchName, page: currentPage, limit },
-  //   { refetchOnMountOrArgChange: true }
-  // );
-
   const { data, refetch } = useListUserByMajorQuery(payload, {
     refetchOnMountOrArgChange: true,
   });

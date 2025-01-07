@@ -27,7 +27,7 @@ const AllEstabishment = () => {
 
   return (
     <div className="container mx-auto mt-24">
-      <div className="flex justify-between mb-4">
+      <div className="flex flex-col-reverse gap-2 md:flex-row justify-between mb-4 ">
         <div>
           <div className="mb-2 block">
             <Label htmlFor="name" value="ค้นหาชื่อสถานประกอบการณ์" />
@@ -35,7 +35,7 @@ const AllEstabishment = () => {
           <TextInput
             id="name"
             type="text"
-            className="w-[400px]"
+            className="w-full md:w-[400px]"
             placeholder="กรุณากรอกชื่อที่จะค้นหา"
             onChange={(e) => setSearchName(e.target.value)}
             required
@@ -48,10 +48,9 @@ const AllEstabishment = () => {
       <div className="overflow-x-auto">
         <Table hoverable>
           <Table.Head>
+            <Table.HeadCell>ลำดับ</Table.HeadCell>
             <Table.HeadCell>ชื่อสถานประกอบการ</Table.HeadCell>
-            <Table.HeadCell>ประเภทสถานประกอบการ</Table.HeadCell>
-            <Table.HeadCell>ที่ตั้ง</Table.HeadCell>
-            <Table.HeadCell>ติดต่อ</Table.HeadCell>
+            <Table.HeadCell>จังหวัด</Table.HeadCell>
             <Table.HeadCell>
               <div className="flex justify-between items-center gap-2">
                 ดำเนินการ
@@ -70,18 +69,18 @@ const AllEstabishment = () => {
           </Table.Head>
           <Table.Body className="divide-y">
             {dataAllEstablishments?.establishments.map(
-              (establishments) =>
+              (establishments, index) =>
                 establishments?.role !== "admin" && (
                   <Table.Row key={establishments._id}>
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {establishments.name}
+                      {index + 1}
                     </Table.Cell>
-                    <Table.Cell>{establishments.category}</Table.Cell>
+                    <Table.Cell>{establishments.name}</Table.Cell>
                     <Table.Cell>{establishments.address}</Table.Cell>
-                    <Table.Cell>
+                    {/* <Table.Cell>
                       {establishments.name_of_establishment}
-                    </Table.Cell>
-                    <Table.Cell className="flex gap-2">
+                    </Table.Cell> */}
+                    <Table.Cell className="flex gap-1">
                       <ModalInforEstablishment data={establishments} />
                       <ModalEditEstablishment
                         data={establishments}
@@ -97,7 +96,7 @@ const AllEstabishment = () => {
             )}
           </Table.Body>
         </Table>
-        <div className="flex overflow-x-auto sm:justify-center">
+        <div className="flex overflow-x-auto sm:justify-center mt-4">
           <Pagination
             currentPage={currentPage}
             totalPages={100}

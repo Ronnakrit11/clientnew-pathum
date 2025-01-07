@@ -77,7 +77,7 @@ const Sidebar = () => {
           top: 0,
           left: 0,
           height: "100vh",
-          zIndex: 99999999999999,
+          zIndex: 9,
           width: isCollapsed ? "0%" : "16%",
         }}
       >
@@ -95,13 +95,7 @@ const Sidebar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                // ml="15px"
               >
-                {/* <Link href="/admin" className="block">
-                  <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
-                    ELearning
-                  </h3>
-                </Link> */}
                 <Image src={"/logo.png"} alt="logo" width={50} height={50} />
                 <div className="hover:text-primary">
                   <p className="text-[12px]">คณะวิทยาศาสตร์และเทคโนโลยี</p>
@@ -118,7 +112,15 @@ const Sidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px" display={"flex"} justifyContent={"center"} alignItems={"center"} gap={1} bgcolor={"#F7F5F5"} paddingY={4}>
+            <Box
+              mb="25px"
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={1}
+              bgcolor={"#F7F5F5"}
+              paddingY={4}
+            >
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
                   alt="profile-user"
@@ -182,7 +184,8 @@ const Sidebar = () => {
               logoutHandler={logoutHandler}
             />
           )}
-          {user.role === "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" && (
+          {user.role ===
+            "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" && (
             <AdminTechIdsManageSidebarItem
               selected={selected}
               setSelected={setSelected}

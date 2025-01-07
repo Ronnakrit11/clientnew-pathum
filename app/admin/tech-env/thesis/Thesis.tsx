@@ -34,46 +34,39 @@ const Thesis = () => {
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
-  // ฟังก์ชันแปลงข้อมูลเป็น CSV
-  const convertToCSV = (data) => {
+  const convertToCSV = (data: any[]) => {
     const headers = [
       "ลำดับ",
       "ชื่อนักศึกษา",
+      "รหัสนักศึกษา",
       "สาขาวิชา",
       "แขนงวิชา",
       "ชื่อปริญญานิพนธ์",
       "ปีการศึกษา",
-      "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 1",
-      "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2",
-      "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3",
+      "อาจารย์ที่ปรึกษา 1",
+      "อาจารย์ที่ปรึกษา 2",
+      "อาจารย์ที่ปรึกษา 3",
     ];
     const rows = data.map((user, index) => [
       index + 1,
       user.name,
+      user.studentId,
       user.major,
       user.program,
-      user.thesis.url,
+      user?.thesis?.title || "N/A",
       user.academicYear,
-      user?.thesis?.advisor1,
-      user?.thesis?.advisor2,
-      user?.thesis?.advisor3,
+      user?.thesis?.advisor1 || "N/A",
+      user?.thesis?.advisor2 || "N/A",
+      user?.thesis?.advisor3 || "N/A",
     ]);
-    const csvContent = [headers, ...rows]
-      .map((row) => row.join(","))
-      .join("\n");
-    return csvContent;
+    return [headers, ...rows].map((row) => row.join(",")).join("\n");
   };
 
   const downloadCSV = () => {
     if (dataAllUserSuccess?.users?.length > 0) {
       const csvContent = convertToCSV(dataAllUserSuccess.users);
-
-      // เพิ่ม BOM เพื่อรองรับภาษาไทย
-      const bom = "\uFEFF";
-      const blob = new Blob([bom + csvContent], {
-        type: "text/csv;charset=utf-8;",
-      });
-
+      const bom = "\uFEFF"; // รองรับภาษาไทย
+      const blob = new Blob([bom + csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;

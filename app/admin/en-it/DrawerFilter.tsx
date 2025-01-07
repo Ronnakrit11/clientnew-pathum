@@ -79,25 +79,6 @@ const DrawerFilter = ({ setPayload, payload }: any) => {
               />
             </div>
           </div>
-          {/* <form>
-            <fieldset
-              className="flex max-w-md flex-col gap-4"
-              onChange={(e: any) =>
-                setPayload({ ...payload, createdAt: e.target.value })
-              }
-              defaultValue={payload.createdAt}
-            >
-              <legend className="mb-4">เวลาในการสร้าง</legend>
-              <div className="flex items-center gap-2">
-                <Radio id="i_time" name="createdAt" value="-1" defaultChecked />
-                <Label htmlFor="i_time">เรียงจากล่าสุดไปเก่าสุด</Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Radio id="-i_time" name="createdAt" value="1" />
-                <Label htmlFor="-i_time">เรียงจากเก่าสุดไปล่าสุด</Label>
-              </div>
-            </fieldset>
-          </form> */}
           <form>
             <fieldset
               className="flex max-w-md flex-col gap-4"

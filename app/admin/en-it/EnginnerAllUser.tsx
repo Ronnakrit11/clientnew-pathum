@@ -17,22 +17,14 @@ const EngineerAllUser = () => {
     limit: 10,
     name: "",
     major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ",
-    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
+    dateStart: new Date(
+      new Date().setMonth(new Date().getMonth() - 1)
+    ).toISOString(),
     dateEnd: new Date().toISOString(),
     status: "",
     studentId: "i",
     createdAt: -1,
   });
-
-  // console.log(payload);
-
-  // const {
-  //   data: dataAllUserEngineerAndIT,
-  //   refetch: refetchAllUserEngineerAndIT,
-  // } = useAllUserEngineerAndITQuery(
-  //   { name: searchName, page: currentPage, limit },
-  //   { refetchOnMountOrArgChange: true }
-  // );
 
   const { data, refetch } = useListUserByMajorQuery(payload, {
     refetchOnMountOrArgChange: true,
@@ -47,9 +39,9 @@ const EngineerAllUser = () => {
   const onPageChange = (page: number) => setPayload({ ...payload, page });
 
   return (
-    <div className="container mx-auto mt-24">
-      <div className="flex justify-between mb-4">
-        <div className="flex gap-2">
+    <div className="w-[300px] md:container mx-auto mt-24">
+      <div className="flex flex-col md:flex-row justify-between mb-4">
+        <div className="flex flex-col md:flex-row gap-2">
           <div>
             <div className="mb-2 block">
               <Label
@@ -60,7 +52,7 @@ const EngineerAllUser = () => {
             <TextInput
               id="name"
               type="text"
-              className="w-[400px]"
+              className="w-full md:w-[400px]"
               placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
               onChange={(e) => setPayload({ ...payload, name: e.target.value })}
               required
@@ -70,7 +62,7 @@ const EngineerAllUser = () => {
             <DrawerFilter setPayload={setPayload} payload={payload} />
           </div>
         </div>
-        <div>
+        <div className="flex justify-end items-end">
           <ModalCreateUserMajor
             refetch={refetch}
             major={"สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
@@ -125,13 +117,13 @@ const EngineerAllUser = () => {
             )}
           </Table.Body>
         </Table>
-        <div className="flex overflow-x-auto sm:justify-center">
-          <Pagination
-            currentPage={payload.page}
-            totalPages={100}
-            onPageChange={onPageChange}
-          />
-        </div>
+      </div>
+      <div className="flex overflow-x-auto sm:justify-center">
+        <Pagination
+          currentPage={payload.page}
+          totalPages={100}
+          onPageChange={onPageChange}
+        />
       </div>
     </div>
   );

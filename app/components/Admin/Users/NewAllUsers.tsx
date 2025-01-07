@@ -36,7 +36,7 @@ const NewAllUsers = () => {
 
   return (
     <div className="container mx-auto mt-24">
-       <div className="flex gap-2">
+       <div className="flex gap-2 mb-4">
           <div>
             <div className="mb-2 block">
               <Label
