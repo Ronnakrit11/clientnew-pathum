@@ -267,12 +267,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     </Dropdown>
                   </>
                 ) : (
-                  <HiOutlineUserCircle
-                    size={25}
-                    className="cursor-pointer dark:text-white text-black"
-                    onClick={() => setOpen(true)}
-                    style={{ marginLeft: "15px" }}
-                  />
+                  // <HiOutlineUserCircle
+                  //   size={25}
+                  //   className="cursor-pointer dark:text-white text-black"
+                  //   onClick={() => setOpen(true)}
+                  //   style={{ marginLeft: "15px" }}
+                  // />
+                  <></>
                 )}
               </div>
             </div>
@@ -305,11 +306,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     />
                   </Link>
                 ) : (
-                  <HiOutlineUserCircle
-                    size={25}
-                    className="hidden 800px:block cursor-pointer dark:text-white text-black"
-                    onClick={() => setOpen(true)}
-                  />
+                  // <HiOutlineUserCircle
+                  //   size={25}
+                  //   className="hidden 800px:block cursor-pointer dark:text-white text-black"
+                  //   onClick={() => setOpen(true)}
+                  // />
+                  <>
+                  </>
                 )}
                 <br />
                 <br />

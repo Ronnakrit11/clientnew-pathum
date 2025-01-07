@@ -60,7 +60,7 @@ const Page = (props: Props) => {
             </a>
           </div> */}
           <div className="container xl:w-[1000px] mx-auto pb-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3  gap-8">
               <div className="text-center space-y-4">
                 <Image
                   src="/smo/ก2.1-นายกสโมสรนักศึกษา.png"

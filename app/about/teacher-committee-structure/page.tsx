@@ -97,8 +97,8 @@ const Page = (props: Props) => {
               </li>
             </ul>
           </div>
-          <div className="container xl:w-[1000px] mx-auto py-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-8">
+          <div className="w-[1000px] xl:w-[800px] mx-auto py-20">
+            <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3  gap-8">
               <div className="text-center space-y-4">
                 <Image
                   src="/teacher/1.อ.อิทธิศักดิ์ ศรีดำ-ประธานกรรมการที่ปรึกษา.png"
