@@ -8,21 +8,31 @@ import { useGetAllUserEstablishmentsQuery } from "@/redux/features/establishment
 import { Table } from "flowbite-react";
 import ModalDetails from "./components/ModalDetails";
 
-type Props = {};
+type Establishment = {
+  id: number;
+  name: string;
+  address: string;
+};
 
-const Page = (props: Props) => {
+const Page: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(1);
   const [route, setRoute] = useState("Login");
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Establishment | null>(null);
+
   const { data, isLoading } = useGetAllUserEstablishmentsQuery(
     {},
     { refetchOnMountOrArgChange: true }
   );
-  const [openModal, setOpenModal] = useState(false);
 
-  console.log(data);
+  const handleRowClick = (item: Establishment) => {
+    setSelectedItem(item);
+    setOpenModal(true);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 ">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       <Header
         open={open}
         setOpen={setOpen}
@@ -37,20 +47,22 @@ const Page = (props: Props) => {
       />
       <main className="flex-grow container mx-auto px-4 py-8 text-black">
         <h1 className="text-2xl font-bold mb-4">รายชื่อหน่วยงานความร่วมมือ</h1>
-        <div className="overflow-x-auto">
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>ลำดับ</Table.HeadCell>
-              <Table.HeadCell>ชื่อสถานประกอบการ</Table.HeadCell>
-              <Table.HeadCell>จังหวัด</Table.HeadCell>
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {data?.establishments?.map((item, index) => (
-                <>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : data?.establishments?.length ? (
+          <div className="overflow-x-auto">
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>ลำดับ</Table.HeadCell>
+                <Table.HeadCell>ชื่อสถานประกอบการ</Table.HeadCell>
+                <Table.HeadCell>จังหวัด</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {data?.establishments.map((item: Establishment, index: number) => (
                   <Table.Row
-                    key={index}
+                    key={item.id}
                     className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => handleRowClick(item)}
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {index + 1}
@@ -58,18 +70,22 @@ const Page = (props: Props) => {
                     <Table.Cell>{item.name}</Table.Cell>
                     <Table.Cell>{item.address}</Table.Cell>
                   </Table.Row>
-                  <ModalDetails
-                    openModal={openModal}
-                    setOpenModal={setOpenModal}
-                    item={item}
-                  />
-                </>
-              ))}
-            </Table.Body>
-          </Table>
-        </div>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        ) : (
+          <p>No establishments found.</p>
+        )}
       </main>
       <Footer />
+      {selectedItem && (
+        <ModalDetails
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          item={selectedItem}
+        />
+      )}
     </div>
   );
 };

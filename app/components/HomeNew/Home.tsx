@@ -23,6 +23,7 @@ import OurService from "./OurService";
 import Image from "next/image";
 import SlideHero from "./(NewTemplate)/SliderHero";
 import Event from "./Event";
+import TableEstablishments from "./(NewTemplate)/TableEstablishments";
 
 function Home({ webInfo }: any) {
   console.log("🚀 ~ file: Home.tsx:24 ~ Home ~ layout:", webInfo);
@@ -76,6 +77,7 @@ function Home({ webInfo }: any) {
       {/* <Ebooks /> */}
       <Blogs />
       <Event />
+      <TableEstablishments />
       {/* <PeopleReview /> */}
 
       {/* <WhyLearnCourse /> */}
