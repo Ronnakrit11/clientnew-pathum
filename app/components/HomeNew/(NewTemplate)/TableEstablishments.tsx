@@ -55,7 +55,7 @@ const TableEstablishments = () => {
           </Table>
         </div>
       </section>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center my-10">
         <Link href="/about/cooperation-agencies">
           <Button>
             ดูเพิ่มเติม
