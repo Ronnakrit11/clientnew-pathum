@@ -9,13 +9,13 @@ import ModalDeleteEsblishment from "./ModelDeleteEsblishment";
 import ModalEditEstablishment from "./ModalEditEstablishment";
 import { Pagination, Select } from "flowbite-react";
 
-const AllEstabishment = () => {
+const AllEstabishment = ({ major }: { major: string }) => {
   const [searchName, setSearchName] = useState("");
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const payloadSearch = {
     name: searchName,
-    major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ",
+    major: major,
     page: currentPage,
     limit: limit,
   };
@@ -42,7 +42,10 @@ const AllEstabishment = () => {
           />
         </div>
         <div>
-          <ModalCreateEstablishment refetch={refetchAllEstablishments} />
+          <ModalCreateEstablishment
+            refetch={refetchAllEstablishments}
+            major={major}
+          />
         </div>
       </div>
       <div className="overflow-x-auto">

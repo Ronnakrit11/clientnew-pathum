@@ -27,7 +27,9 @@ const page = (props: Props) => {
           <div className="w-[85%]">
             <DashboardHero />
             {/* <EnginnerAllUser /> */}
-            <AllEstabishment />
+            <AllEstabishment
+              major={"สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
+            />
           </div>
         </div>
       </AdminProtected>

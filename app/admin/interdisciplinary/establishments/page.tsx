@@ -5,10 +5,9 @@ import Heading from "@/app/utils/Heading";
 import React from "react";
 import AdminSidebar from "@/app/components/Admin/sidebar/AdminSidebar";
 import AllUsers from "@/app/components/Admin/Users/AllUsers";
-import AllEstabishment from "./AllEstabishment";
 // import NewAllUsers from "@/app/components/Admin/Users/NewAllUsers";
 // import EnginnerAllUser from "@/app/components/Admin/Users/EnginnerAllUser";
-
+import AllEstabishment from '../../en-it/establishments/AllEstabishment'
 type Props = {};
 
 const page = (props: Props) => {
@@ -27,7 +26,7 @@ const page = (props: Props) => {
           <div className="w-[85%]">
             <DashboardHero />
             {/* <EnginnerAllUser /> */}
-            <AllEstabishment />
+            <AllEstabishment major="สาขาวิชาสหวิทยาการ" />
           </div>
         </div>
       </AdminProtected>

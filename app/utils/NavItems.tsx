@@ -25,6 +25,10 @@ export const navItemsData = [
         url: "/about/smo-committee-structure",
       },
       {
+        name:"รายชื่อหน่วยงานความร่วมมือ",
+        url:"/about/cooperation-agencies"
+      },
+      {
         name: "ระบบฐานข้อมูลนักศึกษา",
         url: "/about/database-system",
       },

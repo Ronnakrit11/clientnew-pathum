@@ -15,17 +15,30 @@ import ModalEditUserMajor from "../en-it/ModalEditUserMajor";
 import DrawerFilter from "../en-it/DrawerFilter";
 
 const InterdisciplinaryAllUser = () => {
-  const [payload, setPayload] = useState({
-    page: 1,
-    limit: 10,
-    name: "",
-    major: "สาขาวิชาสหวิทยาการ",
-    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
-    dateEnd: new Date().toISOString(),
-    status: "",
-    studentId: "i",
-    createdAt: -1,
-  });
+  // const [payload, setPayload] = useState({
+  //   page: 1,
+  //   limit: 10,
+  //   name: "",
+  //   major: "สาขาวิชาสหวิทยาการ",
+  //   dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
+  //   dateEnd: new Date().toISOString(),
+  //   status: "",
+  //   studentId: "i",
+  //   createdAt: -1,
+  // });
+    const [payload, setPayload] = useState({
+      page: 1,
+      limit: 10,
+      name: "",
+      major: "สาขาวิชาสหวิทยาการ",
+      dateStart: new Date(
+        new Date().setMonth(new Date().getMonth() - 1)
+      ).toISOString(),
+      dateEnd: new Date().toISOString(),
+      status: "",
+      studentId: "i",
+      createdAt: -1,
+    });
 
   // console.log(payload);
 

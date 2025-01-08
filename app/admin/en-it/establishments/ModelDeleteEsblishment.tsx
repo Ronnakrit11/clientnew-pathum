@@ -12,6 +12,7 @@ export default function ModalDeleteEsblishment({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [deleteEstablishment, { isSuccess, error }] =
     useDeleteEstablishmentMutation();
+    
   useEffect(() => {
     if (isSuccess) {
       setOpenModal(false);

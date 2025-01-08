@@ -14,7 +14,7 @@ const establishmentApi = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `/update-establishment/${data.id}`,
         method: "PUT",
-        body:data,
+        body: data,
         credentials: "include" as const,
       }),
     }),
@@ -26,7 +26,7 @@ const establishmentApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllEstablishments: builder.query({
-      query: ({name, major,page,limit}) => ({
+      query: ({ name, major, page, limit }) => ({
         url: `/get-all-establishments?name=${name}&major=${major}&page=${page}&limit=${limit}`,
         method: "GET",
         credentials: "include" as const,
@@ -35,6 +35,13 @@ const establishmentApi = apiSlice.injectEndpoints({
     getEstablishmentById: builder.query({
       query: (id) => ({
         url: `/get-establishment-by-id/${id}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    getAllUserEstablishments: builder.query({
+      query: () => ({
+        url: `/get-all-user-establishments`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -48,4 +55,5 @@ export const {
   useDeleteEstablishmentMutation,
   useGetAllEstablishmentsQuery,
   useGetEstablishmentByIdQuery,
+  useGetAllUserEstablishmentsQuery,
 } = establishmentApi;

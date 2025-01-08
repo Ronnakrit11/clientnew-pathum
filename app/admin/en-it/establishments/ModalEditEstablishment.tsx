@@ -11,6 +11,7 @@ import { Select } from "flowbite-react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
 import { useUpdateEstablishmentMutation } from "@/redux/features/establishment/establishmentApi";
+import { z } from "zod";
 
 export default function ModalEditEstablishment({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -25,6 +26,35 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
     phone_empoyee_of_establishment: data?.phone_empoyee_of_establishment,
     idLine_of_establishment: data?.idLine_of_establishment,
     details: data?.details,
+    email: data?.email,
+    note: data?.note,
+  });
+
+  const establishmentSchema = z.object({
+    name: z.string().min(1, "ชื่อสถานประกอบการ is required"),
+    category: z.string().min(1, "ประเภทสถานประกอบการ is required"),
+    address: z.string().min(1, "ที่ตั้ง is required"),
+    agency: z.string().min(1, "หน่วยงานที่นักศึกษาออกสหกิจ is required"),
+    phone_number: z
+      .string()
+      .min(1, "เบอร์สถานประกอบการ is required")
+      .regex(/^\d+$/, "เบอร์สถานประกอบการ must be a valid number"),
+    name_of_establishment: z.string().min(1, "ชื่อพนักงานติดต่อ is required"),
+    phone_empoyee_of_establishment: z
+      .string()
+      .min(1, "หมายเลขพนักงานติดต่อ is required")
+      .regex(/^\d+$/, "หมายเลขพนักงานติดต่อ must be a valid number"),
+    idLine_of_establishment: z
+      .string()
+      .min(1, "Line ID พนักงานติดต่อ is required"),
+    details: z
+      .string()
+      .min(1, "รายละเอียดเกี่ยวกับตำแหน่งงานนักศึกษาที่ออกสหกิจ is required"),
+    email: z
+      .string()
+      .email("อีเมลล์สถานประกอบการณ์ is required")
+      .min(1, "อีเมลล์สถานประกอบการณ์ is required"),
+    note: z.string().max(255, "หมายเหตุ อื่นๆ is required"),
   });
 
   const [updateEstablishment, { isLoading, error, isSuccess }] =
@@ -46,9 +76,26 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
     console.log(payload);
   };
 
-  const handleSubmit = async () => {
-    await updateEstablishment(payload);
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      // Validate form data with Zod
+      establishmentSchema.parse(payload);
+
+      // If validation is successful, submit the data
+      await updateEstablishment(payload);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Handle validation errors
+        error.errors.forEach((err) => toast.error(err.message));
+      }
+    }
   };
+
+  // const handleSubmit = async () => {
+  //   await updateEstablishment(payload);
+  // };
 
   return (
     <>
@@ -61,7 +108,11 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
         <HiOutlinePencilSquare size={20} />
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)} className="z-[9999999999999999]">
+        <Modal
+          show={openModal}
+          onClose={() => setOpenModal(false)}
+          className="z-[9999999999999999]"
+        >
           <Modal.Header>แก้ไขข้อมูลนักศึกษา {data.name}</Modal.Header>
           <Modal.Body>
             <div>
@@ -180,6 +231,29 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
                 id="details"
                 required
                 value={payload.details}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="email" value="อีเมลล์สถานประกอบการณ์" />
+              </div>
+              <TextInput
+                id="email"
+                type="email"
+                required
+                value={payload.email}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="note" value="หมายเหตุ อื่นๆ" />
+              </div>
+              <Textarea
+                id="note"
+                required
+                value={payload.note}
                 onChange={(e) => handleChange(e)}
               />
             </div>
