@@ -54,7 +54,7 @@ const Page: React.FC = () => {
             <Table hoverable>
               <Table.Head>
                 <Table.HeadCell>ลำดับ</Table.HeadCell>
-                <Table.HeadCell>ชื่อสถานประกอบการ</Table.HeadCell>
+                <Table.HeadCell>ชื่อหน่วยงาน</Table.HeadCell>
                 <Table.HeadCell>จังหวัด</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
