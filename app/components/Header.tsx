@@ -203,8 +203,12 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     className="mr-1"
                   />
                   <div className="flex flex-col">
-                    <p className="text-[16px] md:text-[18px]">สโมสรนักศึกษาคณะวิทยาศาสตร์และเทคโนโลยี</p>
-                    <p className="text-[14px] md:text-[16px]">สถาบันเทคโนโลยีปทุมวัน</p>
+                    <p className="text-[16px] md:text-[18px]">
+                      สโมสรนักศึกษาคณะวิทยาศาสตร์และเทคโนโลยี
+                    </p>
+                    <p className="text-[14px] md:text-[16px]">
+                      สถาบันเทคโนโลยีปทุมวัน
+                    </p>
                   </div>
 
                   <span className="ml-[15px] text-[#2e2e2e]"></span>
@@ -267,13 +271,12 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     </Dropdown>
                   </>
                 ) : (
-                  // <HiOutlineUserCircle
-                  //   size={25}
-                  //   className="cursor-pointer dark:text-white text-black"
-                  //   onClick={() => setOpen(true)}
-                  //   style={{ marginLeft: "15px" }}
-                  // />
-                  <></>
+                  <HiOutlineUserCircle
+                    size={25}
+                    className="cursor-pointer dark:text-white text-black"
+                    onClick={() => setOpen(true)}
+                    style={{ marginLeft: "15px" }}
+                  />
                 )}
               </div>
             </div>
@@ -306,13 +309,11 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     />
                   </Link>
                 ) : (
-                  // <HiOutlineUserCircle
-                  //   size={25}
-                  //   className="hidden 800px:block cursor-pointer dark:text-white text-black"
-                  //   onClick={() => setOpen(true)}
-                  // />
-                  <>
-                  </>
+                  <HiOutlineUserCircle
+                    size={25}
+                    className="hidden 800px:block cursor-pointer dark:text-white text-black"
+                    onClick={() => setOpen(true)}
+                  />
                 )}
                 <br />
                 <br />
