@@ -185,7 +185,7 @@ const AdminSidebarItem = ({
         setSelected={setSelected}
       />
       {dataMajor?.data?.map((item: any, index: number) => (
-        <>
+        <div key={index}>
           <Typography
             variant="h5"
             className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
@@ -214,7 +214,7 @@ const AdminSidebarItem = ({
             selected={selected}
             setSelected={setSelected}
           />
-        </>
+        </div>
       ))}
       <Typography
         variant="h6"

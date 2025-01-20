@@ -76,7 +76,6 @@ const EditHero: FC<Props> = (props: Props) => {
       imageList,
     });
   };
-
   const addImages = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -109,6 +108,9 @@ const EditHero: FC<Props> = (props: Props) => {
     setImageList(newImageList);
   };
 
+  console.log(data)
+  console.log(imageList)
+
   return (
     <>
       <div className="w-full flex items-center justify-center mt-40 p-4">
@@ -117,7 +119,7 @@ const EditHero: FC<Props> = (props: Props) => {
             <div className="flex gap-2 flex-wrap p-10">
               {imageList.map((ele: any, idx) => {
                 return (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col" key={idx}>
                     <img
                       src={ele.img_url || ele.url}
                       alt="not fount"
@@ -150,23 +152,6 @@ const EditHero: FC<Props> = (props: Props) => {
                 <span> Add Slide Images</span>
               </Button>
             </div>
-
-            {/* <textarea
-            className="dark:text-white resize-none text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[60px] 1500px:text-[70px] font-[600] font-Josefin py-2 1000px:leading-[75px] 1500px:w-[60%] 1100px:w-[78%] outline-none bg-transparent block"
-            placeholder="Improve Your Online Learning Experience Better Instantly"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            rows={4}
-          />
-          <br />
-          <textarea
-            value={subTitle}
-            onChange={(e) => setSubTitle(e.target.value)}
-            placeholder="We have 40k+ Online courses & 500K+ Online registered student. Find your desired Courses from them."
-            className="dark:text-[#edfff4] text-[#000000ac] font-Josefin font-[600] text-[18px] 1500px:!w-[55%] 1100px:!w-[74%] bg-transparent outline-none resize-none"
-          ></textarea> */}
-            {/* <br />
-          <br /> */}
             <br />
             <Button className={`bg-primary`} onClick={handleEdit}>
               Save

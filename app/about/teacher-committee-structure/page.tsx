@@ -5,6 +5,7 @@ import Heading from "@/app/utils/Heading";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import Image from "next/image";
+import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 
 type Props = {};
 
@@ -12,7 +13,8 @@ const Page = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(1);
   const [route, setRoute] = useState("Login");
-
+  const { data: heroData } = useGetHeroDataQuery("ConsultSmo");
+  console.log(heroData?.layout?.consultSmo?.importance);
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-black">
       <Header
@@ -37,32 +39,9 @@ const Page = (props: Props) => {
               ความสำคัญของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา
             </h2>
             <ul className="space-y-2 ml-4">
-              <li>
-                • การสนับสนุนด้านการบริหารจัดการ:
-                อาจารย์ที่ปรึกษามีบทบาทในการให้คำแนะนำและสนับสนุนการบริหารจัดการของสโมสรนักศึกษา
-                เพื่อให้นักศึกษาสามารถดำเนินงานตามวัตถุประสงค์ของสโมสรได้อย่างมีประสิทธิภาพ
-              </li>
-              <li>
-                • การพัฒนาศักยภาพของนักศึกษา:
-                อาจารย์ที่ปรึกษาช่วยส่งเสริมการพัฒนาศักยภาพของนักศึกษาในด้านการทำงานเป็นทีม
-                การเป็นผู้นำ การแก้ไขปัญหา และการจัดการเวลา
-                ซึ่งเป็นทักษะที่จำเป็นสำหรับการดำเนินชีวิตและการทำงานในอนาคต
-              </li>
-              <li>
-                • การควบคุมและสนับสนุนการจัดกิจกรรม:
-                อาจารย์ที่ปรึกษามีบทบาทในการให้คำปรึกษาเกี่ยวกับการวางแผนและจัดกิจกรรมของสโมสร
-                รวมถึงการตรวจสอบความเหมาะสมของกิจกรรมให้สอดคล้องกับนโยบายของคณะและสถาบัน
-              </li>
-              <li>
-                • การสร้างความสัมพันธ์ระหว่างนักศึกษาและคณะ:
-                อาจารย์ที่ปรึกษาเป็นตัวกลางที่ช่วยเชื่อมโยงความสัมพันธ์ระหว่างนักศึกษาและคณะ
-                โดยช่วยสื่อสารปัญหาและความต้องการของนักศึกษาไปยังฝ่ายบริหารของคณะ
-              </li>
-              <li>
-                • การเสริมสร้างความมั่นใจให้นักศึกษา:
-                การมีอาจารย์ที่ปรึกษาช่วยให้นักศึกษามั่นใจในความสำเร็จของกิจกรรม
-                เนื่องจากได้รับคำแนะนำจากผู้มีประสบการณ์
-              </li>
+              {heroData?.layout?.consultSmo?.importance?.map((item, index) => (
+                <li key={index}>• {item}</li>
+              ))}
             </ul>
           </div>
           <div className="space-y-2 mb-8">
@@ -70,66 +49,26 @@ const Page = (props: Props) => {
               วัตถุประสงค์ของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา
             </h2>
             <ul className="space-y-2 ml-4">
-              <li>
-                • ให้คำแนะนำด้านการดำเนินงานของสโมสรนักศึกษา:
-                เพื่อให้นักศึกษาสามารถดำเนินกิจกรรมต่างๆ
-                ได้อย่างเหมาะสมและมีประสิทธิภาพ
-                สอดคล้องกับเป้าหมายของสโมสรและนโยบายของคณะ
-              </li>
-              <li>
-                • สนับสนุนการพัฒนาทักษะและศักยภาพของนักศึกษา:
-                เพื่อส่งเสริมให้นักศึกษาได้เรียนรู้และพัฒนาทักษะที่สำคัญ เช่น
-                ความเป็นผู้นำ การวางแผน การแก้ไขปัญหา และการสื่อสาร
-              </li>
-              <li>
-                • ส่งเสริมการมีส่วนร่วมในกิจกรรมของนักศึกษา:
-                เพื่อให้นักศึกษาเกิดความกระตือรือร้นในการเข้าร่วมกิจกรรม
-                และได้รับประโยชน์สูงสุดจากการมีส่วนร่วมในสโมสรนักศึกษา
-              </li>
-              <li>
-                • ช่วยควบคุมและประเมินผลการดำเนินงานของสโมสร:
-                เพื่อให้แน่ใจว่ากิจกรรมของสโมสรดำเนินไปในทิศทางที่ถูกต้องและมีผลลัพธ์ที่ตรงตามเป้าหมาย
-              </li>
-              <li>
-                • สร้างความสัมพันธ์อันดีระหว่างนักศึกษา คณะ และสถาบัน:
-                เพื่อเสริมสร้างความสัมพันธ์อันดีและความเข้าใจที่ตรงกันระหว่างนักศึกษา
-                คณาจารย์ และผู้บริหารของคณะ
-              </li>
+              {heroData?.layout?.consultSmo?.objective?.map((item, index) => (
+                <li key={index}>• {item}</li>
+              ))}
             </ul>
           </div>
           <div className="w-[1000px] xl:w-[800px] mx-auto py-20">
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3  gap-8">
-              <div className="text-center space-y-4">
-                <Image
-                  src="/teacher/1.อ.อิทธิศักดิ์ ศรีดำ-ประธานกรรมการที่ปรึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                  className="object-cover"
-                />
-                <p className="font-semibold">อาจารย์อิทธิศักดิ์ ศรีดำ</p>
-                <p>ประธานกรรมการที่ปรึกษา</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/teacher/2.อ.พิชิตชัย เรือน้อย-กรรมการที่ปรึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">อาจารย์พิชิตชัย เรือน้อย</p>
-                <p>กรรมการที่ปรึกษา</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/teacher/3.อ.เพชรประภา สังฆะราม-กรรมการที่ปรึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">อาจารย์เพชรประภา สังฆะราม</p>
-                <p>กรรมการที่ปรึกษา</p>
-              </div>
+              {heroData?.layout?.consultSmo?.consult?.map((item, index) => (
+                <div key={index} className="text-center space-y-4">
+                  <Image
+                    src={item.url}
+                    alt={item.name}
+                    width={500}
+                    height={500}
+                    className="object-cover"
+                  />
+                  <h2 className="text-2xl font-bold">{item.name}</h2>
+                  <p className="text-sm">{item.role}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

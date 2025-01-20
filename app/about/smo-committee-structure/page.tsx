@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Heading from "@/app/utils/Heading";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import PDFViewer from "@/app/components/Ebook/PDFViewer";
+import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 import Image from "next/image";
 type Props = {};
 
@@ -12,7 +12,8 @@ const Page = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(1);
   const [route, setRoute] = useState("Login");
-
+  const { data: heroData } = useGetHeroDataQuery("StructureSmo");
+  console.log(heroData?.layout?.structureSmo?.smo);
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 ">
       <Header
@@ -32,116 +33,22 @@ const Page = (props: Props) => {
           <h1 className="text-2xl font-bold my-10 text-center">
             โครงสร้างคณะกรรมการสโมสรนักศึกษา
           </h1>
-
-          {/* <PDFViewer link="/about/smo-committee-structure.pdf" /> */}
-          {/* <div className="flex flex-col items-center justify-center">
-            <Image
-              src={"/about/smo-committee-structure/Page1.png"}
-              alt="กรรมการสโมสรนักศึกษา"
-              width={500}
-              height={500}
-              className="object-cover"
-            />
-            <Image
-              src={"/about/smo-committee-structure/Page2.png"}
-              alt="กรรมการสโมสรนักศึกษา"
-              width={500}
-              height={500}
-              className="object-cover"
-            />
-          </div> */}
-          {/* <div className="mt-4">
-            <a
-              href="/about/smo-committee-structure.pdf"
-              download="smo-committee-structure.pdf"
-              className="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary hover:text-primary transition justify-end"
-            >
-              ดาวน์โหลดไฟล์ PDF
-            </a>
-          </div> */}
           <div className="container xl:w-[1000px] mx-auto pb-20">
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3  gap-8">
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/ก2.1-นายกสโมสรนักศึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                  className="object-cover"
-                />
-                <p className="font-semibold">ก21</p>
-                <p>นายกสโมสรนักศึกษา</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/ภ2.2-อุปนายกสโมสรนักศึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">ภ22</p>
-                <p>อุปนายกสโมสรนักศึกษา</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/ณ2.3-ตัวแทนนักศึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">ณ23</p>
-                <p>ตัวแทนนักศึกษา</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/ส2.4-ตัวแทนนักศึกษา.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">ส24</p>
-                <p>ตัวแทนนักศึกษา</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/จ2.5-เหรัญญิก.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">จ25</p>
-                <p>เหรัญญิก</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/อ2.6-ประชาสัมพันธ์.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">อ26</p>
-                <p>ประชาสัมพันธ์</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/ว2.7-เลขานุการ.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">ว27</p>
-                <p>เลขานุการ</p>
-              </div>
-              <div className="text-center space-y-4">
-                <Image
-                  src="/smo/พ2.8-ผู้ช่วยเลขานุการ.png"
-                  alt="อาจารย์อิทธิศกัดิ์ ศรีดำ"
-                  width={500}
-                  height={500}
-                />
-                <p className="font-semibold">พ28</p>
-                <p>ผู้ช่วยเลขานุการ</p>
-              </div>
+              {heroData?.layout?.structureSmo?.smo?.map((item, index) => (
+                <div key={index} className="text-center space-y-4">
+                  <Image
+                    src={item.url}
+                    alt={item.name}
+                    width={500}
+                    height={500}
+                    className="object-cover"
+                  />
+                  <h2 className="text-2xl font-bold">{item.name}</h2>
+                  <p className="text-sm">{item.role}</p>
+                </div>
+              ))}
+              
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ const Page = (props: Props) => {
   const [activeItem, setActiveItem] = useState(1);
   const [route, setRoute] = useState("Login");
   const { data: heroData } = useGetHeroDataQuery("Objective");
-  console.log(heroData?.layout.objective);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-black">
       <Header
@@ -31,9 +31,7 @@ const Page = (props: Props) => {
             <h2 className="font-semibold text-xl">
               ความสำคัญของการมีสโมสรนักศึกษา
             </h2>
-            <p className="ml-4">
-              {heroData?.layout.objective.importance}
-            </p>
+            <p className="ml-4">{heroData?.layout.objective.importance}</p>
           </div>
           <div className="space-y-2">
             <h2 className="font-semibold text-xl">
@@ -41,9 +39,7 @@ const Page = (props: Props) => {
             </h2>
             <ul className="space-y-2 ml-4">
               {heroData?.layout.objective.objective.map((item, index) => (
-                <li key={index}>
-                  • {item}
-                </li>
+                <li key={index}>• {item}</li>
               ))}
             </ul>
           </div>

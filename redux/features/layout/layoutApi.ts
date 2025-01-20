@@ -10,7 +10,19 @@ export const layoutApi = apiSlice.injectEndpoints({
       }),
     }),
     editLayout: builder.mutation({
-      query: ({ type, image, title, subTitle, faq, categories, imageList, importance, objective, consultant }) => ({
+      query: ({
+        type,
+        image,
+        title,
+        subTitle,
+        faq,
+        categories,
+        imageList,
+        importance,
+        objective,
+        consultant,
+        smo,
+      }) => ({
         url: `edit-layout`,
         body: {
           type,
@@ -23,6 +35,7 @@ export const layoutApi = apiSlice.injectEndpoints({
           importance,
           objective,
           consultant,
+          smo,
         },
         method: "PUT",
         credentials: "include" as const,
@@ -31,4 +44,4 @@ export const layoutApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetHeroDataQuery,useEditLayoutMutation } = layoutApi;
+export const { useGetHeroDataQuery, useEditLayoutMutation } = layoutApi;
