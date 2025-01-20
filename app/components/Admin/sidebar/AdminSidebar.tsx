@@ -31,6 +31,7 @@ const Sidebar = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
+
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
@@ -40,8 +41,6 @@ const Sidebar = () => {
   const logoutHandler = () => {
     setlogout(true);
   };
-
-  // console.log(user);
 
   return (
     <Box

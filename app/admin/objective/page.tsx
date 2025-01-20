@@ -4,7 +4,7 @@ import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
 import React from "react";
 import AdminSidebar from "../../components/Admin/sidebar/AdminSidebar";
-import AllMajors from "./AllMajors";
+import Objective from "./Objective";
 // import AllUserAdmin from "./AllUserAdmin";
 type Props = {};
 
@@ -23,9 +23,9 @@ const page = (props: Props) => {
           </div>
           <div className="w-[85%]">
             <DashboardHero />
+            <Objective />
             {/* <AllUsers isTeam={true} /> */}
             {/* <AllUserAdmin /> */}
-            <AllMajors />
           </div>
         </div>
       </AdminProtected>

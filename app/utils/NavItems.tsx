@@ -25,8 +25,8 @@ export const navItemsData = [
         url: "/about/smo-committee-structure",
       },
       {
-        name:"รายชื่อหน่วยงานความร่วมมือ",
-        url:"/about/cooperation-agencies"
+        name: "รายชื่อหน่วยงานความร่วมมือ",
+        url: "/about/cooperation-agencies",
       },
       {
         name: "ระบบฐานข้อมูลนักศึกษา",
@@ -96,7 +96,6 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
                             onClick={() => router.push(subItem.url)}
                             key={`sub-${subIndex}`}
                             style={{ color: "#ad232c" }}
-                            
                           >
                             {subItem.name}
                           </ListGroup.Item>

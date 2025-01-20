@@ -59,14 +59,11 @@ export default function ModalCreateProgram({ refetch, refetch_data }: any) {
     <>
       <Button onClick={() => setOpenModal(true)} className="bg-primary">
         <HiOutlinePlusSmall className="mr-2" size={20} />
-        สร้างบัญชีแอดมิน
+        สร้างหลักสูตร
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal
-          show={openModal}
-          onClose={() => setOpenModal(false)}
-        >
-          <Modal.Header>สร้างแขนงวิชา</Modal.Header>
+        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+          <Modal.Header>ชื่อหลักสูตร</Modal.Header>
           <Modal.Body>
             <div>
               <div className="mb-2 block">

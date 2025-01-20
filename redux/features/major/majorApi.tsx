@@ -7,21 +7,21 @@ export const majorApi = apiSlice.injectEndpoints({
         url: "get-all-major",
         method: "GET",
         credentials: "include" as const,
-      }), 
+      }),
     }),
     createMajor: builder.mutation({
-      query: ({ name }) => ({
+      query: ({ name, id_program }) => ({
         url: "major-create",
         method: "POST",
-        body: { name },
+        body: { name, id_program },
         credentials: "include" as const,
       }),
     }),
     updateMajor: builder.mutation({
-      query: ({ id, name }) => ({
+      query: ({ id, name, id_program }) => ({
         url: `major-update/${id}`,
         method: "PUT",
-        body: { name },
+        body: { name, id_program },
         credentials: "include" as const,
       }),
     }),
@@ -29,6 +29,13 @@ export const majorApi = apiSlice.injectEndpoints({
       query: ({ id }) => ({
         url: `major-delete/${id}`,
         method: "DELETE",
+        credentials: "include" as const,
+      }),
+    }),
+    getMajorById: builder.query({
+      query: ({ id }) => ({
+        url: `major-by-id/${id}`,
+        method: "GET",
         credentials: "include" as const,
       }),
     }),
@@ -40,4 +47,5 @@ export const {
   useCreateMajorMutation,
   useUpdateMajorMutation,
   useDeleteMajorMutation,
+  useGetMajorByIdQuery,
 } = majorApi;

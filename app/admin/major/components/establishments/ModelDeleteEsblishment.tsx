@@ -4,22 +4,28 @@ import { Button, Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { HiOutlineArchiveBoxXMark } from "react-icons/hi2";
-import { useDeleteMajorMutation } from "@/redux/features/major/majorApi";
+import { useDeleteUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
+import { useDeleteEstablishmentMutation } from "@/redux/features/establishment/establishmentApi";
 
-export default function ModalDeleteMajor({ data, refetch }: any) {
+export default function ModalDeleteEsblishment({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
-  const [daleteMajor, { isSuccess, error }] = useDeleteMajorMutation();
+  const [deleteEstablishment, { isSuccess, error }] =
+    useDeleteEstablishmentMutation();
+    
   useEffect(() => {
     if (isSuccess) {
       setOpenModal(false);
       refetch();
-      toast.success("ลบข้อมูลนักศึกษาเรียบร้อยแล้ว");
+      toast.success("ลบข้อมูลสถานประกอบการเรียบร้อยแล้ว");
+    }
+    if(error){
+      toast.error("ลบข้อมูลสถานประกอบการไม่ได้");
     }
   }, [isSuccess]);
 
   const handleDelete = async () => {
-    await daleteMajor({ id: data._id });
+    await deleteEstablishment(data._id);
   };
 
   return (

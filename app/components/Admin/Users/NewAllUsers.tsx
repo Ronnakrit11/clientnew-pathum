@@ -20,7 +20,7 @@ const NewAllUsers = () => {
     limit: 10,
     name: "",
     major:
-      "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ&major=สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม&major=สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร&major=สาขาวิชาสหวิทยาการ",
+      "6750880ea21533239807c93b&major=67508a8bb6021ee6cee863e6&major=67508a92b6021ee6cee863ec&major=67508b21b6021ee6cee863fd",
     dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
     dateEnd: new Date().toISOString(),
     status: "",
@@ -35,7 +35,7 @@ const NewAllUsers = () => {
   const onPageChange = (page: number) => setPayload({ ...payload, page: page });
 
   return (
-    <div className="container mx-auto mt-24">
+    <div className="container mx-auto mt-24 p-4">
        <div className="flex gap-2 mb-4">
           <div>
             <div className="mb-2 block">
@@ -101,7 +101,7 @@ const NewAllUsers = () => {
         </Table>
         <div className="flex overflow-x-auto my-8 sm:justify-center">
           <Pagination
-            currentPage={payload.page}
+            currentPage={payload.page || 1}
             totalPages={100}
             onPageChange={onPageChange}
           />

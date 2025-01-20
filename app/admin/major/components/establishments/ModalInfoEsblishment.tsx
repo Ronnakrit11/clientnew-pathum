@@ -3,7 +3,7 @@ import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineEye } from "react-icons/hi2";
 
-const ModalInfoUser = ({ data }: any) => {
+const ModalInforEstablishment = ({ data }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -16,42 +16,46 @@ const ModalInfoUser = ({ data }: any) => {
       >
         <HiOutlineEye size={20} />
       </Button>
-      <Modal show={isOpen} onClose={() => setIsOpen(false)} className="z-[9999999999999999]">
+      <Modal
+        show={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="z-[9999999999999999]"
+      >
         <Modal.Header>รายละเอียดนักศึกษา {data.name}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              รหัสนักศึกษา : {data.studentId}
+              ชื่อสถานประกอบการ : {data.name}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              ชื่อ-นามสกุล : {data.prefix + " " + data.name}
+              ประเภทสถานประกอบการ : {data.category}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              หลักสูตร : {data.program.name}
+              หน่วยงานที่นักศึกษาออกสหกิจ : {data.agency}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              สาขาวิชา : {data.major.name}
+              ที่ตั้ง : {data.address}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              สถานะการศึกษา : {data.status}
+              เบอร์สถานประกอบการ : {data.phone_number}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              ปีการศึกษา : {data.academicYear}
+              ชื่อพนักงานติดต่อ : {data.name_of_establishment}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              อีเมลล์ : {data.email}
+              หมายเลขพนักงานติดต่อ : {data.phone_number_of_establishment}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              เบอร์โทรศัพท์ : {data.phoneNumber}
+              Line ID พนักงานติดต่อ : {data.idLine_of_establishment}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              Line ID : {data.lineId}
+              รายละเอียดเพิ่มเติม : {data.details}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              ที่อยู่ : {data.address}
+              อีเมลล์สถานประกอบการ : {data.email}
             </p>
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              เหตุผลที่พ้นการศึกษา : {data.status === "พ้นสภาพ" && data.reason}
+              หมายเหตุ อื่นๆ : {data.note}
             </p>
           </div>
         </Modal.Body>
@@ -60,4 +64,4 @@ const ModalInfoUser = ({ data }: any) => {
   );
 };
 
-export default ModalInfoUser;
+export default ModalInforEstablishment;

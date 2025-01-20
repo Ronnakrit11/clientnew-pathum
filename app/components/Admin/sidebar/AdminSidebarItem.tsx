@@ -12,6 +12,7 @@ import { HiAcademicCap } from "react-icons/hi2";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { IoList } from "react-icons/io5";
 import { IoReaderOutline } from "react-icons/io5";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 
 interface itemProps {
   title: string;
@@ -45,6 +46,8 @@ const AdminSidebarItem = ({
   isCollapsed: boolean;
   logoutHandler: () => void;
 }) => {
+  const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
+
   return (
     <Box>
       <Item
@@ -63,7 +66,7 @@ const AdminSidebarItem = ({
         {!isCollapsed && "ทั่วไป"}
       </Typography>
       <Item
-        title="จัดการผู้ใช้ทั้งหมด"
+        title="รายชื่อนักศึกษาทั้งหมด"
         to="/admin/users"
         icon={<GroupsIcon />}
         selected={selected}
@@ -147,131 +150,72 @@ const AdminSidebarItem = ({
         {!isCollapsed && "จัดการหน้าเว็บไซต์"}
       </Typography>
       <Item
-        title="Hero"
+        title="จัดการ Banner"
         to="/admin/hero"
         icon={<IoReaderOutline />}
         selected={selected}
         setSelected={setSelected}
       />
-      {/* <Item
-        title="FAQ"
-        to="/admin/faq"
-        icon={<IoList />}
-        selected={selected}
-        setSelected={setSelected}
-      /> */}
-      <Typography
-        variant="h5"
-        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-        sx={{ m: "15px 0 5px 20px" }}
-      >
-        {!isCollapsed && "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
-      </Typography>
       <Item
-        title="รายชื่อนักศึกษา"
-        to="/admin/en-it"
-        icon={<HiMiniUsers size={20} />}
+        title="วัตถุประสงค์"
+        to="/admin/objective"
+        icon={<IoReaderOutline />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
-        title="รายชื่อสถานประกอบการ"
-        to="/admin/en-it/establishments"
-        icon={<HiBuildingOffice2 size={20} />}
+        title="วัตถุประสงค์คณะกรรมการ"
+        to="/admin/structure-smo"
+        icon={<IoReaderOutline />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
-        title="ผลงานปริญญานิพนธ์"
-        to="/admin/en-it/thesis"
-        icon={<HiAcademicCap size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Typography
-        variant="h5"
-        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-        sx={{ m: "15px 0 5px 20px" }}
-      >
-        {!isCollapsed && "สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร"}
-      </Typography>
-      <Item
-        title="รายชื่อนักศึกษา"
-        to="/admin/tech-env"
-        icon={<HiMiniUsers size={20} />}
+        title="จัดการที่ปรึกษาสโมสร"
+        to="/admin/structure-consult-smo"
+        icon={<IoReaderOutline />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
-        title="รายชื่อสถานประกอบการ"
-        to="/admin/tech-env/establishments"
-        icon={<HiBuildingOffice2 size={20} />}
+        title="ระบบฐานข้อมูล"
+        to="/admin/database-system"
+        icon={<IoReaderOutline />}
         selected={selected}
         setSelected={setSelected}
       />
-      <Item
-        title="ผลงานปริญญานิพนธ์"
-        to="/admin/tech-env/thesis"
-        icon={<HiAcademicCap size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Typography
-        variant="h5"
-        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-        sx={{ m: "15px 0 5px 20px" }}
-      >
-        {!isCollapsed && "สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"}
-      </Typography>
-      <Item
-        title="รายชื่อนักศึกษา"
-        to="/admin/tect-ids-manage"
-        icon={<HiMiniUsers size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Item
-        title="รายชื่อสถานประกอบการ"
-        to="/admin/tect-ids-manage/establishments"
-        icon={<HiBuildingOffice2 size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Item
-        title="ผลงานปริญญานิพนธ์"
-        to="/admin/tect-ids-manage/thesis"
-        icon={<HiAcademicCap size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Typography
-        variant="h5"
-        className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
-        sx={{ m: "15px 0 5px 20px" }}
-      >
-        {!isCollapsed && "สาขาวิชาสหวิทยาการ"}
-      </Typography>
-      <Item
-        title="รายชื่อนักศึกษา"
-        to="/admin/interdisciplinary"
-        icon={<HiMiniUsers size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Item
-        title="รายชื่อสถานประกอบการ"
-        to="/admin/interdisciplinary/establishments"
-        icon={<HiBuildingOffice2 size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <Item
-        title="ผลงานปริญญานิพนธ์"
-        to="/admin/interdisciplinary/thesis"
-        icon={<HiAcademicCap size={20} />}
-        selected={selected}
-        setSelected={setSelected}
-      />
+      {dataMajor?.data?.map((item: any, index: number) => (
+        <>
+          <Typography
+            variant="h5"
+            className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+            sx={{ m: "15px 0 5px 20px" }}
+          >
+            {!isCollapsed && `${item.name}`}
+          </Typography>
+          <Item
+            title={`รายชื่อ${item.name}`}
+            to={`/admin/major/${item._id}`}
+            icon={<HiMiniUsers size={20} />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title={`รายชื่อสถานประกอบการ`}
+            to={`/admin/major/establishments/${item._id}`}
+            icon={<HiMiniUsers size={20} />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title={`ผลงานปริญญานิพนธ์`}
+            to={`/admin/major/thesis/${item._id}`}
+            icon={<HiMiniUsers size={20} />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+        </>
+      ))}
       <Typography
         variant="h6"
         className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"

@@ -4,7 +4,7 @@ import Heading from "../utils/Heading";
 import AdminSidebar from "../components/Admin/sidebar/AdminSidebar";
 import AdminProtected from "../hooks/adminProtected";
 import DashboardHero from "../components/Admin/DashboardHero";
-
+import Image from "next/image";
 type Props = {};
 
 const page = (props: Props) => {
@@ -20,8 +20,22 @@ const page = (props: Props) => {
           <div className="1500px:w-[16%] w-1/5">
             <AdminSidebar />
           </div>
-          <div className="w-[85%]">
-            <DashboardHero isDashboard={true} />
+          <div className="w-[85%] flex h-screen justify-center items-center flex-row">
+            {/* <DashboardHero isDashboard={true} /> */}
+            <Image
+              src="/logo.png"
+              alt="Dashboard"
+              width={1000}
+              height={1000}
+              className="w-[150px]"
+            />
+            <div>
+              <p className="text-3xl">Welcome to Database Management System</p>
+              <p className="text-xl">
+                Faculty of Scient and Techology - Pathumwan Institute of
+                Technology (PIT)
+              </p>
+            </div>
           </div>
         </div>
       </AdminProtected>

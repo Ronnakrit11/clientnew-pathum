@@ -18,6 +18,7 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
 
   const [payload, setPayload] = useState({
+    prefix: data?.prefix,
     id: data?._id,
     name: data?.name,
     email: data?.email,
@@ -31,6 +32,8 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
     studentId: data?.studentId,
     major: data?.major,
   });
+
+  console.log(payload);
 
   const [updateUser, { isLoading, error, isSuccess }] =
     useUpdateUserByIdMutation();
@@ -75,6 +78,23 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
           <Modal.Body>
             <div>
               <div className="mb-2 block">
+                <Label htmlFor="prefix" value="คำนำหน้าชื่อ (Prefix)" />
+              </div>
+              <Select
+                id="prefix"
+                required
+                onChange={(e) =>
+                  setPayload({ ...payload, prefix: e.target.value })
+                }
+                defaultValue={payload.prefix}
+              >
+                <option value="นาย">นาย</option>
+                <option value="นางสาว">นางสาว</option>
+                <option value="others">อื่นๆ ระบุ</option>
+              </Select>
+            </div>
+            <div>
+              <div className="mb-2 block">
                 <Label htmlFor="name" value="ชื่อสกุล (Full Name)" />
               </div>
               <TextInput
@@ -113,7 +133,9 @@ export default function ModalEditUserMajor({ data, refetch }: any) {
                 }
               >
                 {dataProgram?.programs.map((item, index) => (
-                  <option value={item.name} key={index}>{item.name}</option>
+                  <option value={item.name} key={index}>
+                    {item.name}
+                  </option>
                 ))}
               </Select>
             </div>

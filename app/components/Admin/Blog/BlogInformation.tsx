@@ -222,17 +222,7 @@ const BlogInformation: FC<Props> = ({ blogData, refetch }) => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            {/* {blogInfo.fileImg ? (
-              <img
-                src={blogInfo.fileImg}
-                alt=""
-                className="max-h-full w-full object-cover"
-              />
-            ) : (
-              <span className="text-black dark:text-white">
-                Drag and drop your OG image here or click to browse
-              </span>
-            )} */}
+
             {blogInfo?.thumbnail?.url || fileImg ? (
               <img
                 src={fileImg || blogInfo?.thumbnail?.url}

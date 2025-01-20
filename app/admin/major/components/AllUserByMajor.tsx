@@ -10,13 +10,24 @@ import ModalEditUser from "@/app/components/Admin/Users/ModalEditUser";
 import DrawerFilter from "./DrawerFilter";
 import ModalCreateUserMajor from "./ModalCreateUserMajor";
 import ModalEditUserMajor from "./ModalEditUserMajor";
+import { useParams } from "next/navigation";
+import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
 
-const EngineerAllUser = () => {
+const AllUserByMajor = () => {
+  const { id }: any = useParams();
+
+  const { data: majorData } = useGetMajorByIdQuery(
+    { id: id },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+  
   const [payload, setPayload] = useState({
     page: 1,
     limit: 10,
     name: "",
-    major: "สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ",
+    major: id,
     dateStart: new Date(
       new Date().setMonth(new Date().getMonth() - 1)
     ).toISOString(),
@@ -65,7 +76,8 @@ const EngineerAllUser = () => {
         <div className="flex justify-end items-end">
           <ModalCreateUserMajor
             refetch={refetch}
-            major={"สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
+            major={id}
+            program={majorData?.data?.program}
           />
         </div>
       </div>
@@ -104,12 +116,17 @@ const EngineerAllUser = () => {
                       {user.prefix + " " + user.name}
                     </Table.Cell>
                     <Table.Cell>{user.studentId}</Table.Cell>
-                    <Table.Cell>{user.major}</Table.Cell>
-                    <Table.Cell>{user.program}</Table.Cell>
+                    <Table.Cell>{user.major.name}</Table.Cell>
+                    <Table.Cell>{user.program.name}</Table.Cell>
                     <Table.Cell>{user.status}</Table.Cell>
                     <Table.Cell className="flex gap-2">
                       <ModalInfoUser data={user} />
-                      <ModalEditUserMajor data={user} refetch={refetch} />
+                      <ModalEditUserMajor
+                        data={user}
+                        refetch={refetch}
+                        major={id}
+                        program={majorData?.data?.program}
+                      />
                       <ModalDelete data={user} refetch={refetch} />
                     </Table.Cell>
                   </Table.Row>
@@ -129,4 +146,4 @@ const EngineerAllUser = () => {
   );
 };
 
-export default EngineerAllUser;
+export default AllUserByMajor;

@@ -3,11 +3,11 @@ import DashboardHero from "@/app/components/Admin/DashboardHero";
 import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
 import React from "react";
-import AdminSidebar from "../../components/Admin/sidebar/AdminSidebar";
-import AllCourses from "../../components/Admin/Course/AllCourses";
-import BlogInformation from "@/app/components/Admin/Blog/BlogInformation";
-import AllEvent from "@/app/components/Admin/Blog/AllEvent";
-// import AllEbook from '@/app/components/Admin/ebook/AllEbook'
+import AdminSidebar from "@/app/components/Admin/sidebar/AdminSidebar";
+import AllUsers from "@/app/components/Admin/Users/AllUsers";
+import AllEstabishment from "./AllEstabishment";
+// import NewAllUsers from "@/app/components/Admin/Users/NewAllUsers";
+// import EnginnerAllUser from "@/app/components/Admin/Users/EnginnerAllUser";
 
 type Props = {};
 
@@ -20,15 +20,16 @@ const page = (props: Props) => {
           description="ELearning is a platform for students to learn and get help from teachers"
           keywords="Programming,MERN,Redux,Machine Learning"
         />
-        <div className="flex min-h-screen">
+        <div className="flex h-screen">
           <div className="1500px:w-[16%] w-1/5">
             <AdminSidebar />
           </div>
           <div className="w-[85%]">
             <DashboardHero />
-            <BlogInformation />
-            {/* <AllEbook /> */}
-            {/* <AllEvent /> */}
+            {/* <EnginnerAllUser /> */}
+            <AllEstabishment
+              major={"สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}
+            />
           </div>
         </div>
       </AdminProtected>

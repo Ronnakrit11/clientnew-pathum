@@ -69,7 +69,7 @@ const AllLogs = () => {
   };
 
   return (
-    <div className="container mx-auto pt-40">
+    <div className="container mx-auto pt-40 p-4">
       <div className="flex justify-end mb-4">
         <Button
           color="success"

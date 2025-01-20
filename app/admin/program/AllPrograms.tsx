@@ -70,7 +70,7 @@ const AllPrograms = () => {
   const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
-    <div className="container mx-auto mt-24">
+    <div className="container mx-auto mt-24 p-4">
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="mb-2 block">

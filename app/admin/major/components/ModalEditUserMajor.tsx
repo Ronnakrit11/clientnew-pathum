@@ -8,152 +8,93 @@ import { Radio } from "flowbite-react";
 import { useAddUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
-import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
-import { z } from "zod";
 
-export default function ModalCreateUserMajor({ refetch, major }: any) {
+export default function ModalEditUserMajor({
+  data,
+  refetch,
+  major,
+  program,
+}: any) {
   const [openModal, setOpenModal] = useState(false);
-
-  const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
 
-  const schema = z.object({
-    prefix: z.string().min(1, "คำนำหน้าชื่อจำเป็นต้องกรอก"),
-    name: z.string().min(1, "ชื่อสกุลจำเป็นต้องกรอก"),
-    email: z.string().email("อีเมลไม่ถูกต้อง"),
-    password: z.string().min(6, "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"),
-    program: z.string().min(1, "กรุณาเลือกหลักสูตร"),
-    academicYear: z.string().min(4, "ปีการศึกษาต้องมีอย่างน้อย 4 หลัก"),
-    phoneNumber: z.string().min(1, "กรุณากรอกหมายเลขโทรศัพท์"),
-    lineId: z.string().min(1, "กรุณากรอก Line ID"),
-    address: z.string().min(1, "กรุณากรอกที่อยู่"),
-    status: z.enum(["กำลังศึกษา", "สำเร็จการศึกษา", "พ้นสภาพ"]),
-    studentId: z.string().min(1, "กรุณากรอกเลขประจำตัวนักศึกษา"),
-    major: z.string().min(1, "กรุณาเลือกสาขาวิชา"),
-    reason: z.string().optional(),
-  });
-
   const [payload, setPayload] = useState({
-    prefix: "นาย",
-    name: "",
-    email: "",
-    password: "123456",
-    program: dataProgram?.programs?.[0]?.name,
-    academicYear: "",
-    reason: "",
-    phoneNumber: "",
-    lineId: "",
-    address: "",
-    status: "",
-    studentId: "",
-    major: major,
+    prefix: data?.prefix,
+    id: data?._id,
+    name: data?.name,
+    email: data?.email,
+    program: data?.program?.name,
+    academicYear: data?.academicYear,
+    reason: data?.reason,
+    phoneNumber: data?.phoneNumber,
+    lineId: data?.lineId,
+    address: data?.address,
+    status: data?.status,
+    studentId: data?.studentId,
+    major: data?.major?.name,
   });
 
-  // console.log(payload);
-
-  const [
-    addUser,
-    {
-      isLoading: isLoadingAddUser,
-      error: AddUserError,
-      isSuccess: AddUserSuccess,
-    },
-  ] = useAddUserMutation();
+  const [updateUser, { isLoading, error, isSuccess }] =
+    useUpdateUserByIdMutation();
 
   useEffect(() => {
-    if (AddUserSuccess) {
-      toast.success("สร้างนักศึกษาเรียบร้อยแล้ว");
+    if (isSuccess) {
+      toast.success("Add User successfully");
       refetch();
       setOpenModal(false);
-      setPayload({
-        prefix: "",
-        name: "",
-        email: "",
-        password: "",
-        program: "",
-        academicYear: "",
-        reason: "",
-        phoneNumber: "",
-        lineId: "",
-        address: "",
-        status: "",
-        studentId: "",
-        major: "",
-      });
     }
-    if (AddUserError) {
-      toast.error("สร้างนักศึกษาผิดพลาด")
-      console.log(AddUserError);
+    if (error) {
+      toast.error("Add User Error");
     }
-  }, [AddUserError, AddUserSuccess]);
+  }, [isSuccess, error]);
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
+    // console.log(payload);
   };
 
   const handleSubmit = async () => {
-    try {
-      schema.parse(payload);
-      await addUser(payload);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        error.errors.forEach((err) => toast.error(err.message));
-      }
-    }
+    await updateUser(payload);
   };
 
   return (
     <>
-      <div>
-        <Toaster />
-      </div>
       <Button
         onClick={() => setOpenModal(true)}
-        className="bg-primary hover:bg-secondary"
+        outline
+        color="warning"
+        size={"sm"}
       >
-        <HiMiniUserPlus className="mr-2" size={20} />
-        เพิ่มข้อมูลนักศึกษา
+        <HiOutlinePencilSquare size={20} />
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)}>
-          <Modal.Header>เพิ่มข้อมูลนักศึกษา</Modal.Header>
+        <Modal
+          show={openModal}
+          onClose={() => setOpenModal(false)}
+          className="z-[9999999999999999]"
+        >
+          <Modal.Header>แก้ไขข้อมูลนักศึกษา {data.name}</Modal.Header>
           <Modal.Body>
-            <div className="grid grid-cols-2 gap-4 justify-end items-end">
-              <div>
-                <div className="mb-2 block">
-                  <Label htmlFor="prefix" value="คำนำหน้าชื่อ (Prefix)" />
-                </div>
-                <Select
-                  id="prefix"
-                  required
-                  onChange={(e) =>
-                    setPayload({ ...payload, prefix: e.target.value })
-                  }
-                  defaultValue={payload.prefix}
-                >
-                  <option value="นาย">นาย</option>
-                  <option value="นางสาว">นางสาว</option>
-                  <option value="others">อื่นๆ ระบุ</option>
-                </Select>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="prefix" value="คำนำหน้าชื่อ (Prefix)" />
               </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="prefix"
-                    value="โปรดระบุคำนำหน้าชื่อ (Please enter the prefix)"
-                  />
-                </div>
-                <TextInput
-                  disabled={payload.prefix !== "others"}
-                  id="prefix"
-                  type="text"
-                  required
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
+              <Select
+                id="prefix"
+                required
+                onChange={(e) =>
+                  setPayload({ ...payload, prefix: e.target.value })
+                }
+                defaultValue={payload.prefix}
+              >
+                <option value="นาย">นาย</option>
+                <option value="นางสาว">นางสาว</option>
+                <option value="others">อื่นๆ ระบุ</option>
+              </Select>
             </div>
-
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="name" value="ชื่อสกุล (Full Name)" />
@@ -162,6 +103,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
                 id="name"
                 type="text"
                 required
+                value={payload.name}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -175,6 +117,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
               <TextInput
                 id="studentId"
                 type="text"
+                value={payload.studentId}
                 onChange={(e) => handleChange(e)}
                 required
               />
@@ -185,21 +128,15 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
               </div>
               <Select
                 id="program"
-                required={payload.program === ""}
+                required
                 value={payload.program}
                 onChange={(e) =>
                   setPayload({ ...payload, program: e.target.value })
                 }
               >
-                <option value="" disabled>
-                  เลือกหลักสูตร
+                <option value={program?._id} key={0}>
+                  {program?.name}
                 </option>
-                {/* ตั้งค่า disabled เพื่อป้องกันการเลือก */}
-                {dataProgram?.programs?.map((item, index) => (
-                  <option value={item.name} key={index}>
-                    {item.name}
-                  </option>
-                ))}
               </Select>
             </div>
             <div>
@@ -212,10 +149,10 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
                 onChange={(e) =>
                   setPayload({ ...payload, major: e.target.value })
                 }
-                defaultValue={major}
+                defaultValue={payload.major}
               >
                 <option value={payload.major} key={0}>
-                  {payload.major}
+                  {major?.name}
                 </option>
               </Select>
             </div>
@@ -229,6 +166,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
               <TextInput
                 id="academicYear"
                 type="text"
+                value={payload.academicYear}
                 onChange={(e) => handleChange(e)}
                 required
               />
@@ -243,6 +181,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
               <TextInput
                 id="phoneNumber"
                 type="text"
+                value={payload.phoneNumber}
                 required
                 onChange={(e) => handleChange(e)}
               />
@@ -254,6 +193,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
               <TextInput
                 id="lineId"
                 type="text"
+                value={payload.lineId}
                 required
                 onChange={(e) => handleChange(e)}
               />
@@ -265,41 +205,58 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
               <Textarea
                 id="address"
                 required
+                value={payload.address}
                 onChange={(e) => handleChange(e)}
               />
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="Email" />
+                <Label htmlFor="email" value="Email" />
               </div>
               <TextInput
                 id="email"
-                type="text"
+                type="email"
                 required
+                value={payload.email}
                 onChange={(e) => handleChange(e)}
               />
             </div>
-            <fieldset
-              className="flex max-w-md flex-col gap-4"
-              onChange={(e: any) =>
-                setPayload({ ...payload, status: e.target.value })
-              }
-            >
+            <fieldset className="flex max-w-md flex-col gap-4">
               <legend className="mb-4">สถานะการศึกษา</legend>
               <div className="flex items-center gap-2">
-                <Radio id="กำลังศึกษา" name="countries" value="กำลังศึกษา" />
+                <Radio
+                  id="กำลังศึกษา"
+                  name="status"
+                  value="กำลังศึกษา"
+                  checked={payload.status === "กำลังศึกษา"}
+                  onChange={(e) =>
+                    setPayload({ ...payload, status: e.target.value })
+                  }
+                />
                 <Label htmlFor="กำลังศึกษา">กำลังศึกษา</Label>
               </div>
               <div className="flex items-center gap-2">
                 <Radio
                   id="สำเร็จการศึกษา"
-                  name="countries"
+                  name="status"
                   value="สำเร็จการศึกษา"
+                  checked={payload.status === "สำเร็จการศึกษา"}
+                  onChange={(e) =>
+                    setPayload({ ...payload, status: e.target.value })
+                  }
                 />
                 <Label htmlFor="สำเร็จการศึกษา">สำเร็จการศึกษา</Label>
               </div>
               <div className="flex items-center gap-2">
-                <Radio id="พ้นสภาพ" name="countries" value="พ้นสภาพ" />
+                <Radio
+                  id="พ้นสภาพ"
+                  name="status"
+                  value="พ้นสภาพ"
+                  checked={payload.status === "พ้นสภาพ"}
+                  onChange={(e) =>
+                    setPayload({ ...payload, status: e.target.value })
+                  }
+                />
                 <Label htmlFor="พ้นสภาพ">พ้นสภาพ</Label>
               </div>
             </fieldset>
@@ -311,13 +268,19 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
                     value="เหตุผลที่พ้นการศึกษา (Reason for Dismissal, conditional)"
                   />
                 </div>
-                <Textarea id="reason" onChange={(e) => handleChange(e)} />
+                <Textarea
+                  id="reason"
+                  value={payload.reason}
+                  onChange={(e) =>
+                    setPayload({ ...payload, reason: e.target.value })
+                  }
+                />
               </div>
             )}
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
-            <Button type="submit" color="success" onClick={handleSubmit}>
-              เพิ่ม
+            <Button type="submit" onClick={handleSubmit} color="warning">
+              แก้ไข
             </Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
               ยกเลิก
@@ -325,6 +288,7 @@ export default function ModalCreateUserMajor({ refetch, major }: any) {
           </Modal.Footer>
         </Modal>
       </form>
+      <Toaster />
     </>
   );
 }

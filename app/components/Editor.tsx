@@ -157,6 +157,7 @@ const Editor = ({ setPropsContent, defaultContent }) => {
         buttons: buttons,
         uploader: {
             insertImageAsBase64URI: true
+            
         },
         width: 800,
         height: 842
