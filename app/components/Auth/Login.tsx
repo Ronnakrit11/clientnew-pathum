@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import React, { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
@@ -51,8 +50,11 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
       if (data?.user?.role === "admin") {
         router.push("/admin");
       } else if (data?.user?.role.startsWith("admin-")) {
-        const major = data?.user?.role.split("-")[1];
-        console.log(major);
+        const major =
+          typeof data?.user?.role === "string" && data?.user?.role.includes("-")
+            ? data?.user?.role.split("-")[1]
+            : null;
+
         const majorDataNew = majorData?.data?.find(
           (item: any) => item._id === major
         );

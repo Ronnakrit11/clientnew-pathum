@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
@@ -96,9 +95,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     } else {
       const dataMajorById = dataMajor?.data?.map((item: any) => item._id);
 
-      const filterMajor = dataMajorById?.filter(
-        (item: any) => item === userData?.user?.role.split("-")[1]
-      );
+      const filterMajor =
+        typeof userData?.user?.role === "string" &&
+        userData?.user?.role.includes("-")
+          ? dataMajorById?.filter(
+              (item: any) => item === userData?.user?.role.split("-")[1]
+            )
+          : [];
 
       if (filterMajor?.length > 0) {
         setFilterSubMenu((prev) => [

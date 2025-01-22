@@ -40,7 +40,10 @@ const Sidebar = () => {
   const { data: dataMajor } = useGetAllMajorQuery({});
 
   //  console.log(dataMajor)
-  const roleId = user?.role.split("-")[1];
+  const roleId =
+    typeof user?.role === "string" && user?.role.includes("-")
+      ? user?.role.split("-")[1]
+      : null;
   const { data: dataMajorById } = useGetMajorByIdQuery({ id: roleId });
   console.log(dataMajorById?.data);
   useEffect(() => setMounted(true), []);
@@ -157,7 +160,10 @@ const Sidebar = () => {
                   sx={{ m: "10px 0 0 0" }}
                   className="!text-[14px] text-black dark:text-[#ffffffc1] capitalize"
                 >
-                  ตำแหน่ง : {dataMajorById?.data?.name ===undefined ? 'แอดมิน':`แอดมิน${dataMajorById?.data?.name}`}
+                  ตำแหน่ง :{" "}
+                  {dataMajorById?.data?.name === undefined
+                    ? "แอดมิน"
+                    : `แอดมิน${dataMajorById?.data?.name}`}
                 </Typography>
               </Box>
             </Box>
