@@ -25,6 +25,7 @@ import { AiOutlineFilePpt, AiOutlineLogout } from "react-icons/ai";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import Loader from "./Loader/Loader";
 import { useRouter } from "next/navigation";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 
 type Props = {
   open: boolean;
@@ -33,54 +34,6 @@ type Props = {
   route: string;
   setRoute: (route: string) => void;
 };
-
-const subMenuUserItem = [
-  {
-    title: "Profile",
-    icon: <FaUser />,
-    link: "/profile?tab=account",
-  },
-  {
-    title: "Change Password",
-    icon: <RiLockPasswordLine />,
-    link: "/profile?tab=password",
-  },
-  {
-    title: "My Courses",
-    icon: <SiCoursera />,
-    link: "/profile?tab=course",
-  },
-  {
-    title: "My Ebooks",
-    icon: <AiOutlineFilePpt />,
-    link: "/profile?tab=ebook",
-  },
-  {
-    title: "Admin Dashbord",
-    icon: <MdOutlineAdminPanelSettings />,
-    link: "/admin",
-  },
-  {
-    title: "Admin Dashbord(Eng-It)",
-    icon: <MdOutlineAdminPanelSettings />,
-    link: "admin/en-it",
-  },
-  {
-    title: "Admin Dashbord(tech-env)",
-    icon: <MdOutlineAdminPanelSettings />,
-    link: "admin/tech-env",
-  },
-  {
-    title: "Admin Dashbord(interdisciplinary)",
-    icon: <MdOutlineAdminPanelSettings />,
-    link: "admin/interdisciplinary",
-  },
-  {
-    title: "Admin Dashbord(tect-ids-manage)",
-    icon: <MdOutlineAdminPanelSettings />,
-    link: "admin/tect-ids-manage",
-  },
-];
 
 const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const router = useRouter();
@@ -94,9 +47,70 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const { data } = useSession();
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
   const [logout, setLogout] = useState(false);
+
+  const { data: dataMajor } = useGetAllMajorQuery({});
   const {} = useLogOutQuery(undefined, {
     skip: !logout ? true : false,
   });
+  const subMenuUserItem = [
+    {
+      title: "Profile",
+      icon: <FaUser />,
+      link: "/profile?tab=account",
+    },
+    {
+      title: "Change Password",
+      icon: <RiLockPasswordLine />,
+      link: "/profile?tab=password",
+    },
+    {
+      title: "My Courses",
+      icon: <SiCoursera />,
+      link: "/profile?tab=course",
+    },
+    {
+      title: "My Ebooks",
+      icon: <AiOutlineFilePpt />,
+      link: "/profile?tab=ebook",
+    },
+    {
+      title: "Admin Dashbord",
+      icon: <MdOutlineAdminPanelSettings />,
+      link: "/admin",
+    },
+  ];
+
+  const [filterSubMenu, setFilterSubMenu] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (userData?.user?.role === "admin") {
+      setFilterSubMenu((prev) => [
+        ...prev,
+        {
+          title: `Super Admin Dashboard`,
+          icon: <MdOutlineAdminPanelSettings />,
+          link: `/admin`,
+        },
+      ]);
+    } else {
+      const dataMajorById = dataMajor?.data?.map((item: any) => item._id);
+
+      const filterMajor = dataMajorById?.filter(
+        (item: any) => item === userData?.user?.role.split("-")[1]
+      );
+
+      if (filterMajor?.length > 0) {
+        setFilterSubMenu((prev) => [
+          ...prev,
+          {
+            title: `Admin Dashboard`,
+            icon: <MdOutlineAdminPanelSettings />,
+            link: `/admin/major/${filterMajor[0]}`,
+          },
+        ]);
+      }
+    }
+  }, [dataMajor, userData]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -147,32 +161,24 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     await signOut();
   };
 
-  const restrictedMenus = {
-    admin: ["Admin Dashbord"],
-    "admin-engineer-it-": ["Admin Dashbord(Eng-It)"],
-    "admin-tect-env": ["Admin Dashbord(tech-env)"],
-    interdisciplinary: ["Admin Dashbord(interdisciplinary)"],
-    "admin-tech-indrustry": ["Admin Dashbord(tect-ids-manage)"],
-  };
-
-  const filterSubMenu = subMenuUserItem.filter((item) => {
-    if (
-      (userData?.user?.role === "admin" && item.link.includes("admin")) ||
-      (userData?.user?.role ===
-        "แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" &&
-        item.link.includes("admin/en-it")) ||
-      (userData?.user?.role === "แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร" &&
-        item.link.includes("admin/tech-env")) ||
-      (userData?.user?.role === "แอดมิน-สาขาวิชาสหวิทยาการ" &&
-        item.link.includes("admin/interdisciplinary")) ||
-      (userData?.user?.role ===
-        "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" &&
-        item.link.includes("admin/tect-ids-manage"))
-    ) {
-      return true;
-    }
-    return false;
-  });
+  // const filterSubMenu = subMenuUserItem.filter((item) => {
+  //   if (
+  //     (userData?.user?.role === "admin" && item.link.includes("admin")) ||
+  //     (userData?.user?.role ===
+  //       "แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" &&
+  //       item.link.includes("admin/en-it")) ||
+  //     (userData?.user?.role === "แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร" &&
+  //       item.link.includes("admin/tech-env")) ||
+  //     (userData?.user?.role === "แอดมิน-สาขาวิชาสหวิทยาการ" &&
+  //       item.link.includes("admin/interdisciplinary")) ||
+  //     (userData?.user?.role ===
+  //       "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" &&
+  //       item.link.includes("admin/tect-ids-manage"))
+  //   ) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
 
   return (
     <>

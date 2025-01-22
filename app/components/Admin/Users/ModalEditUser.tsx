@@ -10,6 +10,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+import { useGetAllUserEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
 
 export default function ModalEditUser({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -17,7 +20,7 @@ export default function ModalEditUser({ data, refetch }: any) {
     id: data?._id,
     name: data?.name,
     email: data?.email,
-    program: data?.program,
+    program: data?.program?._id,
     academicYear: data?.academicYear,
     reason: data?.reason,
     phoneNumber: data?.phoneNumber,
@@ -25,12 +28,17 @@ export default function ModalEditUser({ data, refetch }: any) {
     address: data?.address,
     status: data?.status,
     studentId: data?.studentId,
-    major: data?.major,
+    major: data?.major?._id,
+    intern: data?.intern?._id,
   });
 
   const [updateUser, { isLoading, error, isSuccess }] =
     useUpdateUserByIdMutation();
 
+  const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
+  const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
+  const { data: dataEstablishment } = useGetAllUserEstablishmentsQuery({});
+  console.log(dataEstablishment);
   useEffect(() => {
     if (isSuccess) {
       toast.success("Add User successfully");
@@ -62,7 +70,11 @@ export default function ModalEditUser({ data, refetch }: any) {
         <HiOutlinePencilSquare size={20} />
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal show={openModal} onClose={() => setOpenModal(false)} className="z-[9999999999999999]">
+        <Modal
+          show={openModal}
+          onClose={() => setOpenModal(false)}
+          className="z-[9999999999999999]"
+        >
           <Modal.Header>แก้ไขข้อมูลนักศึกษา {data.name}</Modal.Header>
           <Modal.Body>
             <div>
@@ -96,26 +108,24 @@ export default function ModalEditUser({ data, refetch }: any) {
               <div className="mb-2 block">
                 <Label htmlFor="program" value="ชื่อหลักสูตร (Program Name)" />
               </div>
-              <TextInput
+              <Select
                 id="program"
-                type="text"
                 value={payload.program}
                 onChange={(e) => handleChange(e)}
-                required
-              />
+              >
+                <option value="" disabled>
+                  เลือกหลักสูตร
+                </option>
+                {dataProgram?.programs?.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div>
-              {/* <div className="mb-2 block">
-                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major)" />
-              </div>
-              <TextInput
-                id="major"
-                type="text"
-                onChange={(e) => handleChange(e)}
-                required
-              /> */}
               <div className="mb-2 block">
-                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major" />
+                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major)" />
               </div>
               <Select
                 id="major"
@@ -125,17 +135,14 @@ export default function ModalEditUser({ data, refetch }: any) {
                   setPayload({ ...payload, major: e.target.value })
                 }
               >
-                <option value={""}>เลือกสาขาวิชา</option>
-                <option value={"วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"}>
-                  วิศวกรรมซอฟต์แวร์และระบบสารสนเทศ
+                <option value={""} key={0}>
+                  เลือกสาขาวิชา
                 </option>
-                <option value={"เทคโนโลยีสิ่งแวดล้อมการเกษตร"}>
-                  เทคโนโลยีสิ่งแวดล้อมการเกษตร
-                </option>
-                <option value={"เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"}>
-                  เทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม
-                </option>
-                <option value={"สหวิทยาการ"}>สหวิทยาการ</option>
+                {dataMajor?.data?.map((item: any) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
               </Select>
             </div>
             <div>
@@ -202,6 +209,23 @@ export default function ModalEditUser({ data, refetch }: any) {
                 value={payload.email}
                 onChange={(e) => handleChange(e)}
               />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="intern" value="สถานประกอบการณ์ฝึกงาน" />
+              </div>
+              <Select
+                id="intern"
+                onChange={(e) => handleChange(e)}
+                value={payload.intern}
+              >
+                <option value="null">ไม่มีสถานประกอบการณ์ฝึกงาน</option>
+                {dataEstablishment?.establishments?.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
             </div>
             <fieldset className="flex max-w-md flex-col gap-4">
               <legend className="mb-4">สถานะการศึกษา</legend>

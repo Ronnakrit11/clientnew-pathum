@@ -10,7 +10,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
 import { useCreateEstablishmentMutation } from "@/redux/features/establishment/establishmentApi";
-import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useCreateAdminMajorMutation } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { Badge } from "flowbite-react";
@@ -41,14 +40,9 @@ interface Payload {
 
 export default function ModalCreateAdminMajor({
   refetch,
-  // append,
+  append,
   refetch_data,
 }: any) {
-  const {
-    data: userData,
-    isLoading: isLoadingUserData,
-    refetch: refetchUserData,
-  } = useLoadUserQuery(undefined, { refetchOnMountOrArgChange: true });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   // console.log(errors);
   const [openModal, setOpenModal] = useState(false);
@@ -58,9 +52,9 @@ export default function ModalCreateAdminMajor({
     password: "",
     password_confirm: "",
     role: "",
-    id_admin: userData?.user?._id,
   });
 
+  console.log(payload);
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -69,7 +63,7 @@ export default function ModalCreateAdminMajor({
     if (majorData?.data?.length > 0) {
       setPayload((prev) => ({
         ...prev,
-        role: `แอดมิน-${majorData.data[0].name}`,
+        role: `admin-${majorData.data[0]._id}`,
       }));
     }
   }, [majorData]);
@@ -82,7 +76,7 @@ export default function ModalCreateAdminMajor({
       toast.success("สร้างบัญชีแอดมินเรียบร้อยแล้ว");
       refetch();
       // refetch_data();
-      refetchUserData();
+      // refetchUserData();
       setOpenModal(false);
     }
     if (error) {
@@ -124,12 +118,12 @@ export default function ModalCreateAdminMajor({
                 สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ{" "}
                 <Badge
                   color={
-                    userData?.user?.appoint.engineerIT > 0
+                    append?.engineerIT > 0
                       ? "success"
                       : "failure"
                   }
                 >
-                  {userData?.user?.appoint.engineerIT}
+                  {append?.engineerIT}
                 </Badge>
                 ครั้ง
               </p>
@@ -137,10 +131,10 @@ export default function ModalCreateAdminMajor({
                 สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร{" "}
                 <Badge
                   color={
-                    userData?.user?.appoint.argTech > 0 ? "success" : "failure"
+                    append?.argTech > 0 ? "success" : "failure"
                   }
                 >
-                  {userData?.user?.appoint.argTech}
+                  {append?.argTech}
                 </Badge>{" "}
                 ครั้ง
               </p>
@@ -148,12 +142,12 @@ export default function ModalCreateAdminMajor({
                 สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม{" "}
                 <Badge
                   color={
-                    userData?.user?.appoint.techInnovation > 0
+                    append?.techInnovation > 0
                       ? "success"
                       : "failure"
                   }
                 >
-                  {userData?.user?.appoint.techInnovation}
+                  {append?.techInnovation}
                 </Badge>
                 ครั้ง
               </p>
@@ -161,12 +155,12 @@ export default function ModalCreateAdminMajor({
                 สาขาวิชาสหวิทยาการ
                 <Badge
                   color={
-                    userData?.user?.appoint.interdisciplinary > 0
+                    append?.interdisciplinary > 0
                       ? "success"
                       : "failure"
                   }
                 >
-                  {userData?.user?.appoint.interdisciplinary}
+                  {append?.interdisciplinary}
                 </Badge>{" "}
                 ครั้ง
               </p>
@@ -231,11 +225,8 @@ export default function ModalCreateAdminMajor({
                 }
                 value={payload.role}
               >
-                {userData?.user?.role === "admin" && (
-                  <option value={"admin"}>admin</option>
-                )}
                 {majorData?.data?.map((major) => (
-                  <option key={major._id} value={`แอดมิน-${major.name}`}>
+                  <option key={major._id} value={`admin-${major._id}`}>
                     แอดมิน-{major.name}
                   </option>
                 ))}

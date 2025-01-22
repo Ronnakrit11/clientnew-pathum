@@ -9,6 +9,12 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { ExitToAppIcon, GroupsIcon, HomeOutlinedIcon } from "./Icon";
+import { HiMiniUsers } from "react-icons/hi2";
+import { HiBuildingOffice2 } from "react-icons/hi2";
+import { HiAcademicCap } from "react-icons/hi2";
+import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
 
 interface itemProps {
   title: string;
@@ -30,8 +36,12 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { data: dataMajor } = useGetAllMajorQuery({});
 
-
+  //  console.log(dataMajor)
+  const roleId = user?.role.split("-")[1];
+  const { data: dataMajorById } = useGetMajorByIdQuery({ id: roleId });
+  console.log(dataMajorById?.data);
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
@@ -136,17 +146,17 @@ const Sidebar = () => {
               <Box textAlign="center">
                 <Typography
                   variant="h4"
-                  className="!text-[16px] text-black dark:text-[#ffffffc1]"
+                  className="!text-[14px] text-black dark:text-[#ffffffc1]"
                   sx={{ m: "10px 0 0 0" }}
                 >
                   ชื่อ : {user?.name}
                 </Typography>
                 <Typography
-                  variant="h6"
+                  variant="h4"
                   sx={{ m: "10px 0 0 0" }}
-                  className="!text-[16px] text-black dark:text-[#ffffffc1] capitalize"
+                  className="!text-[14px] text-black dark:text-[#ffffffc1] capitalize"
                 >
-                  ตำแหน่ง : {user?.role}
+                  ตำแหน่ง : {dataMajorById?.data?.name ===undefined ? 'แอดมิน':`แอดมิน${dataMajorById?.data?.name}`}
                 </Typography>
               </Box>
             </Box>
@@ -159,42 +169,71 @@ const Sidebar = () => {
               logoutHandler={logoutHandler}
             />
           )}
-          {user.role === "แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ" && (
-            <AdminEnItSidebarItem
-              selected={selected}
-              setSelected={setSelected}
-              isCollapsed={isCollapsed}
-              logoutHandler={logoutHandler}
-            />
-          )}
-          {user.role === "แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร" && (
-            <AdminTechEnvSidebarItem
-              selected={selected}
-              setSelected={setSelected}
-              isCollapsed={isCollapsed}
-              logoutHandler={logoutHandler}
-            />
-          )}
-          {user.role === "แอดมิน-สาขาวิชาสหวิทยาการ" && (
-            <AdminInterdisciplinarySidebarItem
-              selected={selected}
-              setSelected={setSelected}
-              isCollapsed={isCollapsed}
-              logoutHandler={logoutHandler}
-            />
-          )}
-          {user.role ===
-            "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม" && (
-            <AdminTechIdsManageSidebarItem
-              selected={selected}
-              setSelected={setSelected}
-              isCollapsed={isCollapsed}
-              logoutHandler={logoutHandler}
-            />
+          {user.role !== "admin" && (
+            <>
+              <Typography
+                variant="h5"
+                className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                sx={{ m: "15px 0 5px 20px" }}
+              >
+                {!isCollapsed && `${dataMajorById?.data?.name}`}
+              </Typography>
+              <Item
+                title="รายชื่อนักศึกษา"
+                to={`/admin/major/${dataMajorById?.data?._id}`}
+                icon={<HiMiniUsers size={20} />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="รายชื่อสถานประกอบการ"
+                to={`/admin/major/establishments/${dataMajorById?.data?._id}`}
+                icon={<HiBuildingOffice2 size={20} />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="ผลงานปริญญานิพนธ์"
+                to={`/admin/major/thesis/${dataMajorById?.data?._id}`}
+                icon={<HiAcademicCap size={20} />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+
+              <Typography
+                variant="h6"
+                className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+                sx={{ m: "15px 0 5px 20px" }}
+              >
+                {!isCollapsed && "แอ็คชั่น"}
+              </Typography>
+              <div onClick={logoutHandler}>
+                <Item
+                  title="ออกจากระบบ"
+                  to="/"
+                  icon={<ExitToAppIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </div>
+            </>
           )}
         </Menu>
       </ProSidebar>
     </Box>
+  );
+};
+
+const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
+  return (
+    <MenuItem
+      active={selected === title}
+      onClick={() => setSelected(title)}
+      icon={icon}
+    >
+      <Typography className="!text-[16px] !font-Poppins">{title}</Typography>
+      <Link href={to} />
+    </MenuItem>
   );
 };
 

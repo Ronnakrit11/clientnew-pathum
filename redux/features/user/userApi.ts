@@ -176,6 +176,13 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllAdmin: builder.query({
+      query: () => ({
+        url: "get-all-admin",
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -200,4 +207,5 @@ export const {
   useGetAllUserSuccessQuery,
   useCreateAdminMajorMutation,
   useListUserByMajorQuery,
+  useGetAllAdminQuery,
 } = userApi;

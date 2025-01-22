@@ -14,14 +14,15 @@ import DrawerFilter from "@/app/admin/en-it/DrawerFilter";
 import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 
 const NewAllUsers = () => {
-
   const [payload, setPayload] = useState({
     page: 1,
     limit: 10,
     name: "",
     major:
       "6750880ea21533239807c93b&major=67508a8bb6021ee6cee863e6&major=67508a92b6021ee6cee863ec&major=67508b21b6021ee6cee863fd",
-    dateStart: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
+    dateStart: new Date(
+      new Date().setMonth(new Date().getMonth() - 1)
+    ).toISOString(),
     dateEnd: new Date().toISOString(),
     status: "",
     studentId: "i",
@@ -36,27 +37,24 @@ const NewAllUsers = () => {
 
   return (
     <div className="container mx-auto mt-24 p-4">
-       <div className="flex gap-2 mb-4">
-          <div>
-            <div className="mb-2 block">
-              <Label
-                htmlFor="name"
-                value="ค้นหาชื่อนักศึกษา หรือรหัสนักศึกษา"
-              />
-            </div>
-            <TextInput
-              id="name"
-              type="text"
-              className="w-[400px]"
-              placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
-              onChange={(e) => setPayload({ ...payload, name: e.target.value })}
-              required
-            />
+      <div className="flex gap-2 mb-4">
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา หรือรหัสนักศึกษา" />
           </div>
-          <div className="flex items-end">
-            <DrawerFilter setPayload={setPayload} payload={payload} />
-          </div>
+          <TextInput
+            id="name"
+            type="text"
+            className="w-[400px]"
+            placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
+            onChange={(e) => setPayload({ ...payload, name: e.target.value })}
+            required
+          />
         </div>
+        <div className="flex items-end">
+          <DrawerFilter setPayload={setPayload} payload={payload} />
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <Table hoverable>
           <Table.Head className="text-md">
@@ -69,7 +67,9 @@ const NewAllUsers = () => {
               ดำเนินการ{" "}
               <Select
                 value={payload.limit}
-                onChange={(e: any) => setPayload({ ...payload, limit: e.target.value })}
+                onChange={(e: any) =>
+                  setPayload({ ...payload, limit: e.target.value })
+                }
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
@@ -87,8 +87,8 @@ const NewAllUsers = () => {
                     {user.name}
                   </Table.Cell>
                   <Table.Cell>{user.studentId}</Table.Cell>
-                  <Table.Cell>{user.major}</Table.Cell>
-                  <Table.Cell>{user.program}</Table.Cell>
+                  <Table.Cell>{user.major.name}</Table.Cell>
+                  <Table.Cell>{user.program.name}</Table.Cell>
                   <Table.Cell>{user.status}</Table.Cell>
                   <Table.Cell className="flex gap-2">
                     <ModalInfoUser data={user} />

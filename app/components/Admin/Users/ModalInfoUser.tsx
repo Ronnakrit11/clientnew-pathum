@@ -21,12 +21,7 @@ const ModalInfoUser = ({ data }: any) => {
       >
         <HiOutlineEye size={20} />
       </Button>
-      <Modal
-        show={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="z-[9999999999999999]"
-        size={"7xl"}
-      >
+      <Modal show={isOpen} onClose={() => setIsOpen(false)} size={"7xl"}>
         <Modal.Header>รายละเอียดนักศึกษา {data.name}</Modal.Header>
         <Modal.Body>
           <div className="flex justify-around  divide-x">

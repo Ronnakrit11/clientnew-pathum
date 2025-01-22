@@ -6,7 +6,6 @@ import { useSearchUserByNameQuery } from "@/redux/features/user/userApi";
 import { Select } from "flowbite-react";
 import { useUpdateUserRoleMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
-import { Badge } from "flowbite-react";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useReadUserByIdQuery } from "@/redux/features/user/userApi";
 import ModalCreateAdminMajor from "./ModalCreateAdminMajor";
@@ -14,6 +13,7 @@ import { Pagination } from "flowbite-react";
 import ModalEditAdmin from "./ModalEditAdmin";
 import ModalDelete from "@/app/components/Admin/Users/ModalDelete";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { useGetAllAdminQuery } from "@/redux/features/user/userApi";
 
 const AllUserAdmin = () => {
   const {
@@ -33,14 +33,12 @@ const AllUserAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  // const { data: majorData } = useGetAllMajorQuery(undefined, {
-  //   refetchOnMountOrArgChange: true,
-  // });
-  const { data: searchUserByName, refetch } = useSearchUserByNameQuery({
-    name: searchName,
-    limit: limit,
-    page: currentPage,
-    role: "admin&role=แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ&role=แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม&role=แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร&role=แอดมิน-สาขาวิชาสหวิทยาการ",
+  const { data: majorData } = useGetAllMajorQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const { data: adminData, refetch } = useGetAllAdminQuery(undefined, {
+    refetchOnMountOrArgChange: true,
   });
 
   // console.log(majorData?.data);
@@ -96,7 +94,7 @@ const AllUserAdmin = () => {
           <ModalCreateAdminMajor
             refetch={refetchUserById}
             refetch_data={refetch}
-            // append={userById?.user.appoint}
+            append={userById?.user?.appoint}
           />
         </div>
       </div>
@@ -120,8 +118,8 @@ const AllUserAdmin = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {searchUserByName &&
-              searchUserByName?.user.map((user: any) => (
+            {adminData &&
+              adminData?.users.map((user: any) => (
                 <Table.Row key={user._id}>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {user.name}

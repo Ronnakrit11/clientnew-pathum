@@ -13,7 +13,7 @@ import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 type Props = {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
@@ -31,7 +31,9 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const [show, setShow] = useState(false);
   const [login, { isSuccess, error, data }] = useLoginMutation();
   const router = useRouter();
-
+  const { data: majorData } = useGetAllMajorQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
@@ -44,23 +46,20 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
     if (isSuccess) {
       toast.success("Login Successfully!");
       console.log(data?.user?.role);
+
       if (data?.user?.role === "admin") {
         router.push("/admin");
-      } else if (
-        data?.user?.role === "แอดมิน-สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ"
-      ) {
-        router.push("/admin/en-it");
-      } else if (
-        data?.user?.role ===
-        "แอดมิน-สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม"
-      ) {
-        router.push("/admin/tect-ids-manage");
-      } else if (
-        data?.user?.role === "แอดมิน-สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร"
-      ) {
-        router.push("/admin/tech-env");
-      } else if (data?.user?.role === "แอดมิน-สาขาวิชาสหวิทยาการ") {
-        router.push("/admin/interdisciplinary");
+      } else if (data?.user?.role.startsWith("admin-")) {
+        const major = data?.user?.role.split("-")[1];
+        console.log(major);
+        const majorDataNew = majorData?.data?.find(
+          (item: any) => item._id === major
+        );
+        if (majorDataNew) {
+          router.push(`/admin/major/${majorDataNew._id}`);
+        }
+      } else if (data?.user?.role === "user") {
+        router.push("/user");
       }
       setOpen(false);
       refetch();
@@ -136,30 +135,6 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           />
         </div>
         <br />
-        {/* <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
-          Or join with
-        </h5>
-        <div className="flex items-center justify-center my-3">
-          <FcGoogle
-            size={30}
-            className="cursor-pointer mr-2"
-            onClick={() => signIn("google")}
-          />
-          <AiFillGithub
-            size={30}
-            className="cursor-pointer ml-2"
-            onClick={() => signIn("github")}
-          />
-        </div> */}
-        {/* <h5 className="text-center pt-4 font-Poppins text-[14px]">
-          Not have any account?{" "}
-          <span
-            className="text-primary pl-1 cursor-pointer"
-            onClick={() => setRoute("Sign-Up")}
-          >
-            Sign up
-          </span>
-        </h5> */}
       </form>
       <br />
     </div>

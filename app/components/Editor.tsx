@@ -2,7 +2,6 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
-// import JoditEditoir from 'jodit-react';
 import "./Editor.css";
 import { FaCodeMerge } from "react-icons/fa6";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
@@ -10,7 +9,6 @@ const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 const Editor = ({ setPropsContent, defaultContent }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
-  // console.log("🚀 ~ file: Editor4.tsx:11 ~ Editor4 ~ content:", content)
   const [fileBase64, setFileBase64] = useState<string | null>(null);
 
   useEffect(() => {
@@ -21,11 +19,15 @@ const Editor = ({ setPropsContent, defaultContent }) => {
     setPropsContent(content);
   }, [content]);
 
+  // Ensure that document is available
+  const isClient = typeof window !== "undefined";
+
   const copyStringToClipboard = function (str: any) {
+    if (!isClient) return; // Prevent running this on the server
+
     var el = document.createElement("textarea");
     el.value = str;
     el.setAttribute("readonly", "");
-    // el.style = { position: "absolute", left: "-9999px" };
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");
@@ -47,10 +49,13 @@ const Editor = ({ setPropsContent, defaultContent }) => {
     "InspectionCompleteDate",
     "InspectionEventType",
   ];
+
   const createOptionGroupElement = (
     mergeFields: any,
     optionGrouplabel: any
   ) => {
+    if (!isClient) return null; // Prevent running this on the server
+
     let optionGroupElement = document.createElement("optgroup");
     optionGroupElement.setAttribute("label", optionGrouplabel);
     for (let index = 0; index < mergeFields.length; index++) {
@@ -101,60 +106,17 @@ const Editor = ({ setPropsContent, defaultContent }) => {
     "|",
     "source",
     "|",
-    // {
-    //   name: "insertMergeField",
-    //   tooltip: "Insert Merge Field",
-    //   iconURL: "/images/merge.png",
-    //   popup: (editor: any, current: any, self: any, close: any) => {
-    //     function onSelected(e: any) {
-    //       let mergeField = e.target.value;
-    //       if (mergeField) {
-    //         console.log(mergeField);
-    //         editor.selection.insertNode(
-    //           editor.create.inside.fromHTML("{{" + mergeField + "}}")
-    //         );
-    //       }
-    //     }
-    //     let divElement = editor.create.div("merge-field-popup");
-
-    //     let labelElement = document.createElement("label");
-    //     labelElement.setAttribute("class", "merge-field-label");
-    //     // labelElement.text = 'Merge field: ';
-    //     divElement.appendChild(labelElement);
-
-    //     let selectElement = document.createElement("select");
-    //     selectElement.setAttribute("class", "merge-field-select");
-    //     selectElement.appendChild(
-    //       createOptionGroupElement(facilityMergeFields, "Facility")
-    //     );
-    //     selectElement.appendChild(
-    //       createOptionGroupElement(inspectionMergeFields, "Inspection")
-    //     );
-    //     selectElement.onchange = onSelected;
-    //     divElement.appendChild(selectElement);
-
-    //     console.log(divElement);
-    //     return divElement;
-    //   },
-    // },
-    // {
-    //   name: "copyContent",
-    //   tooltip: "Copy HTML to Clipboard",
-    //   iconURL: "images/copy.png",
-    //   exec: function (editor: any) {
-    //     let html = editor.value;
-    //     copyStringToClipboard(html);
-    //   },
-    // },
-    "|",
     {
       name: "uploadFiles",
       tooltip: "Upload Files",
       iconURL: "/images/uploadfile.png",
       exec: function (editor: any) {
+        if (!isClient) return; // Prevent running this on the server
+
         const inputElement = document.createElement("input");
         inputElement.type = "file";
-        inputElement.accept = ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rar,.zip,.csv";
+        inputElement.accept =
+          ".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.rar,.zip,.csv";
         inputElement.multiple = false;
         inputElement.style.display = "none";
 
@@ -164,12 +126,10 @@ const Editor = ({ setPropsContent, defaultContent }) => {
           if (files) {
             for (let file of files) {
               const reader = new FileReader();
-
               reader.onload = async () => {
                 const base64String = reader.result?.toString();
                 if (base64String) {
                   try {
-                    // Send the file to Cloudinary or another API
                     const response = await fetch(
                       `${process.env.NEXT_PUBLIC_ORIGIN_URI}/api/v1/blog/upload`,
                       {
@@ -186,14 +146,17 @@ const Editor = ({ setPropsContent, defaultContent }) => {
 
                     if (response.ok) {
                       const result = await response.json();
-                      console.log(result);
-                      const fileURL = result.url;
+                      const fileURL = result?.url;
 
-                      // Insert the file link into the editor
-                      editor.selection.insertHTML(
-                        `<a href="${fileURL}" target="_blank" class="file-link">${file.name}</a>`
-                      );
-                      toast.success("File uploaded successfully!");
+                      if (editor && editor.selection) {
+                        editor.selection.insertHTML(
+                          `<a href="${fileURL}" target="_blank" class="file-link">${file.name}</a>`
+                        );
+                        toast.success("File uploaded successfully!");
+                      } else {
+                        toast.error("Editor is not available.");
+                        console.error("Editor or selection is undefined.");
+                      }
                     } else {
                       toast.error("Failed to upload file.");
                       console.error(
@@ -227,14 +190,12 @@ const Editor = ({ setPropsContent, defaultContent }) => {
     toolbar: true,
     spellcheck: true,
     language: "en",
-    // toolbarButtonSize: "tiny",
     toolbarAdaptive: false,
     showCharsCounter: true,
     showWordsCounter: true,
     showXPathInStatusbar: false,
     askBeforePasteHTML: true,
     askBeforePasteFromWord: true,
-    //defaultActionOnPaste: "insert_clear_html",
     buttons: buttons,
     uploader: {
       insertImageAsBase64URI: true,
@@ -250,7 +211,6 @@ const Editor = ({ setPropsContent, defaultContent }) => {
         ref={editor}
         value={content}
         config={editorConfig}
-        // tabIndex={1} // tabIndex of textarea
         onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
         onChange={(newContent) => {}}
       />
