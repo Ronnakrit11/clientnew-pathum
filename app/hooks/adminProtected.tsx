@@ -12,12 +12,12 @@ export default function AdminProtected({ children }: ProtectedProps) {
   const { data } = useGetAllMajorQuery({});
 
   const dataMajorById = data?.data?.map((item: any) => "admin-" + item._id);
-  console.log(dataMajorById);
+  // console.log(dataMajorById);
   if (user) {
     const isAdmin =
       user?.role === "admin" || dataMajorById?.includes(user?.role);
 
-    console.log("user", isAdmin);
+    // console.log("user", isAdmin);
 
     return isAdmin ? children : redirect("/");
   }
