@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, FileInput, Label, TextInput } from "flowbite-react";
+import { Button, FileInput, Label, TextInput, Select } from "flowbite-react";
 import { useUploadThesisMutation } from "@/redux/features/user/userApi";
 import toast from "react-hot-toast";
 import { Modal } from "flowbite-react";
+import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
 
 const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
   const [fileBase64, setFileBase64] = useState<string | null>(null);
@@ -13,6 +14,7 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
   const [advisor1, setAdvisor1] = useState("");
   const [advisor2, setAdvisor2] = useState("");
   const [advisor3, setAdvisor3] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,7 +40,14 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
 
     try {
       // ส่งข้อมูลในรูปแบบที่กำหนด
-      await uploadThesis({ id, file: fileBase64, advisor1, advisor2, advisor3 }).unwrap();
+      await uploadThesis({
+        id,
+        title,
+        file: fileBase64,
+        advisor1,
+        advisor2,
+        advisor3,
+      }).unwrap();
       // toast.success("อัพโหลดปริญญานิพนธ์เรียบร้อยแล้ว");
     } catch (err) {
       toast.error("อัพโหลดปริญญานิพนธ์ไม่สำเร็จ");
@@ -66,7 +75,20 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
         <Modal.Body>
           <div className="space-y-6">
             <div>
-              <Label htmlFor="advisor" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 1" />
+              <Label htmlFor="title" value="ชื่อหัวข้อปริญญานิพนธ์" />
+              <TextInput
+                id="title"
+                type="text"
+                required
+                // onChange={(e) => handleChange(e)}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              <Label
+                htmlFor="advisor"
+                value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 1"
+              />
               <TextInput
                 id="advisor"
                 type="text"
@@ -76,7 +98,10 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
               />
             </div>
             <div>
-              <Label htmlFor="advisor2" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2" />
+              <Label
+                htmlFor="advisor2"
+                value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2"
+              />
               <TextInput
                 id="advisor2"
                 type="text"
@@ -86,7 +111,10 @@ const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
               />
             </div>
             <div>
-              <Label htmlFor="advisor3" value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3" />
+              <Label
+                htmlFor="advisor3"
+                value="อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3"
+              />
               <TextInput
                 id="advisor3"
                 type="text"

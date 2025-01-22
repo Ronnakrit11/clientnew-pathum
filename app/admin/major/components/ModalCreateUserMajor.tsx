@@ -9,9 +9,22 @@ import { useAddUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { z } from "zod";
+import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
+import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
 
 export default function ModalCreateUserMajor({ refetch, major, program }: any) {
   const [openModal, setOpenModal] = useState(false);
+  const { data: dataMajor } = useGetMajorByIdQuery({ id: major });
+  // console.log(dataMajor?.data);
+  const payloadSearch = {
+    name: "",
+    major: major,
+    page: 1,
+    limit: 1000,
+  };
+
+  const { data: dataAllEstablishments, refetch: refetchAllEstablishments } =
+    useGetAllEstablishmentsQuery(payloadSearch);
 
   const schema = z.object({
     prefix: z.string().min(1, "คำนำหน้าชื่อจำเป็นต้องกรอก"),
@@ -30,15 +43,15 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
   });
 
   useEffect(() => {
-    setPayload(initialPayload)
-  },[program])
+    setPayload(initialPayload);
+  }, [program]);
 
   const initialPayload = {
     prefix: "นาย",
     name: "",
     email: "",
     password: "123456",
-    program: program?._id || "",
+    program: dataMajor?.data?.program?._id || "",
     academicYear: "",
     reason: "",
     phoneNumber: "",
@@ -46,7 +59,8 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
     address: "",
     status: "",
     studentId: "",
-    major: major || "",
+    major: dataMajor?.data?._id,
+    intern: null,
   };
 
   const [payload, setPayload] = useState(initialPayload);
@@ -79,6 +93,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
         status: "",
         studentId: "",
         major: "",
+        intern: null,
       });
     }
     if (AddUserError) {
@@ -187,7 +202,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
                 <option value="" disabled>
                   เลือกหลักสูตร
                 </option>
-                <option>{program?.name}</option>
+                <option>{dataMajor?.data?.program?.name}</option>
               </Select>
             </div>
             <div>
@@ -195,8 +210,11 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
                 <Label htmlFor="major" value="ชื่อสาขาวิชา (Major" />
               </div>
               <Select id="major" defaultValue={payload.major}>
-                <option value={major} key={0}>
-                  {major?.name}
+                <option value="" disabled>
+                  เลือกสาขาวิชา
+                </option>
+                <option value={dataMajor?.data?._id} key={0}>
+                  {dataMajor?.data?.name}
                 </option>
               </Select>
             </div>
@@ -259,6 +277,19 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
                 required
                 onChange={(e) => handleChange(e)}
               />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="intern" value="สถานประกอบการณ์ฝึกงาน" />
+              </div>
+              <Select id="intern" onChange={(e) => handleChange(e)}>
+                <option value="null">ไม่มีสถานประกอบการณ์ฝึกงาน</option>
+                {dataAllEstablishments?.establishments?.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
             </div>
             <fieldset
               className="flex max-w-md flex-col gap-4"

@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
-
+import "../../components/Editor.css";
 
 const BlogContent = dynamic(() => import('@/app/components/Blog/BlogContent'), { ssr: false })
 

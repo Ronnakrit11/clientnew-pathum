@@ -168,7 +168,7 @@ export const userApi = apiSlice.injectEndpoints({
         status,
         name,
         studentId,
-        createdAt
+        createdAt,
       }) => ({
         url: `list-user-by-major?major=${major}&page=${page}&limit=${limit}&dateEnd=${dateEnd}&dateStart=${dateStart}&status=${status}&name=${name}&studentId=${studentId}&createdAt=${createdAt}`,
 

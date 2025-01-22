@@ -10,7 +10,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
-import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+// import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
+import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
 
 export default function ModalEditUserMajor({
   data,
@@ -19,14 +21,25 @@ export default function ModalEditUserMajor({
   program,
 }: any) {
   const [openModal, setOpenModal] = useState(false);
-  const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
+  // const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
+  const payloadSearch = {
+    name: "",
+    major: major,
+    page: 1,
+    limit: 1000,
+  };
 
+  const { data: dataAllEstablishments, refetch: refetchAllEstablishments } =
+    useGetAllEstablishmentsQuery(payloadSearch);
+  const { data: dataMajor } = useGetMajorByIdQuery({ id: major });
+
+  // console.log(establishment);
   const [payload, setPayload] = useState({
     prefix: data?.prefix,
     id: data?._id,
     name: data?.name,
     email: data?.email,
-    program: data?.program?.name,
+    program: data?.program?._id,
     academicYear: data?.academicYear,
     reason: data?.reason,
     phoneNumber: data?.phoneNumber,
@@ -34,7 +47,8 @@ export default function ModalEditUserMajor({
     address: data?.address,
     status: data?.status,
     studentId: data?.studentId,
-    major: data?.major?.name,
+    major: data?.major?._id,
+    intern: data?.intern?._id,
   });
 
   const [updateUser, { isLoading, error, isSuccess }] =
@@ -42,19 +56,21 @@ export default function ModalEditUserMajor({
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Add User successfully");
+      toast.success("อัพเดทผู้ใช้สำเร็จ");
       refetch();
       setOpenModal(false);
     }
     if (error) {
-      toast.error("Add User Error");
+      toast.error("อัพเดทผู้ใช้ไม่สำเร็จ");
     }
   }, [isSuccess, error]);
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    // console.log(payload);
+    console.log(payload);
   };
+
+  // console.log(data);
 
   const handleSubmit = async () => {
     await updateUser(payload);
@@ -71,11 +87,7 @@ export default function ModalEditUserMajor({
         <HiOutlinePencilSquare size={20} />
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <Modal
-          show={openModal}
-          onClose={() => setOpenModal(false)}
-          className="z-[9999999999999999]"
-        >
+        <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>แก้ไขข้อมูลนักศึกษา {data.name}</Modal.Header>
           <Modal.Body>
             <div>
@@ -129,13 +141,13 @@ export default function ModalEditUserMajor({
               <Select
                 id="program"
                 required
-                value={payload.program}
+                value={dataMajor?.data?.program?._id}
                 onChange={(e) =>
                   setPayload({ ...payload, program: e.target.value })
                 }
               >
-                <option value={program?._id} key={0}>
-                  {program?.name}
+                <option value={dataMajor?.data?.program?._id} key={0}>
+                  {dataMajor?.data?.program?.name}
                 </option>
               </Select>
             </div>
@@ -149,10 +161,10 @@ export default function ModalEditUserMajor({
                 onChange={(e) =>
                   setPayload({ ...payload, major: e.target.value })
                 }
-                defaultValue={payload.major}
+                value={dataMajor?.data?._id}
               >
-                <option value={payload.major} key={0}>
-                  {major?.name}
+                <option value={dataMajor?.data?._id} key={0}>
+                  {dataMajor?.data?.name}
                 </option>
               </Select>
             </div>
@@ -220,6 +232,23 @@ export default function ModalEditUserMajor({
                 value={payload.email}
                 onChange={(e) => handleChange(e)}
               />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="intern" value="สถานประกอบการณ์ฝึกงาน" />
+              </div>
+              <Select
+                id="intern"
+                onChange={(e) => handleChange(e)}
+                value={payload.intern}
+              >
+                <option value="">ไม่มีสถานประกอบการณ์ฝึกงาน</option>
+                {dataAllEstablishments?.establishments?.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
             </div>
             <fieldset className="flex max-w-md flex-col gap-4">
               <legend className="mb-4">สถานะการศึกษา</legend>

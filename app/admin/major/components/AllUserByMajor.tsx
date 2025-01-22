@@ -22,7 +22,7 @@ const AllUserByMajor = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-  
+
   const [payload, setPayload] = useState({
     page: 1,
     limit: 10,
@@ -40,6 +40,8 @@ const AllUserByMajor = () => {
   const { data, refetch } = useListUserByMajorQuery(payload, {
     refetchOnMountOrArgChange: true,
   });
+
+  // console.log(data?.data);
 
   useEffect(() => {
     if (data) {

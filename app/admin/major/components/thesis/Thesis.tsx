@@ -121,8 +121,8 @@ const Thesis = () => {
             <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
+            <Table.HeadCell>ชื่อหัวข้อปริญญานิพนธ์</Table.HeadCell>
             <Table.HeadCell>อาจารย์ที่ปรึกษา</Table.HeadCell>
-            <Table.HeadCell>เอกสารปริญญาตรี</Table.HeadCell>
             <Table.HeadCell>
               <div className="flex justify-between items-center gap-2">
                 ดำเนินการ
@@ -164,19 +164,27 @@ const Thesis = () => {
                       <Table.Cell>{user.major?.name}</Table.Cell>
                       <Table.Cell>{user.program?.name}</Table.Cell>
                       <Table.Cell>
-                        {user?.thesis?.advisor1}
-                        <br />
-                        {user?.thesis?.advisor2}
-                        <br />
-                        {user?.thesis?.advisor3}
+                        {user?.thesis ? (
+                          <>
+                            <Link href={user.thesis.url} target="_blank">
+                              <p className="underline text-red-600">
+                                {user?.thesis?.title}
+                              </p>
+                            </Link>
+                          </>
+                        ) : (
+                          "ยังไม่อัพโหลด"
+                        )}
                       </Table.Cell>
                       <Table.Cell>
                         {user?.thesis ? (
-                          <Link href={user.thesis.url} target="_blank">
-                            <Button color="dark">
-                              <FaFilePdf />
-                            </Button>
-                          </Link>
+                          <>
+                            {user?.thesis?.advisor1}
+                            <br />
+                            {user?.thesis?.advisor2}
+                            <br />
+                            {user?.thesis?.advisor3}
+                          </>
                         ) : (
                           "ยังไม่อัพโหลด"
                         )}

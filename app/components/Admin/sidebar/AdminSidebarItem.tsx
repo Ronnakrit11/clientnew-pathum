@@ -164,7 +164,7 @@ const AdminSidebarItem = ({
         setSelected={setSelected}
       />
       <Item
-        title="วัตถุประสงค์คณะกรรมการ"
+        title="คณะกรรมการ"
         to="/admin/structure-smo"
         icon={<IoReaderOutline />}
         selected={selected}

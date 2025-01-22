@@ -3,12 +3,14 @@ import DashboardHero from "@/app/components/Admin/DashboardHero";
 import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
 import React from "react";
-import AdminSidebar from "../../../../components/Admin/sidebar/AdminSidebar";
-// import AllEstabishment from "../../components/establishments/AllEstabishment";
-
+import AdminSidebar from "@/app/components/Admin/sidebar/AdminSidebar";
+import AllEstabishment from "../../components/establishments/AllEstabishment";
+import { useParams } from "next/navigation";
 type Props = {};
 
 const page = (props: Props) => {
+  const { id }: any = useParams();
+  console.log(id);
   return (
     <div>
       <AdminProtected>
@@ -23,7 +25,8 @@ const page = (props: Props) => {
           </div>
           <div className="w-[85%]">
             <DashboardHero />
-            {/* <AllEstabishment /> */}
+            {/* <EnginnerAllUser /> */}
+            <AllEstabishment major={id} />
           </div>
         </div>
       </AdminProtected>

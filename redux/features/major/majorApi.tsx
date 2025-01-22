@@ -10,18 +10,18 @@ export const majorApi = apiSlice.injectEndpoints({
       }),
     }),
     createMajor: builder.mutation({
-      query: ({ name, id_program }) => ({
+      query: ({ name, program }) => ({
         url: "major-create",
         method: "POST",
-        body: { name, id_program },
+        body: { name, program },
         credentials: "include" as const,
       }),
     }),
     updateMajor: builder.mutation({
-      query: ({ id, name, id_program }) => ({
+      query: ({ id, name, program }) => ({
         url: `major-update/${id}`,
         method: "PUT",
-        body: { name, id_program },
+        body: { name, program },
         credentials: "include" as const,
       }),
     }),

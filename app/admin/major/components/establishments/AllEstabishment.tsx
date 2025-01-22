@@ -23,6 +23,8 @@ const AllEstabishment = ({ major }: { major: string }) => {
   const { data: dataAllEstablishments, refetch: refetchAllEstablishments } =
     useGetAllEstablishmentsQuery(payloadSearch);
 
+    console.log(dataAllEstablishments?.establishments);
+
   const onPageChange = (page: number) => setCurrentPage(page);
 
   return (
