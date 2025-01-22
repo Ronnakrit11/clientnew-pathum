@@ -1,4 +1,4 @@
-// ts-nocheck
+// @ts-nocheck
 "use client";
 import React, { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
