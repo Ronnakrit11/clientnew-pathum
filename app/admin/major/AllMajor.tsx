@@ -34,7 +34,6 @@ const AllMajor = () => {
   const { data, refetch } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  console.log(data?.data);
 
   const {
     data: userById,
@@ -43,8 +42,6 @@ const AllMajor = () => {
   } = useReadUserByIdQuery(userData?.user._id, {
     skip: !userData,
   });
-
-  // console.log(data);
 
   useEffect(() => {
     if (UpdateRoleSuccess) {

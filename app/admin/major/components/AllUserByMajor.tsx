@@ -12,6 +12,10 @@ import ModalCreateUserMajor from "./ModalCreateUserMajor";
 import ModalEditUserMajor from "./ModalEditUserMajor";
 import { useParams } from "next/navigation";
 import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import * as XLSX from "xlsx";
+import { FaFilePdf, FaFileExcel } from "react-icons/fa";
 
 const AllUserByMajor = () => {
   const { id }: any = useParams();
@@ -50,11 +54,120 @@ const AllUserByMajor = () => {
   }, [data]);
 
   const onPageChange = (page: number) => setPayload({ ...payload, page });
+  console.log(data?.data);
 
+  const downloadPDF = () => {
+    const table: any = document.querySelector(".overflow-x-auto"); // เลือกส่วนของตาราง
+    if (!table) {
+      alert("ไม่พบข้อมูลสำหรับการสร้าง PDF");
+      return;
+    }
+
+    html2canvas(table).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - 20; // ลดขอบ 10 มม. ทั้งซ้ายและขวา
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let y = 10; // เริ่มต้นที่ 10 มม. จากขอบบน
+      if (imgHeight > pageHeight) {
+        // ถ้าสูงเกิน 1 หน้า ให้แบ่งหน้า
+        while (y < canvas.height) {
+          pdf.addImage(
+            imgData,
+            "PNG",
+            10,
+            y - canvas.height,
+            imgWidth,
+            imgHeight
+          );
+          y += pageHeight;
+          if (y < canvas.height) pdf.addPage();
+        }
+      } else {
+        pdf.addImage(imgData, "PNG", 10, y, imgWidth, imgHeight);
+      }
+      pdf.save("thesis_users.pdf");
+    });
+  };
+
+  const downloadExcel = () => {
+    if (data?.data?.length > 0) {
+      const headers = [
+        "ลำดับ",
+        "รหัสนักศึกษา",
+        "ชื่อ-นามสกุล",
+        "สถานะการศึกษา",
+        "หลักสูตร",
+        "สาขาวิชา",
+        "ปีการศึกษา",
+        "อีเมลล์",
+        "เบอร์โทรศัพท์",
+        "Line ID",
+        "ที่อยู่",
+        "สถานประกอบการณ์ฝึกงาน",
+        "ประเภทสถานประกอบการ",
+        "หน่วยงานที่นักศึกษาออกสหกิจ",
+        "เบอร์สถานประกอบการ",
+        "ชื่อพนักงานติดต่อ",
+        "Line ID พนักงานติดต่อ",
+        "รายละเอียดเพิ่มเติม",
+        "หมายเหตุ อื่นๆ",
+        "หัวข้อปริญญานิพนธ์",
+        "ไฟล์ Download",
+        "อาจารย์ที่ปรึกษาคนที่ 1",
+        "อาจารย์ที่ปรึกษาคนที่ 2",
+        "อาจารย์ที่ปรึกษาคนที่ 3",
+      ];
+      const rows = data.data.map((item, index) => [
+        index + 1,
+        item?.studentId || "-",
+        item?.name || "-",
+        item?.status || "-",
+        item?.program?.name || "-",
+        item?.major?.name || "-",
+        item?.academicYear || "-",
+        item?.email || "-",
+        item?.phoneNumber || "-",
+        item?.lineId || "-",
+        item?.address || "-",
+        item?.intern?.name || "-",
+        item?.intern?.category || "-",
+        item?.intern?.agency || "-",
+        item?.intern?.phone_number || "-",
+        item?.intern?.name_of_establishment || "-",
+        item?.intern?.idLine_of_establishment || "-",
+        item?.intern?.address || "-",
+        item?.intern?.note || "-",
+        item?.thesis?.name || "-",
+        item?.thesis?.url || "-",
+        item?.thesis?.advisor1 || "-",
+        item?.thesis?.advisor2 || "-",
+        item?.thesis?.advisor3 || "-",
+      ]);
+
+      // Combine headers and rows
+      const worksheetData = [headers, ...rows];
+
+      // Create a worksheet
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+      // Create a workbook and append the worksheet
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
+
+      // Export the workbook
+      XLSX.writeFile(workbook, "users.xlsx");
+    } else {
+      alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
+    }
+  };
   return (
     <div className="w-[300px] md:container mx-auto mt-24 p-4">
       <div className="flex flex-col md:flex-row justify-between mb-4">
-        <div className="flex flex-col md:flex-row gap-2">
+        <div className="flex flex-col items-end md:flex-row gap-2">
           <div>
             <div className="mb-2 block">
               <Label
@@ -71,16 +184,34 @@ const AllUserByMajor = () => {
               required
             />
           </div>
-          <div className="flex items-end">
+          <div>
             <DrawerFilter setPayload={setPayload} payload={payload} />
           </div>
         </div>
-        <div className="flex justify-end items-end">
+        <div className="flex flex-col gap-2">
           <ModalCreateUserMajor
             refetch={refetch}
             major={id}
             program={majorData?.data?.program}
           />
+          <div className="flex flex-row gap-2">
+            <Button
+              color="success"
+              className="flex items-center gap-2"
+              onClick={downloadExcel}
+            >
+              <FaFileExcel size={20} className="mr-2" />
+              Export Excel
+            </Button>
+            <Button
+              color="failure"
+              className="flex items-center gap-2"
+              onClick={downloadPDF}
+            >
+              <FaFilePdf size={20} className="mr-2" />
+              Export PDF
+            </Button>
+          </div>
         </div>
       </div>
       <div className="overflow-x-auto">

@@ -12,6 +12,9 @@ import UploadThesis from "./UploadThesis";
 import { useGetAllUserSuccessQuery } from "@/redux/features/user/userApi";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import * as XLSX from "xlsx";
 
 const Thesis = () => {
   const [name, setName] = useState("");
@@ -35,8 +38,9 @@ const Thesis = () => {
   );
 
   const onPageChange = (page: number) => setCurrentPage(page);
-  console.log(dataAllUserSuccess);
+  // console.log(dataAllUserSuccess);
   // ฟังก์ชันแปลงข้อมูลเป็น CSV
+
   const convertToCSV = (data) => {
     const headers = [
       "ลำดับ",
@@ -51,11 +55,11 @@ const Thesis = () => {
     ];
     const rows = data.map((user, index) => [
       index + 1,
-      user.name,
-      user.major,
-      user.program,
-      user.thesis.url,
-      user.academicYear,
+      user?.name,
+      user?.major?.name,
+      user?.program?.name,
+      user?.thesis?.url,
+      user?.academicYear,
       user?.thesis?.advisor1,
       user?.thesis?.advisor2,
       user?.thesis?.advisor3,
@@ -66,23 +70,80 @@ const Thesis = () => {
     return csvContent;
   };
 
-  const downloadCSV = () => {
+  const downloadPDF = () => {
+    const table: any = document.querySelector(".overflow-x-auto"); // เลือกส่วนของตาราง
+    if (!table) {
+      alert("ไม่พบข้อมูลสำหรับการสร้าง PDF");
+      return;
+    }
+
+    html2canvas(table).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - 20; // ลดขอบ 10 มม. ทั้งซ้ายและขวา
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let y = 10; // เริ่มต้นที่ 10 มม. จากขอบบน
+      if (imgHeight > pageHeight) {
+        // ถ้าสูงเกิน 1 หน้า ให้แบ่งหน้า
+        while (y < canvas.height) {
+          pdf.addImage(
+            imgData,
+            "PNG",
+            10,
+            y - canvas.height,
+            imgWidth,
+            imgHeight
+          );
+          y += pageHeight;
+          if (y < canvas.height) pdf.addPage();
+        }
+      } else {
+        pdf.addImage(imgData, "PNG", 10, y, imgWidth, imgHeight);
+      }
+      pdf.save("thesis_users.pdf");
+    });
+  };
+
+  const downloadExcel = () => {
     if (dataAllUserSuccess?.users?.length > 0) {
-      const csvContent = convertToCSV(dataAllUserSuccess.users);
+      const headers = [
+        "ลำดับ",
+        "ชื่อนักศึกษา",
+        "สาขาวิชา",
+        "แขนงวิชา",
+        "ชื่อปริญญานิพนธ์",
+        "ปีการศึกษา",
+        "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 1",
+        "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 2",
+        "อาจารย์ที่ปรึกษาปริญญานิพนธ์ คนที่ 3",
+      ];
+      const rows = dataAllUserSuccess.users.map((user, index) => [
+        index + 1,
+        user?.name,
+        user?.major?.name,
+        user?.program?.name,
+        user?.thesis?.title || "ยังไม่อัพโหลด",
+        user?.academicYear || "-",
+        user?.thesis?.advisor1 || "-",
+        user?.thesis?.advisor2 || "-",
+        user?.thesis?.advisor3 || "-",
+      ]);
 
-      // เพิ่ม BOM เพื่อรองรับภาษาไทย
-      const bom = "\uFEFF";
-      const blob = new Blob([bom + csvContent], {
-        type: "text/csv;charset=utf-8;",
-      });
+      // Combine headers and rows
+      const worksheetData = [headers, ...rows];
 
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "thesis_users.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Create a worksheet
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+      // Create a workbook and append the worksheet
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Thesis Users");
+
+      // Export the workbook
+      XLSX.writeFile(workbook, "thesis_users.xlsx");
     } else {
       alert("ไม่มีข้อมูลสำหรับดาวน์โหลด");
     }
@@ -102,14 +163,22 @@ const Thesis = () => {
             required
           />
         </div>
-        <div>
+        <div className="flex gap-2">
           <Button
             color="success"
             className="flex items-center gap-2"
-            onClick={downloadCSV}
+            onClick={downloadExcel}
           >
             <FaFileExcel size={20} className="mr-2" />
-            Export Excel (CSV)
+            Export Excel
+          </Button>
+          <Button
+            color="failure"
+            className="flex items-center gap-2"
+            onClick={downloadPDF}
+          >
+            <FaFilePdf size={20} className="mr-2" />
+            Export PDF
           </Button>
         </div>
       </div>
@@ -204,13 +273,13 @@ const Thesis = () => {
             )}
           </Table.Body>
         </Table>
-        <div className="flex justify-center items-center mt-6">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={100}
-            onPageChange={onPageChange}
-          />
-        </div>
+      </div>
+      <div className="flex justify-center items-center mt-6">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={100}
+          onPageChange={onPageChange}
+        />
       </div>
     </div>
   );
