@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function ModalDelete({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [deleteUser, { isSuccess, error }] = useDeleteUserMutation();
+  
   useEffect(() => {
     if (isSuccess) {
       setOpenModal(false);

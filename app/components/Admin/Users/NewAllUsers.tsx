@@ -1,25 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, Table } from "flowbite-react";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import { Label, TextInput } from "flowbite-react";
 import ModalInfoUser from "./ModalInfoUser";
-import ModalCreateUser from "./ModalCreateUser";
-import { useSearchUserByNameQuery } from "@/redux/features/user/userApi";
 import ModalDelete from "./ModalDelete";
-import { Badge } from "flowbite-react";
 import ModalEditUser from "./ModalEditUser";
 import { Pagination } from "flowbite-react";
 import DrawerFilter from "@/app/admin/en-it/DrawerFilter";
 import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 
 const NewAllUsers = () => {
+  const { data: majorData } = useGetAllMajorQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  // const major = majorData?.data?.map((item: any) => item._id) || [];
+  // const result =
+  //   major.length > 0
+  //     ? major.map((item, index) => (index === 0 ? item : `major=${item}`)).join("&")
+  //     : "";
   const [payload, setPayload] = useState({
     page: 1,
     limit: 10,
     name: "",
-    major:
-      "6750880ea21533239807c93b&major=67508a8bb6021ee6cee863e6&major=67508a92b6021ee6cee863ec&major=67508b21b6021ee6cee863fd",
+    major: "",
     dateStart: new Date(
       new Date().setMonth(new Date().getMonth() - 1)
     ).toISOString(),
@@ -28,6 +32,16 @@ const NewAllUsers = () => {
     studentId: "i",
     createdAt: -1,
   });
+  console.log(payload);
+  useEffect(() => {
+    if (majorData?.data) {
+      const major = majorData.data.map((item: any) => item._id);
+      const result = major
+        .map((item, index) => (index === 0 ? item : `major=${item}`))
+        .join("&");
+      setPayload((prev) => ({ ...prev, major: result }));
+    }
+  }, [majorData]);
 
   const { data, refetch } = useListUserByMajorQuery(payload, {
     refetchOnMountOrArgChange: true,

@@ -50,19 +50,12 @@ const AllMajor = () => {
     if (UpdateRoleSuccess) {
       toast.success("Update Role successfully");
       refetch();
+      refetchUserData();
     }
     if (UpdateRoleError) {
       toast.error("Update Role Error");
     }
   }, [UpdateRoleError, UpdateRoleSuccess]);
-
-  const handleChangeRole = (e: any, email: string) => {
-    updateRole({
-      email: email,
-      role: e.target.value,
-      id_admin: userData?.user._id,
-    });
-  };
 
   // console.log(searchUserByName?.user);
   const onPageChange = (page: number) => setCurrentPage(page);

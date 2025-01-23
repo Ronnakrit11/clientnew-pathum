@@ -10,7 +10,7 @@ import Link from "next/link";
 const ModalInfoUser = ({ data }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <Button

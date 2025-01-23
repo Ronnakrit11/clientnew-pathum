@@ -38,7 +38,7 @@ export default function ModalEditUser({ data, refetch }: any) {
   const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
   const { data: dataEstablishment } = useGetAllUserEstablishmentsQuery({});
-  console.log(dataEstablishment);
+  // console.log(dataEstablishment);
   useEffect(() => {
     if (isSuccess) {
       toast.success("Add User successfully");
@@ -52,7 +52,7 @@ export default function ModalEditUser({ data, refetch }: any) {
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
+    // console.log(payload);
   };
 
   const handleSubmit = async () => {
