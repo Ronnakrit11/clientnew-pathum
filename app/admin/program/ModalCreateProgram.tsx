@@ -36,13 +36,13 @@ export default function ModalCreateProgram({ refetch, refetch_data }: any) {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("สร้างบัญชีแอดมินเรียบร้อยแล้ว");
+      toast.success("สร้างหลักสูตรสำเร็จแล้ว");
       refetch();
       refetch_data();
       setOpenModal(false);
     }
     if (error) {
-      toast.error("สร้างบัญชีแอดมินผิดพลาด");
+      toast.error("สร้างหลักสูตรไม่สำเร็จ");
     }
   }, [error, isSuccess]);
 
@@ -63,11 +63,11 @@ export default function ModalCreateProgram({ refetch, refetch_data }: any) {
       </Button>
       <form className="space-y-6" onSubmit={handleSubmit}>
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
-          <Modal.Header>ชื่อหลักสูตร</Modal.Header>
+          <Modal.Header>สร้างหลักสูตร</Modal.Header>
           <Modal.Body>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="name" value="ชื่อแขนงวิชา" />
+                <Label htmlFor="name" value="ชื่อหลักสูตร" />
               </div>
               <TextInput
                 id="name"
