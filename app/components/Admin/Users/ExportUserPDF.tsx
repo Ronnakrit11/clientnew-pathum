@@ -8,10 +8,16 @@ import {
   StyleSheet,
   Font,
   pdf,
+  Link,
 } from "@react-pdf/renderer";
 import { Button } from "flowbite-react";
 import { FaFilePdf } from "react-icons/fa6";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 // Register Thai Sarabun PSK font
 Font.register({
@@ -34,7 +40,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "Thai Sarabun PSK",
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: 4,
   },
   textBold: {
@@ -46,7 +52,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    borderRadius: 50,
+    // borderRadius: 50,
     marginBottom: 10,
   },
   logo: {
@@ -67,10 +73,14 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: "Thai Sarabun PSK",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 10,
     textDecoration: "underline",
+  },
+  textDate: {
+    fontFamily: "Thai Sarabun PSK",
+    fontSize: 12,
   },
 });
 
@@ -80,19 +90,28 @@ const ExportUserPDF = ({ data }) => {
       <Document>
         <Page size="A4" style={styles.page}>
           {/* Header Section */}
+
           <View style={styles.sectionHeader}>
             <Image source="/logo.png" style={styles.logo} />
             <Text style={styles.textBold}>คณะวิทยาศาสตร์และเทคโนโลยี</Text>
             <Text style={styles.textBold}>สถาบันเทคโนโลยีปทุมวัน</Text>
+            <Text style={styles.textDate}>
+              ออก ณ วันที่ :{" "}
+              {dayjs()
+                .tz("Asia/Bangkok")
+                .format("เวลา mm:ss วันที่ DD/MM/YYYY")}
+            </Text>
           </View>
 
+          <View style={styles.sectionRow}>
+            <Image
+              source="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+              style={styles.image}
+            />
+          </View>
           {/* Student Information Section */}
           <View style={styles.sectionRow}>
             <View style={styles.sectionCol}>
-              <Image
-                source="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
-                style={styles.image}
-              />
               <Text style={styles.sectionTitle}>ข้อมูลนักศึกษา</Text>
               <Text style={styles.text}>รหัสนักศึกษา: {data.studentId}</Text>
               <Text style={styles.text}>
@@ -102,8 +121,6 @@ const ExportUserPDF = ({ data }) => {
               <Text style={styles.text}>สาขาวิชา: {data.major.name}</Text>
               <Text style={styles.text}>ปีการศึกษา: {data.academicYear}</Text>
             </View>
-
-            {/* Contact Information Section */}
             <View style={styles.sectionCol}>
               <Text style={styles.sectionTitle}>ข้อมูลสำหรับการติดต่อ</Text>
               <Text style={styles.text}>อีเมลล์: {data.email}</Text>
@@ -118,32 +135,32 @@ const ExportUserPDF = ({ data }) => {
             <View style={styles.sectionCol}>
               <Text style={styles.sectionTitle}>ประวัติการสหกิจศึกษา</Text>
               <Text style={styles.text}>
-                สถานประกอบการณ์ฝึกงาน: {data.intern.company}
+                สถานประกอบการณ์ฝึกงาน: {data.intern.name}
               </Text>
               <Text style={styles.text}>
-                ประเภทสถานประกอบการ: {data.intern.type}
+                ประเภทสถานประกอบการ: {data.intern.category}
               </Text>
               <Text style={styles.text}>
-                หน่วยงานที่นักศึกษาออกสหกิจ: {data.intern.department}
+                หน่วยงานที่นักศึกษาออกสหกิจ: {data.intern.agency}
               </Text>
               <Text style={styles.text}>
-                เบอร์สถานประกอบการ: {data.intern.phone}
+                เบอร์สถานประกอบการ: {data.intern.phone_number}
               </Text>
               <Text style={styles.text}>
-                ชื่อพนักงานติดต่อ: {data.intern.contactName}
+                ชื่อพนักงานติดต่อ: {data.intern.name_of_establishment}
               </Text>
               <Text style={styles.text}>
-                Line ID พนักงานติดต่อ: {data.intern.contactLineId}
+                Line ID พนักงานติดต่อ: {data.intern.idLine_of_establishment}
               </Text>
-              <Text style={styles.text}>
-                รายละเอียดเพิ่มเติม: {data.intern.details}
-              </Text>
+              <Text style={styles.text}>ที่อยู่: {data.intern.address}</Text>
               <Text style={styles.text}>
                 หมายเหตุ อื่นๆ: {data.intern.note}
               </Text>
             </View>
 
             {/* Project Information Section */}
+          </View>
+          <View style={styles.sectionRow}>
             {data.thesis && (
               <View style={styles.sectionCol}>
                 <Text style={styles.sectionTitle}>ประวัติการสหกิจศึกษา</Text>
@@ -157,7 +174,7 @@ const ExportUserPDF = ({ data }) => {
                   หัวข้อปริญญานิพนธ์: {data.thesis.title}
                 </Text>
                 <Text style={styles.text}>
-                  ไฟล์ Download: {data.thesis.url}
+                  ไฟล์ Download: <Link>{data.thesis.url}</Link>
                 </Text>
                 <Text style={styles.text}>
                   อาจารย์ที่ปรึกษาคนที่ 1: {data.thesis.advisor1}
@@ -170,12 +187,6 @@ const ExportUserPDF = ({ data }) => {
                 </Text>
               </View>
             )}
-          </View>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.textBold}>
-              ออก ณ วันที่ :{" "}
-              {dayjs(Date.now()).format("เวลา mm:ss วันที่ DD/MM/YYYY")}
-            </Text>
           </View>
         </Page>
       </Document>

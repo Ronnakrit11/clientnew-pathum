@@ -22,9 +22,8 @@ const ModalInfoUser = ({ data }: any) => {
         <HiOutlineEye size={20} />
       </Button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)} size={"7xl"}>
-        <Modal.Header className="flex justify-between">
+        <Modal.Header>
           <p>รายละเอียดนักศึกษา {data.name}</p>
-          <ExportUserPDF data={data} />
         </Modal.Header>
         <Modal.Body>
           <div className="flex justify-around  divide-x">
@@ -211,6 +210,9 @@ const ModalInfoUser = ({ data }: any) => {
             </div>
           </div>
         </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <ExportUserPDF data={data} />
+        </Modal.Footer>
       </Modal>
     </>
   );
