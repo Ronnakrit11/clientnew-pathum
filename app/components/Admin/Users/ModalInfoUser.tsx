@@ -6,11 +6,11 @@ import { HiOutlineEye } from "react-icons/hi2";
 import { FaFilePdf } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
-
+import ExportUserPDF from "./ExportUserPDF";
 const ModalInfoUser = ({ data }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // console.log(data);
+  console.log(data);
   return (
     <>
       <Button
@@ -22,7 +22,10 @@ const ModalInfoUser = ({ data }: any) => {
         <HiOutlineEye size={20} />
       </Button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)} size={"7xl"}>
-        <Modal.Header>รายละเอียดนักศึกษา {data.name}</Modal.Header>
+        <Modal.Header className="flex justify-between">
+          <p>รายละเอียดนักศึกษา {data.name}</p>
+          <ExportUserPDF data={data} />
+        </Modal.Header>
         <Modal.Body>
           <div className="flex justify-around  divide-x">
             <div className="flex flex-col space-y-4 p-2">

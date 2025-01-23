@@ -54,10 +54,10 @@ export default function ModalCreateAdminMajor({
     role: "",
   });
 
-  console.log(payload);
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+  console.log(payload);
 
   useEffect(() => {
     if (majorData?.data?.length > 0) {

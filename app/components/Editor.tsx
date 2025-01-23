@@ -112,7 +112,7 @@ const Editor = ({ setPropsContent, defaultContent }) => {
       iconURL: "/images/uploadfile.png",
       exec: function (editor: any) {
         if (!isClient) return; // Prevent running this on the server
-
+        console.log(editor);
         const inputElement = document.createElement("input");
         inputElement.type = "file";
         inputElement.accept =

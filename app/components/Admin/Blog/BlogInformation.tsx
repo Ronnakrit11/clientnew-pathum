@@ -19,16 +19,16 @@ const BlogInformation: FC<Props> = ({ blogData, refetch }) => {
   const pathName = usePathname();
   console.log(pathName);
   const [dragging, setDragging] = useState(false);
-  
+
   const [blogInfo, setBlogInfo] = useState<any>(
     pathName === "/admin/create-news" ? { type: "news" } : { type: "event" }
-  );  
+  );
   const [createBlog, { isLoading, isSuccess, error }] = useCreateBlogMutation();
   const [
     editBlog,
     { isLoading: isLoadingEdit, isSuccess: successEdit, error: errorEdit },
   ]: any = useEditBlogMutation({});
-  console.log(blogInfo)
+  // console.log(blogInfo);
   const [fileImg, setFileImg] = useState(null) as any;
 
   useEffect(() => {
@@ -222,7 +222,6 @@ const BlogInformation: FC<Props> = ({ blogData, refetch }) => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-
             {blogInfo?.thumbnail?.url || fileImg ? (
               <img
                 src={fileImg || blogInfo?.thumbnail?.url}
