@@ -113,12 +113,12 @@ const AllMajor = () => {
           <Table.Body className="divide-y">
             {data &&
               data?.data?.map((item: any) => (
-                <Table.Row key={item._id}>
+                <Table.Row key={item?._id}>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {item.name}
+                    {item?.name}
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {item.program.name}
+                    {item?.program?.name}
                   </Table.Cell>
                   {/* <Table.Cell>{item.email}</Table.Cell> */}
                   <Table.Cell className="flex gap-2">

@@ -116,24 +116,14 @@ export default function ModalCreateAdminMajor({
               <h2>สิทธิในการสร้างบัญชีแอดมินของคุณ</h2>
               <p className="flex items-center gap-2">
                 สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ{" "}
-                <Badge
-                  color={
-                    append?.engineerIT > 0
-                      ? "success"
-                      : "failure"
-                  }
-                >
+                <Badge color={append?.engineerIT > 0 ? "success" : "failure"}>
                   {append?.engineerIT}
                 </Badge>
                 ครั้ง
               </p>
               <p className="flex items-center gap-2">
                 สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร{" "}
-                <Badge
-                  color={
-                    append?.argTech > 0 ? "success" : "failure"
-                  }
-                >
+                <Badge color={append?.argTech > 0 ? "success" : "failure"}>
                   {append?.argTech}
                 </Badge>{" "}
                 ครั้ง
@@ -141,11 +131,7 @@ export default function ModalCreateAdminMajor({
               <p className="flex items-center gap-2">
                 สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม{" "}
                 <Badge
-                  color={
-                    append?.techInnovation > 0
-                      ? "success"
-                      : "failure"
-                  }
+                  color={append?.techInnovation > 0 ? "success" : "failure"}
                 >
                   {append?.techInnovation}
                 </Badge>
@@ -154,11 +140,7 @@ export default function ModalCreateAdminMajor({
               <p className="flex items-center gap-2">
                 สาขาวิชาสหวิทยาการ
                 <Badge
-                  color={
-                    append?.interdisciplinary > 0
-                      ? "success"
-                      : "failure"
-                  }
+                  color={append?.interdisciplinary > 0 ? "success" : "failure"}
                 >
                   {append?.interdisciplinary}
                 </Badge>{" "}
@@ -225,6 +207,7 @@ export default function ModalCreateAdminMajor({
                 }
                 value={payload.role}
               >
+                <option value={"admin"}>superadmin</option>
                 {majorData?.data?.map((major) => (
                   <option key={major._id} value={`admin-${major._id}`}>
                     แอดมิน-{major.name}
