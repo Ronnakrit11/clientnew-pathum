@@ -9,10 +9,9 @@ import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { useReadUserByIdQuery } from "@/redux/features/user/userApi";
 import { Pagination } from "flowbite-react";
-import ModalEditProgram from "../program/ModalEditProgram";
-import ModalDeleteProgram from "../program/ModalDeleteProgram";
 import CreateMajor from "./ModalCreateMajor";
 import ModalEditMajor from "./ModalEditMajor";
+import ModalDeleteMajor from "./ModalDeleteMajor";
 
 const AllMajor = () => {
   const {
@@ -123,7 +122,7 @@ const AllMajor = () => {
                   {/* <Table.Cell>{item.email}</Table.Cell> */}
                   <Table.Cell className="flex gap-2">
                     <ModalEditMajor data={item} refetch={refetch} />
-                    <ModalDeleteProgram data={item} refetch={refetch} />
+                    <ModalDeleteMajor data={item} refetch={refetch} />
                   </Table.Cell>
                 </Table.Row>
               ))}

@@ -6,6 +6,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { HiOutlineArchiveBoxXMark } from "react-icons/hi2";
 import toast, { Toaster } from "react-hot-toast";
 import { useDeleteMajorMutation } from "@/redux/features/major/majorApi";
+
 export default function ModalDeleteMajor({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [deleteMajor, { isSuccess, error }] = useDeleteMajorMutation();
