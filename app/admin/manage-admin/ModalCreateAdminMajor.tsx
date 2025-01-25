@@ -14,6 +14,7 @@ import { useCreateAdminMajorMutation } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { Badge } from "flowbite-react";
 import { z } from "zod";
+import { useAppointAdminCreateQuery } from "@/redux/features/user/userApi";
 
 const payloadSchema = z
   .object({
@@ -28,15 +29,6 @@ const payloadSchema = z
     message: "Passwords don't match",
     path: ["password_confirm"],
   });
-
-interface Payload {
-  name: string;
-  email: string;
-  password: string;
-  password_confirm: string;
-  role: string;
-  id_admin: string;
-}
 
 export default function ModalCreateAdminMajor({
   refetch,
@@ -54,10 +46,18 @@ export default function ModalCreateAdminMajor({
     role: "",
   });
 
+  const { data: dataAppointAdminCreate } = useAppointAdminCreateQuery(
+    undefined,
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+  // console.log(appointAdminCreate);
+
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  console.log(payload);
+  // console.log(payload);
 
   useEffect(() => {
     if (majorData?.data?.length > 0) {
@@ -67,6 +67,12 @@ export default function ModalCreateAdminMajor({
       }));
     }
   }, [majorData]);
+
+  useEffect(() => {
+    if (dataAppointAdminCreate) {
+      console.log(dataAppointAdminCreate?.majorDetails);
+    }
+  }, [dataAppointAdminCreate, majorData]);
 
   const [createAdminMajor, { isLoading, error, isSuccess }] =
     useCreateAdminMajorMutation();
@@ -114,7 +120,19 @@ export default function ModalCreateAdminMajor({
             สร้างบัญชีแอดมิน
             <div className="text-[14px] ">
               <h2>สิทธิในการสร้างบัญชีแอดมินของคุณ</h2>
-              <p className="flex items-center gap-2">
+              {dataAppointAdminCreate?.majorDetails?.map((item: any) => (
+                <div key={item.name}>
+                  <p className="flex items-center gap-2">
+                    {item.name}
+                    <Badge color={item.item > 0 ? "success" : "failure"}>
+                      {item.item}
+                    </Badge>
+                    ครั้ง
+                  </p>
+                </div>
+              ))}
+
+              {/* <p className="flex items-center gap-2">
                 สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ{" "}
                 <Badge color={append?.engineerIT > 0 ? "success" : "failure"}>
                   {append?.engineerIT}
@@ -145,7 +163,7 @@ export default function ModalCreateAdminMajor({
                   {append?.interdisciplinary}
                 </Badge>{" "}
                 ครั้ง
-              </p>
+              </p> */}
             </div>
           </Modal.Header>
           <Modal.Body>

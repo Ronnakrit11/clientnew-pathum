@@ -191,6 +191,13 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    appointAdminCreate: builder.query({
+      query: () => ({
+        url: `appoint-admin-create`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -217,4 +224,5 @@ export const {
   useListUserByMajorQuery,
   useGetAllAdminQuery,
   useUpdateAvatarAdminMutation,
+  useAppointAdminCreateQuery,
 } = userApi;
