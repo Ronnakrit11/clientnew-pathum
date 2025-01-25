@@ -46,17 +46,20 @@ export default function ModalCreateAdminMajor({
     role: "",
   });
 
-  const { data: dataAppointAdminCreate } = useAppointAdminCreateQuery(
+  const {
+    data: dataAppointAdminCreate,
+    refetch: refetchDataAppointAdminCreate,
+  } = useAppointAdminCreateQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  // console.log(appointAdminCreate);
+
+  const { data: majorData, refetch: recethData } = useGetAllMajorQuery(
     undefined,
     {
       refetchOnMountOrArgChange: true,
     }
   );
-  // console.log(appointAdminCreate);
-
-  const { data: majorData } = useGetAllMajorQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
   // console.log(payload);
 
   useEffect(() => {
@@ -81,8 +84,9 @@ export default function ModalCreateAdminMajor({
     if (isSuccess) {
       toast.success("สร้างบัญชีแอดมินเรียบร้อยแล้ว");
       refetch();
-      // refetch_data();
+      // recethData();
       // refetchUserData();
+      refetchDataAppointAdminCreate();
       setOpenModal(false);
     }
     if (error) {

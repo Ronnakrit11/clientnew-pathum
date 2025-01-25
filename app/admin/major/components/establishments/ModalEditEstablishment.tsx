@@ -115,6 +115,8 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
         >
           <Modal.Header>แก้ไขข้อมูลนักศึกษา {data.name}</Modal.Header>
           <Modal.Body>
+            <Label value="ที่อยู่ตามสำเนา" className="text-bold text-[18px]" />
+
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="name" value="ชื่อสถานประกอบการ" />
@@ -175,6 +177,8 @@ export default function ModalEditEstablishment({ data, refetch }: any) {
                 onChange={(e) => handleChange(e)}
               />
             </div>
+            <Label value="ที่อยู่ติดต่อ" className="text-bold text-[18px]" />
+
             <div>
               <div className="mb-2 block">
                 <Label

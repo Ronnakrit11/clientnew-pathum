@@ -112,6 +112,7 @@ export default function ModalCreateEstablishment({ refetch, major }: any) {
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>เพิ่มข้อมูลนักศึกษา</Modal.Header>
           <Modal.Body>
+            <Label value="ที่อยู่ตามสำเนา" className="text-bold text-[18px]" />
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="name" value="ชื่อสถานประกอบการ" />
@@ -167,6 +168,7 @@ export default function ModalCreateEstablishment({ refetch, major }: any) {
                 onChange={(e) => handleChange(e)}
               />
             </div>
+            <Label value="ที่อยู่ติดต่อ" className="text-bold text-[18px]" />
             <div>
               <div className="mb-2 block">
                 <Label

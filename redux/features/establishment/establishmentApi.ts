@@ -46,6 +46,13 @@ const establishmentApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getAllUserByEstablishment: builder.query({
+      query: (id) => ({
+        url: `/get-all-user-by-establishment/${id}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -56,4 +63,5 @@ export const {
   useGetAllEstablishmentsQuery,
   useGetEstablishmentByIdQuery,
   useGetAllUserEstablishmentsQuery,
+  useGetAllUserByEstablishmentQuery,
 } = establishmentApi;
