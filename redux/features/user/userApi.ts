@@ -183,6 +183,14 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    updateAvatarAdmin: builder.mutation({
+      query: ({ id, avatar }) => ({
+        url: `update-avatar-admin`,
+        method: "PUT",
+        body: { avatar, id },
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -208,4 +216,5 @@ export const {
   useCreateAdminMajorMutation,
   useListUserByMajorQuery,
   useGetAllAdminQuery,
+  useUpdateAvatarAdminMutation,
 } = userApi;

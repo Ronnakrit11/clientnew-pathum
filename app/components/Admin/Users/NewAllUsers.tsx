@@ -14,11 +14,7 @@ const NewAllUsers = () => {
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  // const major = majorData?.data?.map((item: any) => item._id) || [];
-  // const result =
-  //   major.length > 0
-  //     ? major.map((item, index) => (index === 0 ? item : `major=${item}`)).join("&")
-  //     : "";
+
   const [payload, setPayload] = useState({
     page: 1,
     limit: 10,
@@ -32,7 +28,7 @@ const NewAllUsers = () => {
     studentId: "i",
     createdAt: -1,
   });
-  console.log(payload);
+
   useEffect(() => {
     if (majorData?.data) {
       const major = majorData.data.map((item: any) => item._id);
@@ -105,7 +101,7 @@ const NewAllUsers = () => {
                   <Table.Cell>{user.program.name}</Table.Cell>
                   <Table.Cell>{user.status}</Table.Cell>
                   <Table.Cell className="flex gap-2">
-                    <ModalInfoUser data={user} />
+                    <ModalInfoUser data={user} refetch={refetch} />
                     <ModalEditUser data={user} refetch={refetch} />
                     <ModalDelete data={user} refetch={refetch} />
                   </Table.Cell>

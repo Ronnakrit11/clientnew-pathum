@@ -105,7 +105,11 @@ const ExportUserPDF = ({ data }) => {
 
           <View style={styles.sectionRow}>
             <Image
-              source="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+              source={
+                data?.avatar
+                  ? data?.avatar?.url
+                  : "https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+              }
               style={styles.image}
             />
           </View>

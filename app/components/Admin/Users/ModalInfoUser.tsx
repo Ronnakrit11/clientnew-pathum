@@ -1,16 +1,40 @@
 "use client";
 import { Button, Modal } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { HiOutlineEye } from "react-icons/hi2";
 import { FaFilePdf } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import ExportUserPDF from "./ExportUserPDF";
-const ModalInfoUser = ({ data }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+import { useUpdateAvatarAdminMutation } from "@/redux/features/user/userApi";
+import { toast } from "react-hot-toast";
 
-  console.log(data);
+const ModalInfoUser = ({ data, refetch }: any) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [updateAvatar, { isSuccess, error }] = useUpdateAvatarAdminMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("อัพโหลดรูปสำเร็จ");
+      refetch();
+    }
+    if (error) {
+      toast.error("อัพโหลดรูปล้มเหลว");
+    }
+  }, [isSuccess]);
+  const imageHandler = async (e: any) => {
+    const fileReader = new FileReader();
+
+    fileReader.onload = () => {
+      if (fileReader.readyState === 2) {
+        const avatar = fileReader.result;
+        updateAvatar({ avatar, id: data?._id });
+      }
+    };
+    fileReader.readAsDataURL(e.target.files[0]);
+  };
+
   return (
     <>
       <Button
@@ -30,14 +54,50 @@ const ModalInfoUser = ({ data }: any) => {
             <div className="flex flex-col space-y-4 p-2">
               <p className="text-lg text-bold">ข้อมูลนักศึกษา</p>
               <div className="flex flex-row space-x-2">
-                <Image
-                  src={
-                    "https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
-                  }
-                  alt="รูปประจำตัว"
-                  width={200}
-                  height={200}
-                />
+                <div className="relative group w-[200px] h-[200px]">
+                  <label
+                    htmlFor="avatar"
+                    className="cursor-pointer w-full h-full block"
+                  >
+                    <Image
+                      src={
+                        data?.avatar
+                          ? data?.avatar?.url
+                          : "https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg"
+                      }
+                      alt="รูปประจำตัว"
+                      width={2000}
+                      height={2000}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="w-8 h-8 text-white"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 16.5v-9m-3 3.75L12 7.5l3 3.75"
+                        />
+                      </svg>
+
+                      <p className="text-white">อัพโหลดรูปนักศึกษา</p>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    id="avatar"
+                    className="hidden"
+                    onChange={imageHandler}
+                    accept="image/png,image/jpg,image/jpeg,image/webp"
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <p>
                     รหัสนักศึกษา :{" "}
