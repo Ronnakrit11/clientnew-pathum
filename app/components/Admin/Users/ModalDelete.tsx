@@ -10,14 +10,22 @@ import toast, { Toaster } from "react-hot-toast";
 export default function ModalDelete({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [deleteUser, { isSuccess, error }] = useDeleteUserMutation();
-  
+
   useEffect(() => {
     if (isSuccess) {
       setOpenModal(false);
       refetch();
       toast.success("ลบข้อมูลแอดมินเรียบร้อยแล้ว");
     }
+    if (error) {
+      // if ("status" in error && error?.status === 400) {
+      //   toast.error("กรุณาลบนักศึกษาที่เกี่ยวข้องกับหลักสูตรนี้");
+      // }
+      toast.error("กรุณาลบสาขาวิชาที่เกี่ยวข้องกับหลักสูตรนี้");
+      // console.log(error);
+    }
   }, [isSuccess]);
+
   const handleDelete = async () => {
     await deleteUser(data._id);
   };

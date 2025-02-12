@@ -50,6 +50,18 @@ export default function ModalEditUser({ data, refetch }: any) {
     }
   }, [isSuccess, error]);
 
+  useEffect(() => {
+    if (payload.program && dataMajor?.data) {
+      const filteredMajors = dataMajor.data.filter(
+        (item) => item.program?._id === payload.program
+      );
+      if (filteredMajors.length > 0) {
+        // Set the first major as default
+        setPayload({ ...payload, major: filteredMajors[0]._id });
+      }
+    }
+  }, [payload.program, dataMajor]);
+
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
     // console.log(payload);
@@ -59,6 +71,8 @@ export default function ModalEditUser({ data, refetch }: any) {
     await updateUser(payload);
   };
 
+  // console.log(dataMajor.data.filter((item) => item.program?._id === payload.program));
+  // console.log(payload.program)
   return (
     <>
       <Button
@@ -134,15 +148,18 @@ export default function ModalEditUser({ data, refetch }: any) {
                 onChange={(e) =>
                   setPayload({ ...payload, major: e.target.value })
                 }
+                
               >
-                <option value={""} key={0}>
+                <option value={""} key={0} disabled>
                   เลือกสาขาวิชา
                 </option>
-                {dataMajor?.data?.map((item: any) => (
-                  <option key={item._id} value={item._id}>
-                    {item.name}
-                  </option>
-                ))}
+                {dataMajor?.data
+                  .filter((item) => item.program?._id === payload.program)
+                  .map((item: any) => (
+                    <option key={item._id} value={item._id} selected>
+                      {item.name}
+                    </option>
+                  ))}
               </Select>
             </div>
             <div>

@@ -128,13 +128,13 @@ const ModalInfoUser = ({ data, refetch }: any) => {
                   <p>
                     หลักสูตร :{" "}
                     <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                      {data.program.name}
+                      {data.program?.name}
                     </span>
                   </p>
                   <p>
                     สาขาวิชา :{" "}
                     <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                      {data.major.name}
+                      {data.major?.name}
                     </span>
                   </p>
                   <p>

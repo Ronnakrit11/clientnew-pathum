@@ -57,40 +57,40 @@ export default function ModalCreateEstablishment({ refetch, major }: any) {
     setPayload({ ...payload, [e.target.id]: e.target.value });
   };
 
-  // Zod validation schema
-  const establishmentSchema = z.object({
-    name: z.string().min(1, "ชื่อสถานประกอบการ is required"),
-    category: z.string().min(1, "ประเภทสถานประกอบการ is required"),
-    address: z.string().min(1, "ที่ตั้ง is required"),
-    agency: z.string().min(1, "หน่วยงานที่นักศึกษาออกสหกิจ is required"),
-    phone_number: z
-      .string()
-      .min(1, "เบอร์สถานประกอบการ is required")
-      .regex(/^\d+$/, "เบอร์สถานประกอบการ must be a valid number"),
-    name_of_establishment: z.string().min(1, "ชื่อพนักงานติดต่อ is required"),
-    phone_empoyee_of_establishment: z
-      .string()
-      .min(1, "หมายเลขพนักงานติดต่อ is required")
-      .regex(/^\d+$/, "หมายเลขพนักงานติดต่อ must be a valid number"),
-    idLine_of_establishment: z
-      .string()
-      .min(1, "Line ID พนักงานติดต่อ is required"),
-    details: z
-      .string()
-      .min(1, "รายละเอียดเกี่ยวกับตำแหน่งงานนักศึกษาที่ออกสหกิจ is required"),
-    email: z
-      .string()
-      .email("อีเมลล์สถานประกอบการณ์ is required")
-      .min(1, "อีเมลล์สถานประกอบการณ์ is required"),
-    note: z.string().max(255, "หมายเหตุ อื่นๆ is required"),
-  });
+  // // Zod validation schema
+  // const establishmentSchema = z.object({
+  //   name: z.string().min(1, "ชื่อสถานประกอบการ is required"),
+  //   category: z.string().min(1, "ประเภทสถานประกอบการ is required"),
+  //   address: z.string().min(1, "ที่ตั้ง is required"),
+  //   agency: z.string().min(1, "หน่วยงานที่นักศึกษาออกสหกิจ is required"),
+  //   phone_number: z
+  //     .string()
+  //     .min(1, "เบอร์สถานประกอบการ is required")
+  //     .regex(/^\d+$/, "เบอร์สถานประกอบการ must be a valid number"),
+  //   name_of_establishment: z.string().min(1, "ชื่อพนักงานติดต่อ is required"),
+  //   phone_empoyee_of_establishment: z
+  //     .string()
+  //     .min(1, "หมายเลขพนักงานติดต่อ is required")
+  //     .regex(/^\d+$/, "หมายเลขพนักงานติดต่อ must be a valid number"),
+  //   idLine_of_establishment: z
+  //     .string()
+  //     .min(1, "Line ID พนักงานติดต่อ is required"),
+  //   details: z
+  //     .string()
+  //     .min(1, "รายละเอียดเกี่ยวกับตำแหน่งงานนักศึกษาที่ออกสหกิจ is required"),
+  //   email: z
+  //     .string()
+  //     .email("อีเมลล์สถานประกอบการณ์ is required")
+  //     .min(1, "อีเมลล์สถานประกอบการณ์ is required"),
+  //   note: z.string().max(255, "หมายเหตุ อื่นๆ is required"),
+  // });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
       // Validate form data with Zod
-      establishmentSchema.parse(payload);
+      // establishmentSchema.parse(payload);
 
       // If validation is successful, submit the data
       await createEstablishment(payload);

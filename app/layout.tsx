@@ -20,7 +20,7 @@ import { Flowbite } from "flowbite-react";
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
-const customTheme = {
+const customTheme: CustomFlowbiteTheme = {
   button: {
     color: {
       primary: "bg-[#ad232c] text-white hover:bg-[#861b22]", // ปรับสีปุ่ม

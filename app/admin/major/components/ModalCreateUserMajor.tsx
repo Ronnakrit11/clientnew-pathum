@@ -23,24 +23,24 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
     limit: 1000,
   };
 
-  const { data: dataAllEstablishments, refetch: refetchAllEstablishments } =
+  const { data: dataAllEstablishments } =
     useGetAllEstablishmentsQuery(payloadSearch);
 
-  const schema = z.object({
-    prefix: z.string().min(1, "คำนำหน้าชื่อจำเป็นต้องกรอก"),
-    name: z.string().min(1, "ชื่อสกุลจำเป็นต้องกรอก"),
-    email: z.string().email("อีเมลไม่ถูกต้อง"),
-    password: z.string().min(6, "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"),
-    program: z.string().min(1, "กรุณาเลือกหลักสูตร"),
-    academicYear: z.string().min(4, "ปีการศึกษาต้องมีอย่างน้อย 4 หลัก"),
-    phoneNumber: z.string().min(1, "กรุณากรอกหมายเลขโทรศัพท์"),
-    lineId: z.string().min(1, "กรุณากรอก Line ID"),
-    address: z.string().min(1, "กรุณากรอกที่อยู่"),
-    status: z.enum(["กำลังศึกษา", "สำเร็จการศึกษา", "พ้นสภาพ"]),
-    studentId: z.string().min(1, "กรุณากรอกเลขประจำตัวนักศึกษา"),
-    major: z.string().min(1, "กรุณาเลือกสาขาวิชา"),
-    reason: z.string().optional(),
-  });
+  // const schema = z.object({
+  //   prefix: z.string().min(1, "คำนำหน้าชื่อจำเป็นต้องกรอก"),
+  //   name: z.string().min(1, "ชื่อสกุลจำเป็นต้องกรอก"),
+  //   email: z.string().email("อีเมลไม่ถูกต้อง"),
+  //   password: z.string().min(6, "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"),
+  //   program: z.string().min(1, "กรุณาเลือกหลักสูตร"),
+  //   academicYear: z.string().min(4, "ปีการศึกษาต้องมีอย่างน้อย 4 หลัก"),
+  //   phoneNumber: z.string().min(1, "กรุณากรอกหมายเลขโทรศัพท์"),
+  //   lineId: z.string().min(1, "กรุณากรอก Line ID"),
+  //   address: z.string().min(1, "กรุณากรอกที่อยู่"),
+  //   status: z.enum(["กำลังศึกษา", "สำเร็จการศึกษา", "พ้นสภาพ"]),
+  //   studentId: z.string().min(1, "กรุณากรอกเลขประจำตัวนักศึกษา"),
+  //   major: z.string().min(1, "กรุณาเลือกสาขาวิชา"),
+  //   reason: z.string().optional(),
+  // });
 
   useEffect(() => {
     setPayload(initialPayload);
@@ -77,7 +77,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
   useEffect(() => {
     if (AddUserSuccess) {
       toast.success("สร้างนักศึกษาเรียบร้อยแล้ว");
-      refetch();
+
       setOpenModal(false);
       setPayload({
         prefix: "",
@@ -95,12 +95,13 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
         major: "",
         intern: null,
       });
+      refetch();
     }
     if (AddUserError) {
       toast.error("สร้างนักศึกษาผิดพลาด");
       console.log(AddUserError);
     }
-  }, [AddUserError, AddUserSuccess]);
+  }, [AddUserError, AddUserSuccess, refetch]);
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
@@ -109,7 +110,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
 
   const handleSubmit = async () => {
     try {
-      schema.parse(payload);
+      // schema.parse(payload);
       await addUser(payload);
     } catch (error) {
       if (error instanceof z.ZodError) {

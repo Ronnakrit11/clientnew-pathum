@@ -15,12 +15,16 @@ export default function ModalDeleteMajor({ data, refetch }: any) {
     if (isSuccess) {
       setOpenModal(false);
       refetch();
-      toast.success("ลบข้อมูลนักศึกษาเรียบร้อยแล้ว");
+      toast.success("ลบข้อมูลสาขาวิชาเรียบร้อยแล้ว");
     }
     if (error) {
-      toast.error("ลบข้อมูลนักศึกษาผิดพลาด");
+      if ("status" in error && error?.status === 400) {
+        setOpenModal(false);
+        toast.error("กรุณาลบนักศึกษาที่เกี่ยวข้องกับหลักสูตรนี้");
+      }
+      // toast.error("ลบข้อมูลนักศึกษาผิดพลาด");
     }
-  }, [isSuccess]);
+  }, [isSuccess,error]);
 
   const handleDelete = async () => {
     await deleteMajor({ id: data._id });

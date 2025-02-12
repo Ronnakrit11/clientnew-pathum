@@ -1,4 +1,3 @@
-
 import React, { FC, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
@@ -19,33 +18,34 @@ import {
   useGetAllUsersQuery,
   useUpdateUserRoleMutation,
   useUpdateCourseToUserMutation,
-
 } from "@/redux/features/user/userApi";
 import { styles } from "@/app/styles/style";
 import { toast } from "react-hot-toast";
 import { useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi";
 import LoadingBackDrop from "../../Loader/LoadingBackDrop";
-import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import { useAddEbookUserMutation, useGetAllEbookQuery } from "@/redux/features/ebooks/ebookApi";
+import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
+import {
+  useAddEbookUserMutation,
+  useGetAllEbookQuery,
+} from "@/redux/features/ebooks/ebookApi";
 import SearchInput from "../Widgets/SearchInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
-const DEFAULT_EXPIRE_DATE_IN_DAY = process.env.NEXT_PUBLIC_DEFAULT_EXPIRE_DATE_IN_DAY || 90
-
+const DEFAULT_EXPIRE_DATE_IN_DAY =
+  process.env.NEXT_PUBLIC_DEFAULT_EXPIRE_DATE_IN_DAY || 90;
 
 type Props = {
   isTeam?: boolean;
 };
 
 interface IUserState {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
-
 
 const AllCourses: FC<Props> = ({ isTeam }) => {
   const { theme, setTheme } = useTheme();
@@ -65,26 +65,48 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
     useUpdateUserRoleMutation();
 
   const [userState, setUserState] = useState<IUserState>({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-
-  })
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [startDate, setStartDate] = useState<any>();
 
-  const [addUser, { isLoading: isLoadingAddUser, error: AddUserError, isSuccess: AddUserSuccess }] =
-    useAddUserMutation();
+  const [
+    addUser,
+    {
+      isLoading: isLoadingAddUser,
+      error: AddUserError,
+      isSuccess: AddUserSuccess,
+    },
+  ] = useAddUserMutation();
 
-  const [addCourse, { isLoading: isLoadingAddCourse, error: AddCourseError, isSuccess: AddCourseSuccess }] =
-    useAddCourseToUserMutation();
-  
-    const [updateCourse, { isLoading: isLoadingUpdateCourse, error: updateCourseError, isSuccess: updateCourseSuccess }] =
-    useUpdateCourseToUserMutation();
+  const [
+    addCourse,
+    {
+      isLoading: isLoadingAddCourse,
+      error: AddCourseError,
+      isSuccess: AddCourseSuccess,
+    },
+  ] = useAddCourseToUserMutation();
 
+  const [
+    updateCourse,
+    {
+      isLoading: isLoadingUpdateCourse,
+      error: updateCourseError,
+      isSuccess: updateCourseSuccess,
+    },
+  ] = useUpdateCourseToUserMutation();
 
-  const [addEbook, { isLoading: isLoadingAddEbook, error: AddEbookError, isSuccess: AddEbookSuccess }] =
-    useAddEbookUserMutation();
+  const [
+    addEbook,
+    {
+      isLoading: isLoadingAddEbook,
+      error: AddEbookError,
+      isSuccess: AddEbookSuccess,
+    },
+  ] = useAddEbookUserMutation();
 
   const { isLoading, data, refetch } = useGetAllUsersQuery(
     {},
@@ -128,15 +150,15 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
     if (AddCourseSuccess) {
       refetch();
       toast.success("Add Course successfully");
-      setOpenModalAddCourse(false)
-      setSelectCourse('')
+      setOpenModalAddCourse(false);
+      setSelectCourse("");
     }
 
     if (AddEbookSuccess) {
       refetch();
       toast.success("Add Ebook successfully");
-      setOpenModalAddEbook(false)
-      setSelectEbook('')
+      setOpenModalAddEbook(false);
+      setSelectEbook("");
     }
 
     if (deleteSuccess) {
@@ -148,9 +170,8 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
     if (AddUserSuccess) {
       refetch();
       toast.success("Add User successfully");
-      setOpenModalAddUser(false)
+      setOpenModalAddUser(false);
     }
-
 
     if (deleteError) {
       if ("data" in deleteError) {
@@ -178,10 +199,20 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         toast.error(errorMessage?.data?.message);
       }
     }
-  }, [updateError, isSuccess, deleteSuccess, deleteError, AddCourseError, AddCourseSuccess, AddEbookError, AddEbookSuccess, AddUserError, AddUserSuccess]);
+  }, [
+    updateError,
+    isSuccess,
+    deleteSuccess,
+    deleteError,
+    AddCourseError,
+    AddCourseSuccess,
+    AddEbookError,
+    AddEbookSuccess,
+    AddUserError,
+    AddUserSuccess,
+  ]);
 
   useEffect(() => {
-   
     if (updateCourseSuccess) {
       refetch();
       toast.success("Update user course successfully!");
@@ -194,8 +225,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         toast.error(errorMessage.data.message);
       }
     }
-  }, [ updateCourseError, updateCourseSuccess]);
-
+  }, [updateCourseError, updateCourseSuccess]);
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.3 },
@@ -298,7 +328,6 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
     },
   ];
 
-
   const handleSubmit = async () => {
     await updateUserRole({ email, role });
   };
@@ -309,14 +338,17 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
   };
 
   const handleAddCourse = (isUpdate = false) => {
-    const body = { user_id: userId, course_id: selectCourse, expireDate: startDate };
-    if(isUpdate){
-      updateCourse(body)
-    }else{
+    const body = {
+      user_id: userId,
+      course_id: selectCourse,
+      expireDate: startDate,
+    };
+    if (isUpdate) {
+      updateCourse(body);
+    } else {
       addCourse(body);
     }
   };
-
 
   const handleAddEbook = () => {
     const body = { user_id: userId, ebook_id: selectEbook };
@@ -324,7 +356,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
   };
 
   const handleAddUser = () => {
-    addUser(userState)
+    addUser(userState);
   };
 
   useEffect(() => {
@@ -358,41 +390,39 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
         });
     }
     setRowData(rows);
-    setOriginalRowData(rows)
-  }, [data?.users])
+    setOriginalRowData(rows);
+  }, [data?.users]);
 
-
-  useEffect(()=>{
-    handleSearchUser()
-  },[textSearch, originalRowData])
-
+  useEffect(() => {
+    handleSearchUser();
+  }, [textSearch, originalRowData]);
 
   const handleSearchUser = () => {
     const newRowData = originalRowData?.filter((eachUser) => {
-      const nameSearch = (eachUser.name.toLowerCase()).includes(textSearch.toLowerCase())
-      const emailSearch = (eachUser.email.toLowerCase()).includes(textSearch.toLowerCase())
+      const nameSearch = eachUser.name
+        .toLowerCase()
+        .includes(textSearch.toLowerCase());
+      const emailSearch = eachUser.email
+        .toLowerCase()
+        .includes(textSearch.toLowerCase());
       if (nameSearch || emailSearch) {
-        return eachUser
+        return eachUser;
       }
-    })
-    setRowData(newRowData)
-  }
-
+    });
+    setRowData(newRowData);
+  };
 
   return (
     <div className="mt-[120px]">
       {isLoading ? (
         <Loader />
       ) : (
-
         <Box m="20px">
-          {
-            (isLoadingAddCourse || isLoadingUpdateCourse) && <LoadingBackDrop />
-          }
+          {(isLoadingAddCourse || isLoadingUpdateCourse) && <LoadingBackDrop />}
           <div className="flex">
             <SearchInput
               value={textSearch}
-              onChange={(e) => setTexSearch(e.target.value)}              
+              onChange={(e) => setTexSearch(e.target.value)}
             />
             {isTeam ? (
               <div className="w-full flex justify-end">
@@ -403,19 +433,16 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                   Add New Member
                 </div>
               </div>
-            )
-              :
-              (
-                <div className="w-full flex justify-end">
-                  <div
-                    className={`${styles.button} !w-[200px] !rounded-[10px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
-                    onClick={() => setOpenModalAddUser(prev => !prev)}
-                  >
-                    + Add New User
-                  </div>
+            ) : (
+              <div className="w-full flex justify-end">
+                <div
+                  className={`${styles.button} !w-[200px] !rounded-[10px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
+                  onClick={() => setOpenModalAddUser((prev) => !prev)}
+                >
+                  + Add New User
                 </div>
-              )
-            }
+              </div>
+            )}
           </div>
 
           <Box
@@ -540,7 +567,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
           )}
           {openModalAddCourse && (
             <ModalAddCourse
-              {...({
+              {...{
                 openModalAddCourse,
                 setOpenModalAddCourse,
                 userInfo,
@@ -548,72 +575,76 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                 setSelectCourse,
                 selectCourse,
                 handleAddCourse,
-                startDate, 
-                setStartDate
-
-              })}
+                startDate,
+                setStartDate,
+              }}
             />
           )}
           {openModalAddEbook && (
             <ModalAddEbook
-              {...({
+              {...{
                 openModalAddEbook,
                 setOpenModalAddEbook,
                 userInfo,
                 ebookList,
                 setSelectEbook,
                 selectEbook,
-                handleAddEbook
-              })}
+                handleAddEbook,
+              }}
             />
           )}
-          {
-            openModalAddUser && (
-              <ModalAddUser
-                {
-                ...({
-                  openModalAddUser,
-                  setOpenModalAddUser,
-                  userState,
-                  setUserState,
-                  handleSubmit: handleAddUser,
-                })
-                }
-              />
-            )
-          }
+          {openModalAddUser && (
+            <ModalAddUser
+              {...{
+                openModalAddUser,
+                setOpenModalAddUser,
+                userState,
+                setUserState,
+                handleSubmit: handleAddUser,
+              }}
+            />
+          )}
         </Box>
       )}
     </div>
   );
 };
 
-const ModalAddCourse = ({startDate, setStartDate,  handleAddCourse, selectCourse, openModalAddCourse, setOpenModalAddCourse, userInfo, courseList, setSelectCourse }: any) => {
-  const [courseOption, setCourseOption] = useState([])
-  const [isCourseExit, setCourseExit] = useState(false)
+const ModalAddCourse = ({
+  startDate,
+  setStartDate,
+  handleAddCourse,
+  selectCourse,
+  openModalAddCourse,
+  setOpenModalAddCourse,
+  userInfo,
+  courseList,
+  setSelectCourse,
+}: any) => {
+  const [courseOption, setCourseOption] = useState([]);
+  const [isCourseExit, setCourseExit] = useState(false);
 
   useEffect(() => {
-    setStartDate(dayjs().add(+DEFAULT_EXPIRE_DATE_IN_DAY, 'day').toDate())
-  }, [])
+    setStartDate(dayjs().add(+DEFAULT_EXPIRE_DATE_IN_DAY, "day").toDate());
+  }, []);
 
   useEffect(() => {
     if (courseList?.courses.length) {
       const newOption = courseList?.courses.map((ele: any) => {
-        const foundCourse = userInfo.courses.find((course: any) => course.courseId == ele._id)
+        const foundCourse = userInfo.courses.find(
+          (course: any) => course.courseId == ele._id
+        );
         return {
           ...ele,
           isExits: !!foundCourse,
-          
-        }
-
-      })
-      setCourseOption(newOption)
+        };
+      });
+      setCourseOption(newOption);
     }
-  }, [])
+  }, []);
 
-  const date1 = dayjs(dayjs(startDate).format('YYYY-MM-DD'))
-  const dateDif = date1.diff(dayjs().format('YYYY-MM-DD'), 'day')
-
+  const date1 = dayjs(dayjs(startDate).format("YYYY-MM-DD"));
+  const dateDif = date1.diff(dayjs().format("YYYY-MM-DD"), "day");
 
   return (
     <Modal
@@ -623,9 +654,7 @@ const ModalAddCourse = ({startDate, setStartDate,  handleAddCourse, selectCourse
       aria-describedby="modal-modal-description"
     >
       <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
-        <h1 className={`${styles.title}`}>
-          Add Course To "{userInfo?.name}"
-        </h1>
+        <h1 className={`${styles.title}`}>Add Course To "{userInfo?.name}"</h1>
         <div className="w-[100%] mt-4">
           <select
             name=""
@@ -633,27 +662,35 @@ const ModalAddCourse = ({startDate, setStartDate,  handleAddCourse, selectCourse
             className={`${styles.input}`}
             value={selectCourse}
             onChange={(e: any) => {
-              const optionData: any = courseOption.find((ele:any) => ele._id == e.target.value)
-              const foundCourse = userInfo.courses.find((course: any) => course.courseId == e.target.value)
+              const optionData: any = courseOption.find(
+                (ele: any) => ele._id == e.target.value
+              );
+              const foundCourse = userInfo.courses.find(
+                (course: any) => course.courseId == e.target.value
+              );
               if (optionData) {
                 if (optionData?.isExits) {
-                  setCourseExit(true)
-                  setStartDate(new Date(foundCourse.expireDate))
+                  setCourseExit(true);
+                  setStartDate(new Date(foundCourse.expireDate));
                 } else {
-                  setCourseExit(false)
-                  setStartDate(dayjs().add(+DEFAULT_EXPIRE_DATE_IN_DAY, 'day').toDate())
+                  setCourseExit(false);
+                  setStartDate(
+                    dayjs().add(+DEFAULT_EXPIRE_DATE_IN_DAY, "day").toDate()
+                  );
                 }
-                setSelectCourse(optionData._id)
+                setSelectCourse(optionData._id);
               }
-            }
-            }          >
+            }}
+          >
             <option value="">Select Course</option>
-            {
-              courseOption.map?.((item: any) => (
-                <option value={item._id} key={item._id} disabled={item.isExits}>
-                  {item.name} <span className="text-red">{item.isExits ? ' - x มีครอสนี้เเล้ว' : ''}</span>
-                </option>
-              ))}
+            {courseOption.map?.((item: any) => (
+              <option value={item._id} key={item._id} disabled={item.isExits}>
+                {item.name}{" "}
+                <span className="text-red">
+                  {item.isExits ? " - x มีครอสนี้เเล้ว" : ""}
+                </span>
+              </option>
+            ))}
           </select>
           <div />
         </div>
@@ -669,20 +706,18 @@ const ModalAddCourse = ({startDate, setStartDate,  handleAddCourse, selectCourse
         <div className="flex w-full items-center justify-center mb-6 mt-6">
           <button
             disabled={!!!selectCourse}
-            className={`${styles.button}  w-full h-[30px] ${isCourseExit ? 'bg-[#47d097]' : 'bg-[#2190ff]'}  mt-4`}
-            onClick={()=> handleAddCourse(isCourseExit)}
+            className={`${styles.button}  w-full h-[30px] ${
+              isCourseExit ? "bg-[#47d097]" : "bg-[#2190ff]"
+            }  mt-4`}
+            onClick={() => handleAddCourse(isCourseExit)}
           >
-            {
-              isCourseExit ? 'Update' : 'Add'
-            }
-
+            {isCourseExit ? "Update" : "Add"}
           </button>
         </div>
       </Box>
     </Modal>
-  )
-}
-
+  );
+};
 
 const ModalAddEbook = ({
   openModalAddEbook,
@@ -691,22 +726,24 @@ const ModalAddEbook = ({
   ebookList,
   setSelectEbook,
   selectEbook,
-  handleAddEbook }: any) => {
-  const [ebookOption, setEbookOption] = useState([])
+  handleAddEbook,
+}: any) => {
+  const [ebookOption, setEbookOption] = useState([]);
 
   useEffect(() => {
     if (ebookList?.ebooks.length) {
       const newOption = ebookList?.ebooks.map((ele: any) => {
-        const isExits = userInfo.ebooks.some((item: any) => item._id === ele._id)
+        const isExits = userInfo.ebooks.some(
+          (item: any) => item._id === ele._id
+        );
         return {
           ...ele,
           isExits,
-        }
-
-      })
-      setEbookOption(newOption)
+        };
+      });
+      setEbookOption(newOption);
     }
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -716,9 +753,7 @@ const ModalAddEbook = ({
       aria-describedby="modal-modal-description"
     >
       <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white dark:bg-slate-900 rounded-[8px] shadow p-4 outline-none">
-        <h1 className={`${styles.title}`}>
-          Add Ebook To "{userInfo?.name}"
-        </h1>
+        <h1 className={`${styles.title}`}>Add Ebook To "{userInfo?.name}"</h1>
         <div className="w-[100%] mt-4">
           <select
             name=""
@@ -728,12 +763,11 @@ const ModalAddEbook = ({
             onChange={(e: any) => setSelectEbook(e.target.value)}
           >
             <option value="">Select Course</option>
-            {
-              ebookOption.map?.((item: any) => (
-                <option value={item._id} key={item._id} disabled={item.isExits}>
-                  {item.name}
-                </option>
-              ))}
+            {ebookOption.map?.((item: any) => (
+              <option value={item._id} key={item._id} disabled={item.isExits}>
+                {item.name}
+              </option>
+            ))}
           </select>
           <div />
         </div>
@@ -748,44 +782,46 @@ const ModalAddEbook = ({
         </div>
       </Box>
     </Modal>
-  )
-}
+  );
+};
 
-const ModalAddUser = ({ openModalAddUser, setOpenModalAddUser, userState, setUserState, handleSubmit }) => {
+const ModalAddUser = ({
+  openModalAddUser,
+  setOpenModalAddUser,
+  userState,
+  setUserState,
+  handleSubmit,
+}) => {
   const validateError = () => {
-    let error = ''
+    let error = "";
     if (!userState.name) {
-      error = 'name user is required!'
-    }
-    else if (!userState.email) {
-      error = 'email is required!'
-    }
-    else if (!userState.password) {
-      error = 'password is required!'
-    }
-    else if (!userState.confirmPassword) {
-      error = 'confirm password is required!'
-    }
-    else if (userState.password !== userState.confirmPassword) {
-      error = 'password and confirm password is not match!'
+      error = "name user is required!";
+    } else if (!userState.email) {
+      error = "email is required!";
+    } else if (!userState.password) {
+      error = "password is required!";
+    } else if (!userState.confirmPassword) {
+      error = "confirm password is required!";
+    } else if (userState.password !== userState.confirmPassword) {
+      error = "password and confirm password is not match!";
     }
 
-    return error
-  }
+    return error;
+  };
 
   const onSubmit = () => {
-    let error = validateError()
+    let error = validateError();
     if (error) {
-      return alert(error)
+      return alert(error);
     }
 
-    handleSubmit()
-  }
+    handleSubmit();
+  };
 
   return (
     <Modal
       open={openModalAddUser}
-      onClose={() => setOpenModalAddUser(prev => !prev)}
+      onClose={() => setOpenModalAddUser((prev) => !prev)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -796,7 +832,9 @@ const ModalAddUser = ({ openModalAddUser, setOpenModalAddUser, userState, setUse
           <input
             type="text"
             value={userState.name}
-            onChange={(e) => setUserState(prev => ({ ...prev, name: e.target.value }))}
+            onChange={(e) =>
+              setUserState((prev) => ({ ...prev, name: e.target.value }))
+            }
             placeholder="Enter name..."
             className={`${styles.input} mb-2`}
           />
@@ -804,7 +842,9 @@ const ModalAddUser = ({ openModalAddUser, setOpenModalAddUser, userState, setUse
           <input
             type="email"
             value={userState.email}
-            onChange={(e) => setUserState(prev => ({ ...prev, email: e.target.value }))}
+            onChange={(e) =>
+              setUserState((prev) => ({ ...prev, email: e.target.value }))
+            }
             placeholder="Enter email..."
             className={`${styles.input} mb-2`}
           />
@@ -812,7 +852,9 @@ const ModalAddUser = ({ openModalAddUser, setOpenModalAddUser, userState, setUse
           <input
             type="text"
             value={userState.password}
-            onChange={(e) => setUserState(prev => ({ ...prev, password: e.target.value }))}
+            onChange={(e) =>
+              setUserState((prev) => ({ ...prev, password: e.target.value }))
+            }
             placeholder="Enter Password"
             className={`${styles.input} mb-2`}
           />
@@ -820,20 +862,22 @@ const ModalAddUser = ({ openModalAddUser, setOpenModalAddUser, userState, setUse
           <input
             type="text"
             value={userState.confirmPassword}
-            onChange={(e) => setUserState(prev => ({ ...prev, confirmPassword: e.target.value }))}
+            onChange={(e) =>
+              setUserState((prev) => ({
+                ...prev,
+                confirmPassword: e.target.value,
+              }))
+            }
             placeholder="Confirm Password"
             className={`${styles.input} mb-2`}
           />
           <br />
-          <div
-            className={`${styles.button} my-6 !h-[30px]`}
-            onClick={onSubmit}
-          >
+          <div className={`${styles.button} my-6 !h-[30px]`} onClick={onSubmit}>
             Submit
           </div>
         </div>
       </Box>
     </Modal>
-  )
-}
+  );
+};
 export default AllCourses;

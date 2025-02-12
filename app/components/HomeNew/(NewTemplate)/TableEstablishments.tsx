@@ -57,10 +57,12 @@ const TableEstablishments = () => {
       </section>
       <div className="flex justify-center items-center my-10">
         <Link href="/about/cooperation-agencies">
-          <Button>
-            ดูเพิ่มเติม
-          </Button>
+          {/* <Button className="bg-primary hover:bg-red-800">ดูเพิ่มเติม</Button> */}
+          <button className="bg-primary py-2 px-4 text-white rounded-md hover:shadow-lg">
+          ดูเพิ่มเติม
+        </button>
         </Link>
+
       </div>
 
       {/* Modal */}

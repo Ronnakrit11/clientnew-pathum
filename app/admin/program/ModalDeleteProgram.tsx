@@ -17,7 +17,14 @@ export default function ModalDeleteProgram({ data, refetch }: any) {
       refetch();
       toast.success("ลบข้อมูลนักศึกษาเรียบร้อยแล้ว");
     }
-  }, [isSuccess]);
+    if (error) {
+      console.log(error);
+      if ("status" in error && error?.status === 400) {
+        toast.error("กรุณาลบสาขาวิชาที่เกี่ยวข้องกับหลักสูตรนี้");
+      }
+      setOpenModal(false);
+    }
+  }, [isSuccess, error]);
 
   const handleDelete = async () => {
     await deleteProgram({ id: data._id });

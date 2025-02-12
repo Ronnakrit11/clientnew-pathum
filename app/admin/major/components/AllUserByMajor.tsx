@@ -54,7 +54,7 @@ const AllUserByMajor = () => {
   }, [data]);
 
   const onPageChange = (page: number) => setPayload({ ...payload, page });
-  console.log(data?.data);
+  // console.log(data?.data);
 
   const downloadPDF = () => {
     const table: any = document.querySelector(".overflow-x-auto"); // เลือกส่วนของตาราง
@@ -249,8 +249,8 @@ const AllUserByMajor = () => {
                       {user.prefix + " " + user.name}
                     </Table.Cell>
                     <Table.Cell>{user.studentId}</Table.Cell>
-                    <Table.Cell>{user.major.name}</Table.Cell>
-                    <Table.Cell>{user.program.name}</Table.Cell>
+                    <Table.Cell>{user.major?.name}</Table.Cell>
+                    <Table.Cell>{user.program?.name}</Table.Cell>
                     <Table.Cell>{user.status}</Table.Cell>
                     <Table.Cell className="flex gap-2">
                       <ModalInfoUser data={user} />

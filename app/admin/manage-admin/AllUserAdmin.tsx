@@ -41,7 +41,16 @@ const AllUserAdmin = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  // console.log(majorData?.data);
+  console.log(adminData?.users?.role);
+
+  const getNewRoleName = (userMajorId) => {
+    if (userMajorId === "admin") {
+      return userMajorId;
+    }
+    const id = userMajorId.substring(6);
+    const major = majorData?.data?.find((item) => item._id === id);
+    return major ? `admin-${major.name}` : "Unknown Role";
+  };
 
   const {
     data: userById,
@@ -125,7 +134,7 @@ const AllUserAdmin = () => {
                     {user.name}
                   </Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.role}</Table.Cell>
+                  <Table.Cell>{getNewRoleName(user.role)}</Table.Cell>
                   <Table.Cell className="flex gap-2">
                     <ModalEditAdmin data={user} refetch={refetch} />
                     <ModalDelete data={user} refetch={refetch} />

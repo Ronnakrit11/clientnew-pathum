@@ -44,7 +44,7 @@ const NewAllUsers = () => {
   });
 
   const onPageChange = (page: number) => setPayload({ ...payload, page: page });
-
+  // console.log(data);
   return (
     <div className="container mx-auto mt-24 p-4">
       <div className="flex gap-2 mb-4">
@@ -97,8 +97,8 @@ const NewAllUsers = () => {
                     {user.name}
                   </Table.Cell>
                   <Table.Cell>{user.studentId}</Table.Cell>
-                  <Table.Cell>{user.major.name}</Table.Cell>
-                  <Table.Cell>{user.program.name}</Table.Cell>
+                  <Table.Cell>{user.major?.name}</Table.Cell>
+                  <Table.Cell>{user.program?.name}</Table.Cell>
                   <Table.Cell>{user.status}</Table.Cell>
                   <Table.Cell className="flex gap-2">
                     <ModalInfoUser data={user} refetch={refetch} />

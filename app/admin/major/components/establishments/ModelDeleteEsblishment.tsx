@@ -12,14 +12,18 @@ export default function ModalDeleteEsblishment({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [deleteEstablishment, { isSuccess, error }] =
     useDeleteEstablishmentMutation();
-    
+
   useEffect(() => {
     if (isSuccess) {
       setOpenModal(false);
       refetch();
       toast.success("ลบข้อมูลสถานประกอบการเรียบร้อยแล้ว");
     }
-    if(error){
+    if (error) {
+      // if ("status" in error && error?.status === 400) {
+      //   toast.error("กรุณาลบนักศึกษาที่เกี่ยวข้องกับหลักสูตรนี้");
+      // }
+      // console.log(error);
       toast.error("ลบข้อมูลสถานประกอบการไม่ได้");
     }
   }, [isSuccess]);
