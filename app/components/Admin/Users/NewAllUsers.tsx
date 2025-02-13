@@ -70,6 +70,7 @@ const NewAllUsers = () => {
           <Table.Head className="text-md">
             <Table.HeadCell>ชื่อ</Table.HeadCell>
             <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
+            <Table.HeadCell>แขนง</Table.HeadCell>
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
             <Table.HeadCell>สถานะ</Table.HeadCell>
@@ -97,6 +98,7 @@ const NewAllUsers = () => {
                     {user.name}
                   </Table.Cell>
                   <Table.Cell>{user.studentId}</Table.Cell>
+                  <Table.Cell>{user.sect?.name}</Table.Cell>
                   <Table.Cell>{user.major?.name}</Table.Cell>
                   <Table.Cell>{user.program?.name}</Table.Cell>
                   <Table.Cell>{user.status}</Table.Cell>

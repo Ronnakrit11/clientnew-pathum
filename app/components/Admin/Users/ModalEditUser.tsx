@@ -13,7 +13,7 @@ import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
 import { useGetAllUserEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
-
+import { useGetAllSectQuery } from "@/redux/features/sect/sectApi";
 export default function ModalEditUser({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
@@ -30,6 +30,7 @@ export default function ModalEditUser({ data, refetch }: any) {
     studentId: data?.studentId,
     major: data?.major?._id,
     intern: data?.intern?._id,
+    sect: data?.sect?._id,
   });
 
   const [updateUser, { isLoading, error, isSuccess }] =
@@ -38,6 +39,8 @@ export default function ModalEditUser({ data, refetch }: any) {
   const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
   const { data: dataEstablishment } = useGetAllUserEstablishmentsQuery({});
+  const { data: dataSect } = useGetAllSectQuery(undefined, {});
+
   // console.log(dataEstablishment);
   useEffect(() => {
     if (isSuccess) {
@@ -148,7 +151,6 @@ export default function ModalEditUser({ data, refetch }: any) {
                 onChange={(e) =>
                   setPayload({ ...payload, major: e.target.value })
                 }
-                
               >
                 <option value={""} key={0} disabled>
                   เลือกสาขาวิชา
@@ -157,6 +159,29 @@ export default function ModalEditUser({ data, refetch }: any) {
                   .filter((item) => item.program?._id === payload.program)
                   .map((item: any) => (
                     <option key={item._id} value={item._id} selected>
+                      {item.name}
+                    </option>
+                  ))}
+              </Select>
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="sect" value="ชื่อแขนง" />
+              </div>
+              <Select
+                id="sect"
+                defaultValue={payload.sect}
+                onChange={(e) =>
+                  setPayload({ ...payload, sect: e.target.value })
+                }
+              >
+                <option value="" disabled>
+                  เลือกแขนง
+                </option>
+                {dataSect?.sects
+                  ?.filter((item: any) => item.major._id === payload.major)
+                  ?.map((item, index) => (
+                    <option key={index} value={item._id}>
                       {item.name}
                     </option>
                   ))}

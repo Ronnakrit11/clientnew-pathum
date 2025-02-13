@@ -70,7 +70,7 @@ export default function ModalEditUserMajor({
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
-    console.log(payload);
+    // console.log(payload);
   };
 
   const handleSubmit = async () => {
