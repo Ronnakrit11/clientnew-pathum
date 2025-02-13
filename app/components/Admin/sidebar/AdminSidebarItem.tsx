@@ -80,6 +80,13 @@ const AdminSidebarItem = ({
         setSelected={setSelected}
       />
       <Item
+        title="จัดการแขนง"
+        to="/admin/sect"
+        icon={<GroupsIcon />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
         title="จัดการสาขาวิชา"
         to="/admin/major"
         icon={<GroupsIcon />}

@@ -138,6 +138,12 @@ const ModalInfoUser = ({ data, refetch }: any) => {
                     </span>
                   </p>
                   <p>
+                    แขนง :{" "}
+                    <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                      {data.sect?.name}
+                    </span>
+                  </p>
+                  <p>
                     ปีการศึกษา :{" "}
                     <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                       {data.academicYear}

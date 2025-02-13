@@ -27,6 +27,7 @@ const AllUserByMajor = () => {
     }
   );
 
+
   const [payload, setPayload] = useState({
     page: 1,
     limit: 10,
@@ -44,6 +45,8 @@ const AllUserByMajor = () => {
   const { data, refetch } = useListUserByMajorQuery(payload, {
     refetchOnMountOrArgChange: true,
   });
+
+  console.log(data?.data)
 
   // console.log(data?.data);
 
@@ -102,6 +105,7 @@ const AllUserByMajor = () => {
         "สถานะการศึกษา",
         "หลักสูตร",
         "สาขาวิชา",
+        "แขนง",
         "ปีการศึกษา",
         "อีเมลล์",
         "เบอร์โทรศัพท์",
@@ -128,6 +132,7 @@ const AllUserByMajor = () => {
         item?.status || "-",
         item?.program?.name || "-",
         item?.major?.name || "-",
+        item?.sect?.name || "-",
         item?.academicYear || "-",
         item?.email || "-",
         item?.phoneNumber || "-",
@@ -219,6 +224,7 @@ const AllUserByMajor = () => {
           <Table.Head>
             <Table.HeadCell>ชื่อ</Table.HeadCell>
             <Table.HeadCell>รหัสนักศึกษา</Table.HeadCell>
+            <Table.HeadCell>แขนง</Table.HeadCell>
             <Table.HeadCell>สาขาวิชา</Table.HeadCell>
             <Table.HeadCell>หลักสูตร</Table.HeadCell>
             <Table.HeadCell>สถานะ</Table.HeadCell>
@@ -249,6 +255,7 @@ const AllUserByMajor = () => {
                       {user.prefix + " " + user.name}
                     </Table.Cell>
                     <Table.Cell>{user.studentId}</Table.Cell>
+                    <Table.Cell>{user.sect?.name}</Table.Cell>
                     <Table.Cell>{user.major?.name}</Table.Cell>
                     <Table.Cell>{user.program?.name}</Table.Cell>
                     <Table.Cell>{user.status}</Table.Cell>

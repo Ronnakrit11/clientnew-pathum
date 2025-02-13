@@ -5,41 +5,39 @@ import { useEffect, useState } from "react";
 import { Label, TextInput } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
-import { useUpdateProgramMutation } from "@/redux/features/program/programApi";
 import { useUpdateMajorMutation } from "@/redux/features/major/majorApi";
-import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { useUpdateSectMutation } from "@/redux/features/sect/sectApi";
 
-export default function ModalEditMajor({ data, refetch }: any) {
+export default function ModalEditSect({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
     id: data?._id,
     name: "",
-    program: "",
+    major: "",
   });
 
-  const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
-
+  const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
+  // console.log(dataMajor);
   useEffect(() => {
     setPayload({
       id: data?._id,
       name: data?.name,
-      program: data?.program?._id,
+      major: data?.major?._id,
     });
   }, [data]);
 
-  // console.log(data);
-
-  const [updateMajor, { isLoading, error, isSuccess }] =
-    useUpdateMajorMutation();
+  const [updateSect, { isLoading, error, isSuccess }] = useUpdateSectMutation();
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("อัพเดทสาขาวิชาเรียบร้อยแล้ว");
+      toast.success("อัพเดทแขนงเรียบร้อยแล้ว");
       refetch();
       setOpenModal(false);
     }
     if (error) {
-      toast.error("อัพเดทสาขาวิชาผิดพลาด");
+      toast.error("อัพเดทแขนงผิดพลาด");
+      setOpenModal(false);
     }
   }, [isSuccess, error]);
 
@@ -49,7 +47,7 @@ export default function ModalEditMajor({ data, refetch }: any) {
   };
 
   const handleSubmit = async () => {
-    await updateMajor(payload);
+    await updateSect(payload);
   };
 
   return (
@@ -84,17 +82,17 @@ export default function ModalEditMajor({ data, refetch }: any) {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="program" value="หลักสูตร" />
+                <Label htmlFor="major" value="สาขาวิชา" />
               </div>
               <Select
-                id="program"
-                value={payload.program}
+                id="major"
+                value={payload.major}
                 onChange={(e) => handleChange(e)}
               >
                 <option value="" disabled>
-                  เลือกหลักสูตร
+                  เลือกสาขาวิชา
                 </option>
-                {dataProgram?.programs?.map((item, index) => (
+                {dataMajor?.data?.map((item, index) => (
                   <option key={index} value={item._id}>
                     {item.name}
                   </option>

@@ -11,10 +11,12 @@ import { Select } from "flowbite-react";
 import { z } from "zod";
 import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
 import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
+import { useGetAllSectQuery } from "@/redux/features/sect/sectApi";
 
 export default function ModalCreateUserMajor({ refetch, major, program }: any) {
   const [openModal, setOpenModal] = useState(false);
   const { data: dataMajor } = useGetMajorByIdQuery({ id: major });
+  const { data: dataSect } = useGetAllSectQuery(undefined, {});
   // console.log(dataMajor?.data);
   const payloadSearch = {
     name: "",
@@ -23,6 +25,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
     limit: 1000,
   };
 
+  // console.log(dataSect?.sects);
   const { data: dataAllEstablishments } =
     useGetAllEstablishmentsQuery(payloadSearch);
 
@@ -60,6 +63,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
     status: "",
     studentId: "",
     major: dataMajor?.data?._id,
+    sect: dataSect?.sects[0]?._id,
     intern: null,
   };
 
@@ -83,8 +87,8 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
         prefix: "",
         name: "",
         email: "",
-        password: "",
-        program: "",
+        password: "123456",
+        program: dataMajor?.data?.program?._id || "",
         academicYear: "",
         reason: "",
         phoneNumber: "",
@@ -92,8 +96,9 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
         address: "",
         status: "",
         studentId: "",
-        major: "",
+        major: dataMajor?.data?._id,
         intern: null,
+        sect: dataSect?.sects[0]?._id,
       });
       refetch();
     }
@@ -118,6 +123,8 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
       }
     }
   };
+
+  console.log(payload)
 
   return (
     <>
@@ -161,7 +168,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
                   />
                 </div>
                 <TextInput
-                  disabled={payload.prefix !== "others"}
+                  disabled={payload.prefix == "นาย" || payload.prefix == "นางสาว"}
                   id="prefix"
                   type="text"
                   required
@@ -208,7 +215,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major" />
+                <Label htmlFor="major" value="ชื่อสาขาวิชา (Major)" />
               </div>
               <Select id="major" defaultValue={payload.major}>
                 <option value="" disabled>
@@ -217,6 +224,23 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
                 <option value={dataMajor?.data?._id} key={0}>
                   {dataMajor?.data?.name}
                 </option>
+              </Select>
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="sect" value="ชื่อแขนง" />
+              </div>
+              <Select id="sect" defaultValue={payload.sect} onChange={(e) => setPayload({ ...payload, sect: e.target.value })}>
+                <option value="" disabled>
+                  เลือกแขนง
+                </option>
+                {dataSect?.sects
+                  ?.filter((item: any) => item.major._id === payload.major)
+                  ?.map((item, index) => (
+                    <option key={index} value={item._id}>
+                      {item.name}
+                    </option>
+                  ))}
               </Select>
             </div>
             <div>
