@@ -9,18 +9,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "aos/dist/aos.css";
 
-import Hero from "./Hero";
-import TopCategory from "./TopCategory";
-import PeopleReview from "./PeopleReview";
-import WhyLearnCourse from "./WhyLearnCourse";
-import Courses from "./Course";
-import TrustBy from "./TrustBy";
-import Ebooks from "./Ebooks";
-import FAQ from "../FAQ/FAQ";
 import { useTheme } from "next-themes";
 import Blogs from "./Blogs";
-import OurService from "./OurService";
-import Image from "next/image";
 import SlideHero from "./(NewTemplate)/SliderHero";
 import Event from "./Event";
 import TableEstablishments from "./(NewTemplate)/TableEstablishments";

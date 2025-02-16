@@ -4,7 +4,6 @@ import { Button, FileInput, Label, TextInput, Select } from "flowbite-react";
 import { useUploadThesisMutation } from "@/redux/features/user/userApi";
 import toast from "react-hot-toast";
 import { Modal } from "flowbite-react";
-import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
 
 const UploadThesis = ({ id, refetch }: { id: string; refetch: any }) => {
   const [fileBase64, setFileBase64] = useState<string | null>(null);

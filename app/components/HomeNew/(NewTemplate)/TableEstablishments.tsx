@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useGetAllUserEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
 import { Button, Table } from "flowbite-react";
 import ModalDetails from "../../../about/cooperation-agencies/components/ModalDetails";
-import { BiArrowToLeft } from "react-icons/bi";
 import Link from "next/link";
+import { useListCoworkQuery } from "@/redux/features/cowork/coworkApi";
 
 const TableEstablishments = () => {
-  const { data, isLoading } = useGetAllUserEstablishmentsQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
+  // const { data, isLoading } = useGetAllUserEstablishmentsQuery(
+  //   {},
+  //   { refetchOnMountOrArgChange: true }
+  // );
+  const { data, isLoading } = useListCoworkQuery(undefined, {});
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -37,7 +37,7 @@ const TableEstablishments = () => {
                   </Table.Cell>
                 </Table.Row>
               ) : (
-                data?.establishments?.slice(0, 10).map((item, index) => (
+                data?.cowork?.slice(0, 10).map((item, index) => (
                   <Table.Row
                     key={item.id || index}
                     className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"
@@ -47,7 +47,7 @@ const TableEstablishments = () => {
                       {index + 1}
                     </Table.Cell>
                     <Table.Cell>{item.name}</Table.Cell>
-                    <Table.Cell>{item.address}</Table.Cell>
+                    <Table.Cell>{item.country}</Table.Cell>
                   </Table.Row>
                 ))
               )}
@@ -59,10 +59,9 @@ const TableEstablishments = () => {
         <Link href="/about/cooperation-agencies">
           {/* <Button className="bg-primary hover:bg-red-800">ดูเพิ่มเติม</Button> */}
           <button className="bg-primary py-2 px-4 text-white rounded-md hover:shadow-lg">
-          ดูเพิ่มเติม
-        </button>
+            ดูเพิ่มเติม
+          </button>
         </Link>
-
       </div>
 
       {/* Modal */}

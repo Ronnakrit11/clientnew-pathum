@@ -5,6 +5,7 @@ import Heading from "@/app/utils/Heading";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { useGetAllUserEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
+import { useListCoworkQuery } from "@/redux/features/cowork/coworkApi";
 import { Table } from "flowbite-react";
 import ModalDetails from "./components/ModalDetails";
 
@@ -21,10 +22,12 @@ const Page: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Establishment | null>(null);
 
-  const { data, isLoading } = useGetAllUserEstablishmentsQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
+  // const { data, isLoading } = useGetAllUserEstablishmentsQuery(
+  //   {},
+  //   { refetchOnMountOrArgChange: true }
+  // );
+
+  const { data, isLoading } = useListCoworkQuery(undefined, {});
 
   const handleRowClick = (item: Establishment) => {
     setSelectedItem(item);
@@ -49,7 +52,7 @@ const Page: React.FC = () => {
         <h1 className="text-2xl font-bold mb-4">รายชื่อหน่วยงานความร่วมมือ</h1>
         {isLoading ? (
           <p>Loading...</p>
-        ) : data?.establishments?.length ? (
+        ) : data?.cowork?.length ? (
           <div className="overflow-x-auto">
             <Table hoverable>
               <Table.Head>
@@ -58,7 +61,7 @@ const Page: React.FC = () => {
                 <Table.HeadCell>จังหวัด</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {data?.establishments.map((item: Establishment, index: number) => (
+                {data?.cowork.map((item: Establishment, index: number) => (
                   <Table.Row
                     key={item.id}
                     className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"

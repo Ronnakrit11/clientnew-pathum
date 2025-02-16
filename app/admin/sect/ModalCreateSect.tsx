@@ -66,7 +66,7 @@ export default function ModalCreateSect({ refetch, refetch_data }: any) {
           <Modal.Body>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="name" value="ชื่อสาขาวิชา" />
+                <Label htmlFor="name" value="ชื่อแขนง" />
               </div>
               <TextInput
                 id="name"

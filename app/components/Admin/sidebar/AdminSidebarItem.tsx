@@ -101,6 +101,13 @@ const AdminSidebarItem = ({
         setSelected={setSelected}
       />
       <Item
+        title="จัดการความร่วมมือหน่วยงาน"
+        to="/admin/company-cooperation"
+        icon={<GroupsIcon />}
+        selected={selected}
+        setSelected={setSelected}
+      />
+      <Item
         title="Logs"
         to="/admin/logs"
         icon={<IoNewspaperOutline />}
