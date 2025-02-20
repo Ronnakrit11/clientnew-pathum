@@ -45,7 +45,7 @@ const AllUserAdmin = () => {
     limit: limit,
   });
 
-  console.log(adminData?.users?.role);
+  // console.log(adminData?.users?.role);
 
   const getNewRoleName = (userMajorId) => {
     if (userMajorId === "admin") {
@@ -107,7 +107,7 @@ const AllUserAdmin = () => {
           <ModalCreateAdminMajor
             refetch={refetchUserById}
             refetch_data={refetch}
-            append={userById?.user?.appoint}
+            admin_id={userById?.user?._id}
           />
         </div>
       </div>

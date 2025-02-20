@@ -177,7 +177,7 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllAdmin: builder.query({
-      query: ({ name, page, limit,email }) => ({
+      query: ({ name, page, limit, email }) => ({
         url: `get-all-admin?name=${name}&page=${page}&limit=${limit}&email=${email}`,
         method: "GET",
         credentials: "include" as const,
@@ -194,6 +194,13 @@ export const userApi = apiSlice.injectEndpoints({
     appointAdminCreate: builder.query({
       query: () => ({
         url: `appoint-admin-create`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    getAppointById: builder.query({
+      query: ({ id }) => ({
+        url: `get-appoint-by-id/${id}`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -225,4 +232,5 @@ export const {
   useGetAllAdminQuery,
   useUpdateAvatarAdminMutation,
   useAppointAdminCreateQuery,
+  useGetAppointByIdQuery,
 } = userApi;

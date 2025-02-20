@@ -15,7 +15,8 @@ import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { Badge } from "flowbite-react";
 import { z } from "zod";
 import { useAppointAdminCreateQuery } from "@/redux/features/user/userApi";
-
+import { useGetAppointByIdQuery } from "@/redux/features/user/userApi";
+import { useSelector } from "react-redux";
 const payloadSchema = z
   .object({
     name: z.string().min(3),
@@ -32,11 +33,11 @@ const payloadSchema = z
 
 export default function ModalCreateAdminMajor({
   refetch,
-  append,
+  admin_id,
   refetch_data,
 }: any) {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  // console.log(errors);
+  console.log(admin_id);
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
     name: "",
@@ -45,6 +46,19 @@ export default function ModalCreateAdminMajor({
     password_confirm: "",
     role: "",
   });
+
+
+
+  const { data: appointData, refetch: refetchDataAppoint } =
+    useGetAppointByIdQuery(
+      {
+        id: admin_id,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+      }
+    );
+  // console.log(appointData?.data?.appoint);
 
   const {
     data: dataAppointAdminCreate,
@@ -86,6 +100,8 @@ export default function ModalCreateAdminMajor({
       refetch();
       // recethData();
       // refetchUserData();
+      refetch_data();
+      refetchDataAppoint()
       refetchDataAppointAdminCreate();
       setOpenModal(false);
     }
@@ -124,50 +140,41 @@ export default function ModalCreateAdminMajor({
             สร้างบัญชีแอดมิน
             <div className="text-[14px] ">
               <h2>สิทธิในการสร้างบัญชีแอดมินของคุณ</h2>
-              {dataAppointAdminCreate?.majorDetails?.map((item: any) => (
-                <div key={item.name}>
-                  <p className="flex items-center gap-2">
-                    {item.name}
-                    <Badge color={item.item > 0 ? "success" : "failure"}>
-                      {item.item}
-                    </Badge>
-                    ครั้ง
-                  </p>
-                </div>
-              ))}
+              {appointData?.data?.appoint &&
+                Object.entries(appointData.data.appoint).map(
+                  ([key, value]: [string, any]) => {
+                    const major = majorData?.data?.find(
+                      (major: any) => major._id === key
+                    );
 
-              {/* <p className="flex items-center gap-2">
-                สาขาวิชาวิศวกรรมซอฟต์แวร์และระบบสารสนเทศ{" "}
-                <Badge color={append?.engineerIT > 0 ? "success" : "failure"}>
-                  {append?.engineerIT}
-                </Badge>
-                ครั้ง
-              </p>
-              <p className="flex items-center gap-2">
-                สาขาวิชาเทคโนโลยีสิ่งแวดล้อมการเกษตร{" "}
-                <Badge color={append?.argTech > 0 ? "success" : "failure"}>
-                  {append?.argTech}
-                </Badge>{" "}
-                ครั้ง
-              </p>
-              <p className="flex items-center gap-2">
-                สาขาวิชาเทคโนโลยีอุตสาหกรรมและการจัดการนวัตกรรม{" "}
-                <Badge
-                  color={append?.techInnovation > 0 ? "success" : "failure"}
-                >
-                  {append?.techInnovation}
-                </Badge>
-                ครั้ง
-              </p>
-              <p className="flex items-center gap-2">
-                สาขาวิชาสหวิทยาการ
-                <Badge
-                  color={append?.interdisciplinary > 0 ? "success" : "failure"}
-                >
-                  {append?.interdisciplinary}
-                </Badge>{" "}
-                ครั้ง
-              </p> */}
+                    // แสดงเฉพาะเมื่อพบ major ที่ตรงกัน
+                    if (major) {
+                      return (
+                        <div key={key}>
+                          <p className="flex items-center gap-2">
+                            <span className="font-medium">{major.name}:</span>{" "}
+                            <Badge color={value > 0 ? "success" : "failure"}>
+                              {value}
+                            </Badge>
+                            ครั้ง
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null; // ไม่แสดงถ้าไม่มี major ที่ตรงกับ id
+                  }
+                )}
+              {/* {appointData?.data?.appoint?.map((item: any) => (
+                  <div key={item._id}>
+                    <p className="flex items-center gap-2">
+                      {item.name}
+                      <Badge color={item.item > 0 ? "success" : "failure"}>
+                        {item.item}
+                      </Badge>
+                      ครั้ง
+                    </p>
+                  </div>
+                ))} */}
             </div>
           </Modal.Header>
           <Modal.Body>
