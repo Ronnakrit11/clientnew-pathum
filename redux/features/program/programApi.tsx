@@ -32,6 +32,13 @@ export const programApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchProgram: builder.query({
+      query: ({ name, page, limit }) => ({
+        url: `program-search?name=${name}&page=${page}&limit=${limit}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -40,4 +47,5 @@ export const {
   useCreateProgramMutation,
   useUpdateProgramMutation,
   useDeleteProgramMutation,
+  useSearchProgramQuery,
 } = programApi;

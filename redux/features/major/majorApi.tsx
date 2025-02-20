@@ -39,6 +39,13 @@ export const majorApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchMajor: builder.query({
+      query: ({ name, page, limit }) => ({
+        url: `major-search?name=${name}&page=${page}&limit=${limit}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -48,4 +55,5 @@ export const {
   useUpdateMajorMutation,
   useDeleteMajorMutation,
   useGetMajorByIdQuery,
+  useSearchMajorQuery,
 } = majorApi;

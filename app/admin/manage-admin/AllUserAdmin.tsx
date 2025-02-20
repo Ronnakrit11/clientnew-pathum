@@ -31,14 +31,18 @@ const AllUserAdmin = () => {
   ] = useUpdateUserRoleMutation();
   const [searchName, setSearchName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [email, setEmail] = useState("");
   const [limit, setLimit] = useState(10);
 
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 
-  const { data: adminData, refetch } = useGetAllAdminQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+  const { data: adminData, refetch } = useGetAllAdminQuery({
+    email: email,
+    name: searchName,
+    page: currentPage,
+    limit: limit,
   });
 
   console.log(adminData?.users?.role);
@@ -88,7 +92,7 @@ const AllUserAdmin = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
+            <Label htmlFor="name" value="ค้นหาชื่แอดมิน" />
           </div>
           <TextInput
             id="name"

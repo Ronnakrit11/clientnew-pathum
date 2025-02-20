@@ -177,8 +177,8 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     getAllAdmin: builder.query({
-      query: () => ({
-        url: "get-all-admin",
+      query: ({ name, page, limit,email }) => ({
+        url: `get-all-admin?name=${name}&page=${page}&limit=${limit}&email=${email}`,
         method: "GET",
         credentials: "include" as const,
       }),

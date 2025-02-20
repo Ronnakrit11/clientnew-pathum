@@ -15,7 +15,7 @@ import ModalEditProgram from "./ModalEditProgram";
 import ModalCreateProgram from "./ModalCreateProgram";
 import ModalDeleteProgram from "./ModalDeleteProgram";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
-
+import { useSearchProgramQuery } from "@/redux/features/program/programApi";
 const AllPrograms = () => {
   const {
     data: userData,
@@ -34,8 +34,14 @@ const AllPrograms = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const { data, refetch } = useGetAllProgramQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+  // const { data, refetch } = useGetAllProgramQuery(undefined, {
+  //   refetchOnMountOrArgChange: true,
+  // });
+
+  const { data, refetch } = useSearchProgramQuery({
+    name: searchName,
+    page: currentPage,
+    limit: limit,
   });
 
   const {
@@ -74,13 +80,13 @@ const AllPrograms = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
+            <Label htmlFor="name" value="ค้นหาหลักสูตร" />
           </div>
           <TextInput
             id="name"
             type="text"
             className="w-[400px]"
-            placeholder="กรุณากรอกชื่อที่จะค้นหา"
+            placeholder="กรุณากรอกหลักสูตรที่จะค้นหา"
             onChange={(e) => setSearchName(e.target.value)}
             required
           />

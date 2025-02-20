@@ -3,8 +3,8 @@ import { apiSlice } from "../api/apiSlice";
 export const sectApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllSect: builder.query({
-      query: () => ({
-        url: "/sect/get-all-sect",
+      query: ({ name,limit,page }) => ({
+        url: `/sect/get-all-sect?name=${name}&limit=${limit}&page=${page}`, 
         method: "GET",
         credentials: "include" as const,
       }),

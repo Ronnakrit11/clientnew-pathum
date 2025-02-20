@@ -12,6 +12,7 @@ import { Pagination } from "flowbite-react";
 import CreateMajor from "./ModalCreateMajor";
 import ModalEditMajor from "./ModalEditMajor";
 import ModalDeleteMajor from "./ModalDeleteMajor";
+import { useSearchMajorQuery } from "@/redux/features/major/majorApi";
 
 const AllMajor = () => {
   const {
@@ -31,9 +32,16 @@ const AllMajor = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const { data, refetch } = useGetAllMajorQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+  // const { data, refetch } = useGetAllMajorQuery(undefined, {
+  //   refetchOnMountOrArgChange: true,
+  // });
+
+  const { data, refetch } = useSearchMajorQuery({
+    name: searchName,
+    page: currentPage,
+    limit: limit,
   });
+  // console.log(data)
 
   const {
     data: userById,
@@ -62,7 +70,7 @@ const AllMajor = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
+            <Label htmlFor="name" value="ค้นหาสาขาวิชา" />
           </div>
           <TextInput
             id="name"

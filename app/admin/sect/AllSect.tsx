@@ -35,8 +35,12 @@ const AllSect = () => {
   //   refetchOnMountOrArgChange: true,
   // });
 
-  const { data, refetch } = useGetAllSectQuery(undefined, {});
-  console.log(data);
+  const { data, refetch } = useGetAllSectQuery({
+    name: searchName,
+    page: currentPage,
+    limit: limit,
+  });
+  // console.log(data);
   const {
     data: userById,
     isLoading: isLoadingUserById,
@@ -64,7 +68,7 @@ const AllSect = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา" />
+            <Label htmlFor="name" value="ค้นหาแขนง" />
           </div>
           <TextInput
             id="name"
