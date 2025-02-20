@@ -42,29 +42,13 @@ const Page: React.FC = () => {
       />
 
       {/* Main Content */}
-      <main className="flex-grow container mx-auto px-4 py-20 text-black">
+      <main className="flex-grow container mx-auto px-4 py-8">
         <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
-          <h1 className="text-2xl font-bold mb-4">ระบบฐานข้อมูลนักศึกษา</h1>
-          <div className="space-y-2">
-            <h2 className="font-semibold text-xl">
-              ความสำคัญของการมีระบบฐานข้อมูลนักศึกษา
-            </h2>
-            <p className="ml-4">
-              {heroData?.layout?.databaseSystem?.importance}
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h2 className="font-semibold text-xl">
-              วัตถุประสงค์ของการมีระบบฐานข้อมูลนักศึกษา
-            </h2>
-            <ul className="space-y-2 ml-4 list-disc">
-              {heroData?.layout?.databaseSystem?.objective?.map(
-                (item, index) => (
-                  <li key={index}>{item}</li>
-                )
-              )}
-            </ul>
-          </div>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: heroData?.layout?.databaseSystem?.content,
+            }}
+          ></p>
           <div className="flex justify-center py-10 ">
             <Button onClick={() => setOpenLogin(true)} color="success">
               เข้าสู่ระบบฐานข้อมูลนักศึกษา

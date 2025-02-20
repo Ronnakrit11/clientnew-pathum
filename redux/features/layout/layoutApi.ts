@@ -22,6 +22,7 @@ export const layoutApi = apiSlice.injectEndpoints({
         objective,
         consultant,
         smo,
+        content
       }) => ({
         url: `edit-layout`,
         body: {
@@ -36,6 +37,7 @@ export const layoutApi = apiSlice.injectEndpoints({
           objective,
           consultant,
           smo,
+          content
         },
         method: "PUT",
         credentials: "include" as const,

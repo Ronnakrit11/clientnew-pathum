@@ -17,7 +17,6 @@ type Props = {
 };
 const BlogInformation: FC<Props> = ({ blogData, refetch }) => {
   const pathName = usePathname();
-  console.log(pathName);
   const [dragging, setDragging] = useState(false);
 
   const [blogInfo, setBlogInfo] = useState<any>(
@@ -70,6 +69,7 @@ const BlogInformation: FC<Props> = ({ blogData, refetch }) => {
       setBlogInfo(newState);
     }
   }, [blogData]);
+  // console.log(blogInfo);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();

@@ -8,6 +8,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineCamera } from "react-icons/ai";
+import Editor from "@/app/components/Editor";
 
 const Consult: React.FC = () => {
   const { data } = useGetHeroDataQuery("ConsultSmo");
@@ -16,8 +17,9 @@ const Consult: React.FC = () => {
   const inputFileElement: any = useRef(null);
 
   const payloadInitial = {
-    importance: data?.layout?.consultSmo?.importance || [],
-    objective: data?.layout?.consultSmo?.objective || [],
+    // importance: data?.layout?.consultSmo?.importance || [],
+    // objective: data?.layout?.consultSmo?.objective || [],
+    content: data?.layout?.consultSmo?.content || "",
     consultant: imageList,
   };
 
@@ -44,38 +46,9 @@ const Consult: React.FC = () => {
 
   const handleSave = async () => {
     await editLayout({
-      importance: payload.importance,
-      objective: payload.objective,
+      content: payload.content,
       consultant: imageList,
       type: "ConsultSmo",
-    });
-  };
-
-  const handleAddObjective = () => {
-    setPayload({
-      ...payload,
-      objective: [...payload.objective, ""],
-    });
-  };
-
-  const handleAddImportance = () => {
-    setPayload({
-      ...payload,
-      importance: [...payload.importance, ""],
-    });
-  };
-
-  const handleRemoveObjective = (index: number) => {
-    setPayload({
-      ...payload,
-      objective: payload.objective.filter((_, idx) => idx !== index),
-    });
-  };
-
-  const handleRemoveImportance = (index: number) => {
-    setPayload({
-      ...payload,
-      importance: payload.importance.filter((_, idx) => idx !== index),
     });
   };
 
@@ -117,87 +90,9 @@ const Consult: React.FC = () => {
           โครงสร้างที่ปรึกษาสโมสรนักศึกษา
         </h1>
         <div className="w-full">
-          <div className="mb-2 block">
-            <Label
-              htmlFor="importance"
-              value="ความสำคัญของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา"
-              className="text-2xl"
-            />
-          </div>
-          {payload?.importance?.map((item: string, idx: number) => (
-            <div key={idx} className="mb-4 flex items-center space-x-4">
-              <Textarea
-                id={`importance-${idx}`}
-                value={item}
-                onChange={(e) =>
-                  setPayload({
-                    ...payload,
-                    importance: payload.importance.map((obj, index) =>
-                      index === idx ? e.target.value : obj
-                    ),
-                  })
-                }
-                rows={5}
-              />
-              <Button
-                color="failure"
-                onClick={() => handleRemoveImportance(idx)}
-              >
-                <FaTrash />
-              </Button>
-            </div>
-          ))}
-          <div className="flex justify-end">
-            <Button
-              color="success"
-              onClick={handleAddImportance}
-              className="mt-4"
-            >
-              <FaPlus />
-            </Button>
-          </div>
+          <Editor setPropsContent={(data => setPayload({...payload, content: data}))}  defaultContent={payload.content}/>
         </div>
-        <div className="w-full">
-          <div className="mb-2 block">
-            <Label
-              htmlFor="objective"
-              value="วัตถุประสงค์ของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา"
-              className="text-2xl"
-            />
-          </div>
-          {payload?.objective?.map((item: string, idx: number) => (
-            <div key={idx} className="mb-4 flex items-center space-x-4">
-              <Textarea
-                id={`objective-${idx}`}
-                value={item}
-                onChange={(e) =>
-                  setPayload({
-                    ...payload,
-                    objective: payload.objective.map((obj, index) =>
-                      index === idx ? e.target.value : obj
-                    ),
-                  })
-                }
-                rows={5}
-              />
-              <Button
-                color="failure"
-                onClick={() => handleRemoveObjective(idx)}
-              >
-                <FaTrash />
-              </Button>
-            </div>
-          ))}
-          <div className="flex justify-end">
-            <Button
-              color="success"
-              onClick={handleAddObjective}
-              className="mt-4"
-            >
-              <FaPlus />
-            </Button>
-          </div>
-        </div>
+
         <div className="mb-2 block mt-10">
           <Label
             htmlFor="objective"

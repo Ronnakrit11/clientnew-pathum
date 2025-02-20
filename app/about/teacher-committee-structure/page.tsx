@@ -14,7 +14,7 @@ const Page = (props: Props) => {
   const [activeItem, setActiveItem] = useState(1);
   const [route, setRoute] = useState("Login");
   const { data: heroData } = useGetHeroDataQuery("ConsultSmo");
-  console.log(heroData?.layout?.consultSmo?.importance);
+  console.log(heroData?.layout?.consultSmo?.content);
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-black">
       <Header
@@ -34,26 +34,12 @@ const Page = (props: Props) => {
           <h1 className="text-2xl font-bold">
             โครงสร้างที่ปรึกษาสโมสรนักศึกษา
           </h1>
-          <div className="space-y-2 mb-8">
-            <h2 className="font-semibold text-xl">
-              ความสำคัญของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา
-            </h2>
-            <ul className="space-y-2 ml-4">
-              {heroData?.layout?.consultSmo?.importance?.map((item, index) => (
-                <li key={index}>• {item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="space-y-2 mb-8">
-            <h2 className="font-semibold text-xl">
-              วัตถุประสงค์ของการมีอาจารย์ที่ปรึกษาสโมสรนักศึกษา
-            </h2>
-            <ul className="space-y-2 ml-4">
-              {heroData?.layout?.consultSmo?.objective?.map((item, index) => (
-                <li key={index}>• {item}</li>
-              ))}
-            </ul>
-          </div>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: heroData?.layout?.consultSmo?.content,
+            }}
+          ></p>
+
           <div className="w-[1000px] xl:w-[800px] mx-auto py-20">
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3  gap-8">
               {heroData?.layout?.consultSmo?.consult?.map((item, index) => (

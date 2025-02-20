@@ -6,14 +6,16 @@ import { Textarea, Label, Button } from "flowbite-react";
 import { Toaster, toast } from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
+import Editor from "@/app/components/Editor";
 
 const DatabaseSystem: React.FC = () => {
   const { data } = useGetHeroDataQuery("DatabaseSystem");
   const [editLayout, { isLoading, error, isSuccess }] = useEditLayoutMutation();
 
   const payloadInitial = {
-    importance: data?.layout?.databaseSystem?.importance || "",
-    objective: data?.layout?.databaseSystem?.objective || [],
+    // importance: data?.layout?.databaseSystem?.importance || "",
+    // objective: data?.layout?.databaseSystem?.objective || [],
+    content:data?.layout?.databaseSystem?.content || "",
   };
 
   const [payload, setPayload] = useState(payloadInitial);
@@ -39,81 +41,12 @@ const DatabaseSystem: React.FC = () => {
     await editLayout({ ...payload, type: "DatabaseSystem" });
   };
 
-  const handleAddObjective = () => {
-    setPayload({
-      ...payload,
-      objective: [...payload.objective, ""],
-    });
-  };
-
-  const handleRemoveObjective = (index: number) => {
-    setPayload({
-      ...payload,
-      objective: payload.objective.filter((_, idx) => idx !== index),
-    });
-  };
-
   return (
     <div className="container mx-auto mt-24 p-4">
       <div className="flex flex-col justify-between items-center mb-4 space-y-4">
         <h1 className="text-2xl font-bold mb-10">ระบบฐานข้อมูลนักศึกษา</h1>
         <div className="w-full">
-          <div className="mb-2 block">
-            <Label
-              htmlFor="importance"
-              value="ความสำคัญของการมีระบบฐานข้อมูลนักศึกษา"
-              className="text-2xl"
-            />
-          </div>
-          <Textarea
-            id="importance"
-            value={payload.importance}
-            onChange={(e) =>
-              setPayload({ ...payload, importance: e.target.value })
-            }
-            rows={10}
-          />
-        </div>
-        <div className="w-full">
-          <div className="mb-2 block">
-            <Label
-              htmlFor="objective"
-              value="วัตถุประสงค์ของการมีระบบฐานข้อมูลนักศึกษา"
-              className="text-2xl"
-            />
-          </div>
-          {payload?.objective?.map((item: string, idx: number) => (
-            <div key={idx} className="mb-4 flex items-center space-x-4">
-              <Textarea
-                id={`objective-${idx}`}
-                value={item}
-                onChange={(e) =>
-                  setPayload({
-                    ...payload,
-                    objective: payload.objective.map((obj, index) =>
-                      index === idx ? e.target.value : obj
-                    ),
-                  })
-                }
-                rows={5}
-              />
-              <Button
-                color="failure"
-                onClick={() => handleRemoveObjective(idx)}
-              >
-                <FaTrash />
-              </Button>
-            </div>
-          ))}
-          <div className="flex justify-end">
-            <Button
-              color="success"
-              onClick={handleAddObjective}
-              className="mt-4"
-            >
-              <FaPlus />
-            </Button>
-          </div>
+          <Editor setPropsContent={(data => setPayload({...payload, content: data}))}  defaultContent={payload.content}/>
         </div>
         <div>
           <Button color="success" onClick={handleSave} disabled={isLoading}>

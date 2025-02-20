@@ -10,7 +10,7 @@ const Editor = ({ setPropsContent, defaultContent }) => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
   const [fileBase64, setFileBase64] = useState<string | null>(null);
-
+  console.log(defaultContent);
   useEffect(() => {
     setContent(defaultContent);
   }, [defaultContent]);
