@@ -228,6 +228,13 @@ const AdminSidebarItem = ({
             selected={selected}
             setSelected={setSelected}
           />
+          <Item
+            title={`รายชื่ออาจารย์`}
+            to={`/admin/major/teacher/${item._id}`}
+            icon={<HiMiniUsers size={20} />}
+            selected={selected}
+            setSelected={setSelected}
+          />
         </div>
       ))}
       <Typography

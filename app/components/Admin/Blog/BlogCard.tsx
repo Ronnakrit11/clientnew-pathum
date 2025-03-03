@@ -25,10 +25,9 @@ const BlogCard: FC<Props> = ({ item, isProfile }) => {
       onClick={handleClick}
       className="w-full bg-white cursor-pointer dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] shadow-md dark:shadow-inner"
     >
-      <div className="w-full  dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] shadow-sm dark:shadow-inner">
-        {!!item.thumbnail?.url && (
+        <div className="w-full  dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] shadow-sm dark:shadow-inner">
           <Image
-            src={item.thumbnail.url}
+            src={item?.thumbnail?.url ? item.thumbnail.url : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJPtfo-GFpeNYEfEmoUY5gfm7kOjwiYuiFpw&s"}
             width={2000}
             height={1000}
             objectFit="contain"
@@ -36,15 +35,16 @@ const BlogCard: FC<Props> = ({ item, isProfile }) => {
             // className="w-full h-full object-cover"
             alt=""
           />
-        )}
-      </div>
+        </div>
+
       <div className="p-4 space-y-4">
         <h1 className=" cursor-pointer font-Poppins font-[400] text-[16px] md:text-[16px] text-black dark:text-[#fff]">
-          {item.title}
+          {add3Dots(item.title, 100)}
+          {/* {item.title} */}
         </h1>
-        <h2 className=" font-Poppins text-[12px] md:text-[14px] text-[#777]">
+        {/* <h2 className=" font-Poppins text-[12px] md:text-[14px] text-[#777]">
           {add3Dots(item.description, 100)}
-        </h2>
+        </h2> */}
       </div>
       <div className="flex justify-between p-4 border-t">
         <p>อ่านต่อ</p>

@@ -206,7 +206,13 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-
+              <Item
+                title="รายชื่ออาจารย์"
+                to={`/admin/major/teacher/${dataMajorById?.data?._id}`}
+                icon={<HiAcademicCap size={20} />}
+                selected={selected}
+                setSelected={setSelected}
+              />
               <Typography
                 variant="h6"
                 className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"

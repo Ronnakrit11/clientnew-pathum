@@ -14,6 +14,7 @@ import Blogs from "./Blogs";
 import SlideHero from "./(NewTemplate)/SliderHero";
 import Event from "./Event";
 import TableEstablishments from "./(NewTemplate)/TableEstablishments";
+import TableTeacher from "./(NewTemplate)/TableTeacher";
 
 function Home({ webInfo }: any) {
   console.log("🚀 ~ file: Home.tsx:24 ~ Home ~ layout:", webInfo);
@@ -68,6 +69,7 @@ function Home({ webInfo }: any) {
       <Blogs />
       <Event />
       <TableEstablishments />
+      <TableTeacher />
       {/* <PeopleReview /> */}
 
       {/* <WhyLearnCourse /> */}

@@ -16,17 +16,19 @@ const SlideHero = ({ banner }: { banner: any }) => {
   };
 
   return (
-    <div className="relative w-full">
+    <div>
       <Slider {...settings}>
         {banner?.image?.map((item: any, index: number) => (
-          <div key={index}>
-            <Image
-              src={item.url}
-              alt=""
-              width={3000}
-              height={2000}
-              className="w-full h-full"
-            />
+          <div key={index} className="relative w-full h-auto">
+            <div className="w-full max-h-screen aspect-[16/9] lg:aspect-[21/9]">
+              <Image
+                src={item.url}
+                alt=""
+                layout="fill"
+                objectFit="cover"
+                priority
+              />
+            </div>
           </div>
         ))}
       </Slider>

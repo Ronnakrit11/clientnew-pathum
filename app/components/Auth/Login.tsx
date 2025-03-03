@@ -62,7 +62,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
           router.push(`/admin/major/${majorDataNew._id}`);
         }
       } else if (data?.user?.role === "user") {
-        router.push("/user");
+        router.push("/");
       }
       setOpen(false);
       refetch();

@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
   
     const publishedAt = new Date(blog.createdAt).toISOString();
     const modifiedAt = new Date(blog.updatedAt || blog.createdAt).toISOString();
-    const ogImages = blog.thumbnail.url
+    const ogImages = blog?.thumbnail?.url
 
     return {
       title: blog.title,
