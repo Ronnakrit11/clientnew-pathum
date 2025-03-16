@@ -205,6 +205,13 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getUserByMajor: builder.query({
+      query: ({ major }) => ({
+        url: `get-user-by-major?major=${major}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -233,4 +240,5 @@ export const {
   useUpdateAvatarAdminMutation,
   useAppointAdminCreateQuery,
   useGetAppointByIdQuery,
+  useGetUserByMajorQuery,
 } = userApi;

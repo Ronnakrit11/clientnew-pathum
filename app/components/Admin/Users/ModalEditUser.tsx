@@ -2,10 +2,8 @@
 
 import { Button, Modal, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiMiniUserPlus } from "react-icons/hi2";
 import { Label, TextInput } from "flowbite-react";
 import { Radio } from "flowbite-react";
-import { useAddUserMutation } from "@/redux/features/user/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
@@ -13,7 +11,8 @@ import { useUpdateUserByIdMutation } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
 import { useGetAllUserEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
-import { useGetAllSectQuery } from "@/redux/features/sect/sectApi";
+import { useGetSectByMajorQuery } from "@/redux/features/sect/sectApi";
+
 export default function ModalEditUser({ data, refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [payload, setPayload] = useState({
@@ -32,6 +31,7 @@ export default function ModalEditUser({ data, refetch }: any) {
     intern: data?.intern?._id,
     sect: data?.sect?._id,
   });
+  // console.log(payload);
 
   const [updateUser, { isLoading, error, isSuccess }] =
     useUpdateUserByIdMutation();
@@ -39,17 +39,24 @@ export default function ModalEditUser({ data, refetch }: any) {
   const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
   const { data: dataEstablishment } = useGetAllUserEstablishmentsQuery({});
-  const { data: dataSect } = useGetAllSectQuery(undefined, {});
+  // const { data: dataSect } = useGetAllSectQuery(undefined, {});
+  const { data: dataSect } = useGetSectByMajorQuery({
+    major: payload.major,
+  });
 
+  useEffect(() => {
+    setPayload({ ...payload, sect: dataSect?.results[0]?._id ?? "" });
+  }, [dataSect]);
+  // console.log(dataSect);
   // console.log(dataEstablishment);
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Add User successfully");
+      toast.success("Update User successfully");
       refetch();
       setOpenModal(false);
     }
     if (error) {
-      toast.error("Add User Error");
+      toast.error("Update User Error");
     }
   }, [isSuccess, error]);
 
@@ -148,9 +155,9 @@ export default function ModalEditUser({ data, refetch }: any) {
                 id="major"
                 required
                 value={payload.major}
-                onChange={(e) =>
-                  setPayload({ ...payload, major: e.target.value })
-                }
+                onChange={(e) => {
+                  setPayload({ ...payload, major: e.target.value });
+                }}
               >
                 <option value={""} key={0} disabled>
                   เลือกสาขาวิชา
@@ -170,7 +177,8 @@ export default function ModalEditUser({ data, refetch }: any) {
               </div>
               <Select
                 id="sect"
-                defaultValue={payload.sect}
+                // defaultValue={payload.sect}
+                value={payload.sect}
                 onChange={(e) =>
                   setPayload({ ...payload, sect: e.target.value })
                 }
@@ -178,8 +186,8 @@ export default function ModalEditUser({ data, refetch }: any) {
                 <option value="" disabled>
                   เลือกแขนง
                 </option>
-                {dataSect?.sects
-                  ?.filter((item: any) => item.major._id === payload.major)
+                {dataSect?.results
+                  // ?.filter((item: any) => item.major._id === payload.major)
                   ?.map((item, index) => (
                     <option key={index} value={item._id}>
                       {item.name}

@@ -11,13 +11,18 @@ import { Select } from "flowbite-react";
 import { z } from "zod";
 import { useGetAllEstablishmentsQuery } from "@/redux/features/establishment/establishmentApi";
 import { useGetMajorByIdQuery } from "@/redux/features/major/majorApi";
-import { useGetAllSectQuery } from "@/redux/features/sect/sectApi";
+import { useGetSectByMajorQuery } from "@/redux/features/sect/sectApi";
 
-export default function ModalCreateUserMajor({ refetch, major, program }: any) {
+export default function ModalCreateUserMajor({
+  refetch,
+  major,
+  program,
+  data,
+}: any) {
   const [openModal, setOpenModal] = useState(false);
   const { data: dataMajor } = useGetMajorByIdQuery({ id: major });
-  const { data: dataSect } = useGetAllSectQuery(undefined, {});
-  // console.log(dataMajor?.data);
+  const { data: dataSect } = useGetSectByMajorQuery({ major });
+  // console.log(dataSect);
   const payloadSearch = {
     name: "",
     major: major,
@@ -28,22 +33,6 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
   // console.log(dataSect?.sects);
   const { data: dataAllEstablishments } =
     useGetAllEstablishmentsQuery(payloadSearch);
-
-  // const schema = z.object({
-  //   prefix: z.string().min(1, "คำนำหน้าชื่อจำเป็นต้องกรอก"),
-  //   name: z.string().min(1, "ชื่อสกุลจำเป็นต้องกรอก"),
-  //   email: z.string().email("อีเมลไม่ถูกต้อง"),
-  //   password: z.string().min(6, "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"),
-  //   program: z.string().min(1, "กรุณาเลือกหลักสูตร"),
-  //   academicYear: z.string().min(4, "ปีการศึกษาต้องมีอย่างน้อย 4 หลัก"),
-  //   phoneNumber: z.string().min(1, "กรุณากรอกหมายเลขโทรศัพท์"),
-  //   lineId: z.string().min(1, "กรุณากรอก Line ID"),
-  //   address: z.string().min(1, "กรุณากรอกที่อยู่"),
-  //   status: z.enum(["กำลังศึกษา", "สำเร็จการศึกษา", "พ้นสภาพ"]),
-  //   studentId: z.string().min(1, "กรุณากรอกเลขประจำตัวนักศึกษา"),
-  //   major: z.string().min(1, "กรุณาเลือกสาขาวิชา"),
-  //   reason: z.string().optional(),
-  // });
 
   useEffect(() => {
     setPayload(initialPayload);
@@ -63,7 +52,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
     status: "",
     studentId: "",
     major: dataMajor?.data?._id,
-    sect: dataSect?.sects[0]?._id,
+    sect: dataSect?.results[0]?._id,
     intern: null,
   };
 
@@ -98,7 +87,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
         studentId: "",
         major: dataMajor?.data?._id,
         intern: null,
-        sect: dataSect?.sects[0]?._id,
+        sect: dataSect?.results[0]?._id,
       });
       refetch();
     }
@@ -106,7 +95,7 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
       toast.error("สร้างนักศึกษาผิดพลาด");
       console.log(AddUserError);
     }
-  }, [AddUserError, AddUserSuccess, refetch]);
+  }, [AddUserError, AddUserSuccess, refetch, data]);
 
   const handleChange = (e: any) => {
     setPayload({ ...payload, [e.target.id]: e.target.value });
@@ -123,8 +112,6 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
       }
     }
   };
-
-  console.log(payload)
 
   return (
     <>
@@ -168,7 +155,9 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
                   />
                 </div>
                 <TextInput
-                  disabled={payload.prefix == "นาย" || payload.prefix == "นางสาว"}
+                  disabled={
+                    payload.prefix == "นาย" || payload.prefix == "นางสาว"
+                  }
                   id="prefix"
                   type="text"
                   required
@@ -230,12 +219,18 @@ export default function ModalCreateUserMajor({ refetch, major, program }: any) {
               <div className="mb-2 block">
                 <Label htmlFor="sect" value="ชื่อแขนง" />
               </div>
-              <Select id="sect" defaultValue={payload.sect} onChange={(e) => setPayload({ ...payload, sect: e.target.value })}>
+              <Select
+                id="sect"
+                defaultValue={payload.sect}
+                onChange={(e) =>
+                  setPayload({ ...payload, sect: e.target.value })
+                }
+              >
                 <option value="" disabled>
                   เลือกแขนง
                 </option>
-                {dataSect?.sects
-                  ?.filter((item: any) => item.major._id === payload.major)
+                {dataSect?.results
+                  // ?.filter((item: any) => item.major._id === payload.major)
                   ?.map((item, index) => (
                     <option key={index} value={item._id}>
                       {item.name}

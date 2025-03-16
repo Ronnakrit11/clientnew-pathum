@@ -28,6 +28,7 @@ const AllMajor = () => {
       isSuccess: UpdateRoleSuccess,
     },
   ] = useUpdateUserRoleMutation();
+
   const [searchName, setSearchName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -60,7 +61,7 @@ const AllMajor = () => {
     if (UpdateRoleError) {
       toast.error("Update Role Error");
     }
-  }, [UpdateRoleError, UpdateRoleSuccess]);
+  }, [UpdateRoleError, UpdateRoleSuccess, userData]);
 
   // console.log(searchUserByName?.user);
   const onPageChange = (page: number) => setCurrentPage(page);

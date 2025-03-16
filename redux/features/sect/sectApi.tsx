@@ -3,8 +3,8 @@ import { apiSlice } from "../api/apiSlice";
 export const sectApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllSect: builder.query({
-      query: ({ name,limit,page }) => ({
-        url: `/sect/get-all-sect?name=${name}&limit=${limit}&page=${page}`, 
+      query: ({ name, limit, page }) => ({
+        url: `/sect/get-all-sect?name=${name}&limit=${limit}&page=${page}`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -32,6 +32,20 @@ export const sectApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    getSectByMajor: builder.query({
+      query: ({ major }) => ({
+        url: `/sect/get-by-major/${major}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    getAllSecAll: builder.query({
+      query: () => ({
+        url: `/sect/getall`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -40,4 +54,6 @@ export const {
   useCreateSectMutation,
   useUpdateSectMutation,
   useDeleteSectMutation,
+  useGetSectByMajorQuery,
+  useGetAllSecAllQuery,
 } = sectApi;

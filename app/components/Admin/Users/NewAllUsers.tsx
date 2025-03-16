@@ -9,8 +9,18 @@ import { Pagination } from "flowbite-react";
 import DrawerFilter from "@/app/admin/en-it/DrawerFilter";
 import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
-
+import DownloadButton from "./DownloadButton";
 const NewAllUsers = () => {
+  const [filter, setFilter] = useState<{
+    program: string[];
+    major: string[];
+    sect: string[];
+  }>({
+    program: [],
+    major: [],
+    sect: [],
+  });
+  // console.log(filter);
   const { data: majorData } = useGetAllMajorQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -47,22 +57,52 @@ const NewAllUsers = () => {
   // console.log(data);
   return (
     <div className="container mx-auto mt-24 p-4">
-      <div className="flex gap-2 mb-4">
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name" value="ค้นหาชื่อนักศึกษา หรือรหัสนักศึกษา" />
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex gap-2">
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="name"
+                value="ค้นหาชื่อนักศึกษา หรือรหัสนักศึกษา"
+              />
+            </div>
+            <TextInput
+              id="name"
+              type="text"
+              className="w-[400px]"
+              placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
+              onChange={(e) => setPayload({ ...payload, name: e.target.value })}
+              required
+            />
           </div>
-          <TextInput
-            id="name"
-            type="text"
-            className="w-[400px]"
-            placeholder="กรุณากรอกชื่อหรือรหัสนักศึกษาที่จะค้นหา"
-            onChange={(e) => setPayload({ ...payload, name: e.target.value })}
-            required
-          />
+          <div className="flex items-end">
+            <DrawerFilter
+              setPayload={setPayload}
+              payload={payload}
+              filter={filter}
+              setFilter={setFilter}
+            />
+          </div>
         </div>
-        <div className="flex items-end">
-          <DrawerFilter setPayload={setPayload} payload={payload} />
+
+        <div className="flex items-end justify-end">
+          <DownloadButton
+            filteredData={data?.data
+              ?.filter((user) => user.role === "user")
+              .filter(
+                (user) =>
+                  !filter.program.length ||
+                  filter.program.includes(user.program?._id)
+              )
+              .filter(
+                (user) =>
+                  !filter.major.length || filter.major.includes(user.major?._id)
+              )
+              .filter(
+                (user) =>
+                  !filter.sect.length || filter.sect.includes(user.sect?._id)
+              )}
+          />
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -92,6 +132,19 @@ const NewAllUsers = () => {
           <Table.Body className="divide-y">
             {data?.data
               .filter((user) => user.role === "user")
+              .filter(
+                (user) =>
+                  !filter.program.length ||
+                  filter.program.includes(user.program?._id)
+              )
+              .filter(
+                (user) =>
+                  !filter.major.length || filter.major.includes(user.major?._id)
+              )
+              .filter(
+                (user) =>
+                  !filter.sect.length || filter.sect.includes(user.sect?._id)
+              )
               .map((user) => (
                 <Table.Row key={user._id}>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">

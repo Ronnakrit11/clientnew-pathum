@@ -4,7 +4,6 @@ import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
 import React from "react";
 import AdminSidebar from "../../components/Admin/sidebar/AdminSidebar";
-import AllUsers from "../../components/Admin/Users/AllUsers";
 import NewAllUsers from "@/app/components/Admin/Users/NewAllUsers";
 
 type Props = {};

@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Select } from "flowbite-react";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import { useGetAllProgramQuery } from "@/redux/features/program/programApi";
+import { useGetAllSectQuery } from "@/redux/features/sect/sectApi";
 
 export default function ModalCreateUser({ refetch }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -38,6 +39,7 @@ export default function ModalCreateUser({ refetch }: any) {
 
   const { data: dataMajor } = useGetAllMajorQuery(undefined, {});
   const { data: dataProgram } = useGetAllProgramQuery(undefined, {});
+  const { data: dataSect } = useGetAllSectQuery(undefined, {});
 
   useEffect(() => {
     if (AddUserSuccess) {

@@ -15,6 +15,7 @@ const nextConfig = {
   },
   webpack: (config) => {
     // load worker files as a urls with `file-loader`
+    
     config.resolve.alias.canvas = false;
     return config;
   },
