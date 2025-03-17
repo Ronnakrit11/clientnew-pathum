@@ -6,7 +6,7 @@ import ModalInfoUser from "./ModalInfoUser";
 import ModalDelete from "./ModalDelete";
 import ModalEditUser from "./ModalEditUser";
 import { Pagination } from "flowbite-react";
-import DrawerFilter from "@/app/admin/en-it/DrawerFilter";
+import DrawerFilter from "./DrawerFilter";
 import { useListUserByMajorQuery } from "@/redux/features/user/userApi";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
 import DownloadButton from "./DownloadButton";
