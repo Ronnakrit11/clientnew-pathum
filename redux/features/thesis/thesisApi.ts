@@ -18,14 +18,21 @@ export const thesisApi = apiSlice.injectEndpoints({
     }),
     deleteThesis: builder.mutation({
       query: ({ id }) => ({
-        url: `/thesis/thesis/${id}`,
+        url: `/thesis/${id}`,
         method: "DELETE",
         credentials: "include" as const,
       }),
     }),
     getThesisById: builder.query({
-      query: ({id}) => ({
+      query: ({ id }) => ({
         url: `/thesis/${id}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    searchThesis: builder.query({
+      query: ({ title, major }) => ({
+        url: `/thesis/search/${major}?title=${title}`,
         method: "GET",
         credentials: "include" as const,
       }),
@@ -37,4 +44,5 @@ export const {
   useUploadThesisMutation,
   useDeleteThesisMutation,
   useGetThesisByIdQuery,
+  useSearchThesisQuery,
 } = thesisApi;

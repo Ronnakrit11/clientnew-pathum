@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { useGetThesisByIdQuery } from "@/redux/features/thesis/thesisApi";
 import { Button, Label, Table, TextInput } from "flowbite-react";
+import { useSearchThesisQuery } from "@/redux/features/thesis/thesisApi";
+import ModalInfoThesis from "./ModalInfoThesis";
+import ModalDeleteThesis from "./ModalDeleteThesis";
 
 const ListAllThesisByMajor = () => {
   const { id }: any = useParams();
-  const { data } = useGetThesisByIdQuery({ id });
+  const [title, setTitle] = useState<string>("");
+  const { data, refetch } = useSearchThesisQuery({ title: title, major: id });
   console.log(data?.thesis);
   return (
     <>
@@ -17,6 +20,7 @@ const ListAllThesisByMajor = () => {
               id="name"
               type="text"
               className="w-[400px]"
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="กรุณากรอกชื่อปริญญานิพนธิ์ที่จะค้นหา"
             />
           </div>
@@ -66,9 +70,9 @@ const ListAllThesisByMajor = () => {
                   ))}
                 </Table.Cell>
                 <Table.Cell className="flex gap-2">
-                  <Button>
-                    ดำเนินการ
-                  </Button>
+                  {/* <Button>ดำเนินการ</Button> */}
+                  <ModalInfoThesis data={item} refetch={refetch} />
+                  <ModalDeleteThesis data={item} refetch={refetch} />
                 </Table.Cell>
               </Table.Row>
             ))}
