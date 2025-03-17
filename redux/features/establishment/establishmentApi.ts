@@ -53,6 +53,20 @@ const establishmentApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchEstablishment: builder.query({
+      query: ({ name, page, limit }) => ({
+        url: `/search-establishment?name=${name}&page=${page}&limit=${limit}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    getEstablishmentByMajor: builder.query({
+      query: ({ major }) => ({
+        url: `/get-establishment-by-major?major=${major}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -64,4 +78,6 @@ export const {
   useGetEstablishmentByIdQuery,
   useGetAllUserEstablishmentsQuery,
   useGetAllUserByEstablishmentQuery,
+  useSearchEstablishmentQuery,
+  useGetEstablishmentByMajorQuery,
 } = establishmentApi;

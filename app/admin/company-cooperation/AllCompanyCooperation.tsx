@@ -14,6 +14,7 @@ import { useListCoworkQuery } from "@/redux/features/cowork/coworkApi";
 import ModalInfoComco from "./ModalInfoComCo";
 import ModalEditComCo from "./ModalEditComCo";
 import ModalDeleteComCo from "./ModalDeleteComco";
+import { useSearchCoworkQuery } from "@/redux/features/cowork/coworkApi";
 
 const AllMajor = () => {
   const {
@@ -29,15 +30,15 @@ const AllMajor = () => {
       isSuccess: UpdateRoleSuccess,
     },
   ] = useUpdateUserRoleMutation();
-  const [searchName, setSearchName] = useState("");
+  const [keywords, setKeywords] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  // const { data, refetch } = useGetAllMajorQuery(undefined, {
-  //   refetchOnMountOrArgChange: true,
-  // });
-
-  const { data, refetch } = useListCoworkQuery(undefined, {});
+  const { data, refetch } = useSearchCoworkQuery(
+    { keywords },
+    { refetchOnMountOrArgChange: true }
+  );
+  // const { data, refetch } = useListCoworkQuery(undefined, {});
   console.log(data);
   const {
     data: userById,
@@ -73,12 +74,11 @@ const AllMajor = () => {
             type="text"
             className="w-[400px]"
             placeholder="กรุณากรอกชื่อที่จะค้นหา"
-            onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => setKeywords(e.target.value)}
             required
           />
         </div>
         <div className="flex flex-col justify-end">
-
           <ModalCreateComCo
             refetch={refetchUserById}
             refetch_data={refetch}

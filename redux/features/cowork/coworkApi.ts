@@ -32,6 +32,13 @@ export const coworkApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    searchCowork: builder.query({
+      query: ({ keywords }) => ({
+        url: `/search-cowork?keywords=${keywords}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -40,4 +47,5 @@ export const {
   useListCoworkQuery,
   useUpdateCoworkMutation,
   useDeleteCoworkMutation,
+  useSearchCoworkQuery,
 } = coworkApi;
