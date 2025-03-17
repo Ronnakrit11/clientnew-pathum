@@ -207,6 +207,14 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
               <Item
+                title="ปริญญานิพนธ์ทั้งหมด"
+                to={`/admin/major/list-thesis/${dataMajorById?.data?._id}`}
+                icon={<HiAcademicCap size={20} />}
+                selected={selected}
+                setSelected={setSelected}
+                isCollapsed={isCollapsed}
+              />
+              <Item
                 title="รายชื่ออาจารย์"
                 to={`/admin/major/teacher/${dataMajorById?.data?._id}`}
                 icon={<HiAcademicCap size={20} />}

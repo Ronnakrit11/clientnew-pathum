@@ -10,9 +10,17 @@ import { HiMiniUsers } from "react-icons/hi2";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { HiAcademicCap } from "react-icons/hi2";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { IoList } from "react-icons/io5";
 import { IoReaderOutline } from "react-icons/io5";
 import { useGetAllMajorQuery } from "@/redux/features/major/majorApi";
+import { GiTeacher } from "react-icons/gi";
+import { TbBooks } from "react-icons/tb";
+import { PiFlagBanner } from "react-icons/pi";
+import { FaBuilding, FaUser, FaUsers, FaUsersGear, FaUsersLine, FaUserTie } from "react-icons/fa6";
+import { FaDatabase } from "react-icons/fa6";
+import { MdEvent, MdEventAvailable, MdOutlineDataObject } from "react-icons/md";
+import { RiUser2Fill } from "react-icons/ri";
+import { CiBoxList } from "react-icons/ci";
+import { FaUserFriends } from "react-icons/fa";
 
 interface itemProps {
   title: string;
@@ -68,49 +76,49 @@ const AdminSidebarItem = ({
       <Item
         title="รายชื่อนักศึกษาทั้งหมด"
         to="/admin/users"
-        icon={<GroupsIcon />}
+        icon={<FaUsersLine size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="จัดการแอดมิน"
         to="/admin/manage-admin"
-        icon={<GroupsIcon />}
+        icon={<FaUserTie />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="จัดการแขนง"
         to="/admin/sect"
-        icon={<GroupsIcon />}
+        icon={<FaUser size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="จัดการสาขาวิชา"
         to="/admin/major"
-        icon={<GroupsIcon />}
+        icon={<FaUserFriends size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="จัดการหลักสูตร"
         to="/admin/program"
-        icon={<GroupsIcon />}
+        icon={<FaUsers size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="จัดการความร่วมมือหน่วยงาน"
         to="/admin/company-cooperation"
-        icon={<GroupsIcon />}
+        icon={<FaBuilding size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="Logs"
         to="/admin/logs"
-        icon={<IoNewspaperOutline />}
+        icon={<CiBoxList size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
@@ -124,14 +132,14 @@ const AdminSidebarItem = ({
       <Item
         title="สร้างข่าวประชาสัมพันธ์"
         to="/admin/create-news"
-        icon={<IoNewspaperOutline />}
+        icon={<IoNewspaperOutline size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="รายชื่อข่าวประชาสัมพันธ์"
         to="/admin/blogs"
-        icon={<IoNewspaperOutline />}
+        icon={<IoNewspaperOutline size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
@@ -145,14 +153,14 @@ const AdminSidebarItem = ({
       <Item
         title="สร้างภาพกิจกรรม"
         to="/admin/create-event"
-        icon={<IoNewspaperOutline />}
+        icon={<MdEventAvailable size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="รายชื่อภาพกิจกรรม"
         to="/admin/event"
-        icon={<IoNewspaperOutline />}
+        icon={<MdEvent size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
@@ -166,35 +174,35 @@ const AdminSidebarItem = ({
       <Item
         title="จัดการ Banner"
         to="/admin/hero"
-        icon={<IoReaderOutline />}
+        icon={<PiFlagBanner size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="วัตถุประสงค์"
         to="/admin/objective"
-        icon={<IoReaderOutline />}
+        icon={<MdOutlineDataObject size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="คณะกรรมการ"
         to="/admin/structure-smo"
-        icon={<IoReaderOutline />}
+        icon={<FaUsersGear />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="จัดการที่ปรึกษาสโมสร"
         to="/admin/structure-consult-smo"
-        icon={<IoReaderOutline />}
+        icon={<RiUser2Fill size={20} />}
         selected={selected}
         setSelected={setSelected}
       />
       <Item
         title="ระบบฐานข้อมูล"
         to="/admin/database-system"
-        icon={<IoReaderOutline />}
+        icon={<FaDatabase />}
         selected={selected}
         setSelected={setSelected}
       />
@@ -217,21 +225,28 @@ const AdminSidebarItem = ({
           <Item
             title={`รายชื่อสถานประกอบการ`}
             to={`/admin/major/establishments/${item._id}`}
-            icon={<HiMiniUsers size={20} />}
+            icon={<HiBuildingOffice2 size={20} />}
             selected={selected}
             setSelected={setSelected}
           />
           <Item
             title={`ผลงานปริญญานิพนธ์`}
             to={`/admin/major/thesis/${item._id}`}
-            icon={<HiMiniUsers size={20} />}
+            icon={<HiAcademicCap size={20} />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+          <Item
+            title="ปริญญานิพนธ์ทั้งหมด"
+            to={`/admin/major/list-thesis/${item?._id}`}
+            icon={<TbBooks size={20} />}
             selected={selected}
             setSelected={setSelected}
           />
           <Item
             title={`รายชื่ออาจารย์`}
             to={`/admin/major/teacher/${item._id}`}
-            icon={<HiMiniUsers size={20} />}
+            icon={<GiTeacher size={20} />}
             selected={selected}
             setSelected={setSelected}
           />

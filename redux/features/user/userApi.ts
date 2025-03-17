@@ -135,14 +135,14 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
-    uploadThesis: builder.mutation({
-      query: (data) => ({
-        url: `upload-thesis`,
-        method: "POST",
-        body: data,
-        credentials: "include" as const,
-      }),
-    }),
+    // uploadThesis: builder.mutation({
+    //   query: (data) => ({
+    //     url: `upload-thesis`,
+    //     method: "POST",
+    //     body: data,
+    //     credentials: "include" as const,
+    //   }),
+    // }),
     getAllUserSuccess: builder.query({
       query: ({ name, major, page, limit }) => ({
         url: `get-all-user-success?major=${major}&name=${name}&page=${page}&limit=${limit}`,
@@ -232,7 +232,7 @@ export const {
   useAllUserArgTechQuery,
   useAllTechInnovationQuery,
   useAllInterdisciplinaryQuery,
-  useUploadThesisMutation,
+  // useUploadThesisMutation,
   useGetAllUserSuccessQuery,
   useCreateAdminMajorMutation,
   useListUserByMajorQuery,

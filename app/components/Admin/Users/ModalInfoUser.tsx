@@ -254,24 +254,21 @@ const ModalInfoUser = ({ data, refetch }: any) => {
                     <></>
                   )}
                 </p>
-                <p>
-                  อาจารย์ที่ปรึกษาคนที่ 1 :{" "}
-                  <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    {data?.thesis?.advisor1}
-                  </span>
-                </p>
-                <p>
-                  อาจารย์ที่ปรึกษาคนที่ 2 :{" "}
-                  <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    {data?.thesis?.advisor2}
-                  </span>
-                </p>{" "}
-                <p>
-                  อาจารย์ที่ปรึกษาคนที่ 3 :{" "}
-                  <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    {data?.thesis?.advisor3}
-                  </span>
-                </p>
+                {data?.thesis?.advisor.length > 0 ? (
+                  <div className="flex flex-col gap-2">
+                    {data?.thesis?.advisor.map((advisor, index) => (
+                      <p key={index}>
+                        {/* {advisor.name} :{" "} */}
+                        {index + 1}.{" "}
+                        <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                          {advisor}
+                        </span>
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <p>ไม่มีอาจารย์ที่ปรึกษาคน</p>
+                )}
               </div>
             </div>
           </div>

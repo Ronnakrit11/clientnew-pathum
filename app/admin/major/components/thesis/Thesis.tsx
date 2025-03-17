@@ -21,7 +21,7 @@ const Thesis = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const { id }: any = useParams();
-  console.log(id);
+  // console.log(id);
   const {
     data: dataAllUserSuccess,
     isLoading,
@@ -235,7 +235,7 @@ const Thesis = () => {
                       <Table.Cell>
                         {user?.thesis ? (
                           <>
-                            <Link href={user.thesis.url} target="_blank">
+                            <Link href={user?.thesis?.url} target="_blank">
                               <p className="underline text-red-600">
                                 {user?.thesis?.title}
                               </p>
@@ -246,20 +246,22 @@ const Thesis = () => {
                         )}
                       </Table.Cell>
                       <Table.Cell>
-                        {user?.thesis ? (
-                          <>
-                            {user?.thesis?.advisor1}
-                            <br />
-                            {user?.thesis?.advisor2}
-                            <br />
-                            {user?.thesis?.advisor3}
-                          </>
-                        ) : (
-                          "ยังไม่อัพโหลด"
-                        )}
+                        {user?.thesis?.advisor?.map((advisor, index) => (
+                          <p key={index}>
+                            {/* {advisor.name} :{" "} */}
+                            {index + 1}.{" "}
+                            <span className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                              {advisor}
+                            </span>
+                          </p>
+                        ))}
                       </Table.Cell>
                       <Table.Cell>
-                        <UploadThesis id={user._id} refetch={refetch} />
+                        <UploadThesis
+                          user={user}
+                          refetch={refetch}
+                          majorId={id}
+                        />
                       </Table.Cell>
                     </Table.Row>
                   )
